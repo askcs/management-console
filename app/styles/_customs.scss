@@ -1,11 +1,107 @@
-/* Put your CSS here */
+/* General page styles */
 html, body {
+  height: 100%;
+  padding: 0;
+  margin: 0;
 }
 
 body {
-  background: #fafafa;
+  background: #eae7e0;
 }
 
-footer {
-  background-color: #efefef;
+.container-wrapper{
+  margin: 20px;
+
+  @media (min-width: $screen-md-min) {
+    margin: 40px;
+  }
+}
+
+/* Pages top (containing the title) */
+.page-top{
+  margin-top: 150px;
+  text-align: center;
+}
+
+.page-top h1{
+  font-size: 1.8em;
+  color: #7c7d7d;
+  padding-bottom: 25px;
+  margin: 0 40px 30px;
+  border-bottom: 1px solid #b1b1b1;
+}
+
+/* Page bottom (containing paging) */
+.page-bottom{
+  text-align: center;
+  margin-top: 50px;
+  padding-top: 30px;
+  border-top: 1px solid #b1b1b1;
+}
+
+/* Main page content */
+.page-content-container{
+  /*
+  float: left;
+  display: block;
+  position: relative;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  background-color: #fdfdfe;
+  */
+}
+
+/* Misc */
+
+.inline-block{
+  display: inline-block;
+}
+
+/* Form fields */
+
+.left-inner-addon .form-field-domain-list-search{
+  font-size: 1em;
+  color: #7c7d7d;
+  padding: 10px;
+  padding-left: 40px;
+}
+
+/* Form fields: Inner icon */
+
+.left-inner-addon {
+  position: relative;
+}
+.left-inner-addon input {
+  padding-left: 30px;
+}
+.left-inner-addon i {
+  font-size: 1.4em;
+  position: absolute;
+  padding: 10px 12px;
+  pointer-events: none;
+}
+
+/* Main page layout */
+#sidebar{
+  position: absolute;
+  height: 100%;
+  float: left;
+}
+
+#content{
+  width: 100%;
+  padding-left: $mainMenuWidth;
+}
+
+/* General menu's hover background fix (override Bootstrap) */
+.nav > li > a:hover, .nav > li > a:focus{
+  background: none;
+}
+
+/* Mockup styles */
+.login-section{
+  background-color: #CCC;
+  border: 1px solid #FFF;
+  padding: 15px;
 }

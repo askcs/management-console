@@ -12,7 +12,7 @@ html.no-js(lang='en')
     meta(charset='utf-8')
     meta(http-equiv='X-UA-Compatible', content='IE=edge,chrome=1')
 
-    title WebPaige Foundation
+    title ASK Management Console
 
     meta(name='description', content='')
     meta(name='viewport', content='width=device-width')
@@ -27,13 +27,16 @@ html.no-js(lang='en')
 
     block iestuff
 
-    #wrap
+    #sidebar
+        block navbar
 
-      block navbar
+    #content
 
-      .container(ng-view='')
+        block topbar
 
-    block footer
+        .content-wrapper(ng-view='')
+
+    //block footer
 
     // block analytics
 

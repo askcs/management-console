@@ -1,0 +1,65 @@
+/* Topbar menu styles
+-------------------------------------------------- */
+
+/* Topbar general styles */
+.topbar{
+  left: 0;
+  top: 0;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  background-color: #3091ac;
+  height: $topMenuHeight;
+}
+
+.topbar ul.nav{
+  padding: 0;
+  margin: 0;
+  float: right;
+}
+
+.topbar li{
+
+  height: $topMenuHeight;
+  padding: 0 15px 0 15px;
+  font-size: 1.2em;
+  background-color: #484848;
+
+  &:hover{
+    background-color: #b66430;
+  }
+
+}
+
+.topbar .navbar-nav>li>a{
+  line-height: $topMenuHeight;
+  padding: 0;
+  color: #FFFFFF;
+}
+
+.topbar h1{
+  display: inline-block;
+  color: #FFFFFF;
+  font-size: 1.4em;
+  padding: 0 15px 0 15px;
+}
+
+/* Topbar menu items */
+.topbar li.domain-selector{
+  line-height: $topMenuHeight;
+  background: none;
+}
+
+.topbar li select.form-field-domain-selector{
+  width: 160px;
+  height: 35px;
+}
+
+.topbar li.username{
+  color: #FFFFFF;
+  border-left: 1px solid #FFFFFF;
+}
+
+.topbar li.logout{
+  border-left: 1px solid #FFFFFF;
+}

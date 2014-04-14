@@ -20,7 +20,7 @@ Projects and frameworks has been used for making this;
 * Angular-Seed
 * RequireJS
 * Jade
-* Bootstrap-SASS
+* Bootstrap-SASS (Official version: bootstrap-sass-official, https://github.com/twbs/bootstrap-sass)
 * Twitter Bootstrap 3
 * HTML5 Boilerplate
 * Many other Grunt plugins.

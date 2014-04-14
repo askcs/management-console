@@ -1,7 +1,29 @@
-$iconSpritePath: "../images/glyphicons-halflings.png";
-$iconWhiteSpritePath: "../images/glyphicons-halflings-white.png";
+//$iconSpritePath: "../images/glyphicons-halflings.png";
+//$iconWhiteSpritePath: "../images/glyphicons-halflings-white.png";
 
-@import "bootstrap-sass/lib/bootstrap";
-@import "docs";
-@import "sticky";
+/* Official bootstrap SASS */
+@import "../../app/vendors/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap";
+
+/* Management Console Variables */
+@import "menuvars";
+@import "navbarvars";
+
+/* General custom styles */
 @import "customs";
+@import "page_structure";
+
+/* Menu styles */
+@import "mainmenu";
+@import "topmenu";
+
+/* Paging styles */
+@import "paging";
+
+/* Page top navbar */
+@import "page_top_navbar";
+
+/* Page specific styles */
+@import "domains-overview";
+@import "domains-information";
+@import "logs";
+@import "monitors";

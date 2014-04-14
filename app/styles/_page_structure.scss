@@ -1,0 +1,32 @@
+/* Columns for certain pages */
+/* Since they don't need padding/margin, the bootstrap grid is not very suitable for this */
+
+.columns{
+
+  overflow: auto;
+
+  .column{
+    width: 50%;
+  }
+
+  .column-left{
+    float: left;
+  }
+
+  .column-right{
+    float: right;
+  }
+
+  .vertical-page-divider-right{
+    border-right: 1px solid #b1b1b1;
+  }
+
+  .vertical-page-spacing-left{
+    padding-left: 20px;
+  }
+
+  .horizontal-page-spacing-top{
+    padding-top: 15px;
+  }
+
+}

@@ -1,0 +1,67 @@
+section#logs
+
+    .top-navbar
+        .back.glyphicon.glyphicon-chevron-left
+        h2.icon.icon-logs Logs
+
+        .pull-right
+            .search-container
+                input(placeholder="Search in logs").field-search-logs
+
+    .top-navbar-extras
+        .extras-container
+            span Filter Range
+            input
+            span  &ndash;
+            input
+
+            span Type
+            select
+
+            span Show only failed
+            select
+
+            span Show only debug
+                select
+
+    .container-logs-wrapper
+        .columns
+            .column.column-left.vertical-page-divider-right
+                .legend
+                    span Legends
+                    span.item.debug Debug
+                    span.item.error Error
+
+                ul
+                    li.error
+                        .log-item-field.status
+                        .log-item-field.timestamp 08-04-2014 12:37
+                        .log-item-field.agent-sender P2000Guard [1.0]
+                        .log-item-field.message-container
+                            .method.badge.alert-info getLastMessage
+                            .agent-receiver jordiP2000
+                            .message N/A
+                    li.debug
+                        .log-item-field.status
+                        .log-item-field.timestamp 08-04-2014 12:37
+                        .log-item-field.agent-sender P2000Guard [1.0]
+                        .log-item-field.message-container
+                            .method.badge.alert-danger getLastMessage
+                            .agent-receiver jordiP2000
+                            .message N/A
+                    li.error
+                    li.debug
+                    li.error
+                    li.debug
+
+
+                .pagination.pagination-oneline.pagination-logs
+                    .pagination-buttons
+                        a(href="#prev").prev
+                            i.glyphicon.glyphicon-chevron-left
+                        a(href="#next").next
+                            i.glyphicon.glyphicon-chevron-right
+                    .pagination-numbers <strong>1-10</strong> of <strong>560</strong>
+
+            .column.column-right.vertical-page-spacing-left.horizontal-page-spacing-top
+

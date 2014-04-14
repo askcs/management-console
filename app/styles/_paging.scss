@@ -1,0 +1,63 @@
+.pagination{
+
+  padding: 0;
+  margin: 0;
+
+  .pagination-buttons{
+
+    text-align: center;
+
+    a{
+
+      display: inline-block;
+      margin: 5px;
+      width: 30px;
+      height: 30px;
+      line-height: 30px;
+      background-color: #b66430;
+      color: #FFFFFF;
+      font-size: 1em;
+
+      /*
+      .prev{
+        &:before {
+          content: "<";
+          visibility: visible;
+          display: block;
+          position: absolute;
+        }
+      }
+
+      .next{
+        &:before {
+          content: ">";
+          visibility: visible;
+          display: block;
+          position: absolute;
+        }
+      }
+      */
+
+    }
+
+  }
+
+  .pagination-numbers{
+    margin-top: 10px;
+    text-align: center;
+    font-style: italic;
+  }
+
+}
+
+.pagination-oneline{
+
+  .pagination-buttons{
+  display: inline-block;
+  }
+
+  .pagination-numbers{
+    display: inline-block;
+  }
+
+}

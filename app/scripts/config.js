@@ -1,8 +1,8 @@
 define(
   {
     app: {
-      version:  '@@version',
-      released: '@@released'
+      version:  '0.0.1-SNAPSHOT',
+      released: 'N/A'
     }
   }
 );

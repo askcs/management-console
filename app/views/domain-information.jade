@@ -1,0 +1,41 @@
+section#domain-information
+
+    .top-navbar
+        .back.glyphicon.glyphicon-chevron-left
+        h2.icon.icon-domain-info Domain Information
+
+    .container-domain-information-wrapper
+        .container-fluid
+            .row
+                .col-lg-12
+                    h1 Domain: Brandweer Oudenbosch
+            .row
+                .col-lg-3
+                    form.domain-details
+                        input(type="text", id="domain-name", placeholder="Domain name").field-domain-name
+                        input(type="text", id="latitude", placeholder="Latitude").field-location-latitude
+                        input(type="text", id="longitude", placeholder="Longitude").field-location-longitude
+                        input(type="text", id="radius", placeholder="Radius (meters)").field-location-radius
+
+                        input(type="submit", id="submit", value="Save").field-submit
+                .col-lg-9
+
+                    .container-fluid
+                        .row
+                            .col-lg-12
+                                .google-map.domain-information-google-map
+                                    img(src="http://maps.google.com/maps/api/staticmap?center=51.9075838,4.4557808&zoom=16&size=600x400&maptype=roadmap&sensor=false&language=&markers=color:red|label:none|51.9075838,4.4557808")
+                        .row
+                            .col-lg-12
+                                .domain-information-google-map-footer
+                                    form.form-google-map
+                                        .container-fluid
+                                            .row
+                                                .col-lg-10
+                                                    input(type="text", id="address", placeholder="Search for streetname, postcode or city").field-address
+                                                .col-lg-2
+                                                    input(type="submit", id="submit", value="Search").field-search
+
+                                    p.form-note-footer You can drag and drop the marker on the map to pinpoint the location precisely. The coordinates will change accordingly.
+
+

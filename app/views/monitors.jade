@@ -1,0 +1,63 @@
+section#monitors
+
+    .top-navbar
+        .back.glyphicon.glyphicon-chevron-left
+        h2.icon.icon-logs Monitors
+
+        .pull-right
+            .new-monitor-btn-container
+                input(type="button", value="New Monitor").button-create-monitor
+
+    .top-navbar-extras
+        .extras-container
+            span Show inactive
+            select
+
+            span Type
+            select
+
+    .container-monitors-wrapper
+        .columns
+            .column.column-left
+                ul
+                    li.active
+                        span.monitor-icon.monitor-icon-phone
+                        span.counter 1
+                        .details-container
+                            h3.name StandBy monitor bevelvoerder guard
+                            span.type Bevelvoerder
+                        .status-toggle-container
+                            span Toggle
+                    li
+                        span.monitor-icon.monitor-icon-sms
+                        span.counter 0
+                        .details-container
+                            h3.name StandBy monitor escalatie guard
+                            span.type Escalatie
+                        .status-toggle-container
+                            span Toggle
+                    li
+                        span.monitor-icon.monitor-icon-app
+                        span.counter 4
+                        .details-container
+                            h3.name StandBy monitor chauffeur guard
+                            span.type Chauffeur
+                        .status-toggle-container
+                            span Toggle
+                    li
+                    li
+                    li
+
+            .column.column-right.vertical-page-spacing-left.horizontal-page-spacing-top
+                h2 Standby monitor bevelvoerder guard
+
+                form
+                    input(type="text", placeholder="Monitor name").field-monitor-name
+                    input(type="text", placeholder="GroupA, GroupB, GroupC").field-groups
+                    textarea.wish
+                    input(type="text", placeholder="Frequency").field-frequency
+                    select.field-day
+                    select.field-monitortype
+                    input(type="text", placeholder="AskFastAgentUrl").field-askfastagenturl
+                    input(type="text", placeholder="AskFast escalation agent url").field-askfastescalationagenturl
+                    input(type="submit").field-monitor-save

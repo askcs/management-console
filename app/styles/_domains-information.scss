@@ -1,0 +1,98 @@
+#domain-information{
+
+  .container-domain-information-wrapper{
+    margin: 10px 5px;
+
+    @media (min-width: $screen-md-min) {
+      margin: 30px 20px;
+    }
+  }
+
+
+  h1{
+    font-size: 1.7em;
+    color: #3091ac;
+    margin: 0 0 20px;
+    padding: 0;
+  }
+
+  form.domain-details{
+
+    input[type="text"]{
+
+      padding: 10px;
+      font-size: .95em;
+      border: 1px solid #b1b1b1;
+      color: #8f8f8f;
+      width: 100%;
+      margin: 10px 0;
+
+    }
+
+    input[type="submit"]{
+      margin: 10px 0 0 0;
+      padding: 15px 30px;
+      color: #FFFFFF;
+      background-color: #b66430;
+      font-size: 1.2em;
+      border: none;
+    }
+
+  }
+
+  .domain-information-google-map{
+
+    max-height: 550px;
+    overflow: hidden;
+
+    /* Mockup style */
+    img{
+      width:100%;
+    }
+
+  }
+
+  .domain-information-google-map-footer{
+    background-color: #eae7e0;
+
+    form.form-google-map{
+
+      margin: 30px 0;
+
+      input{
+        height: 50px;
+      }
+
+      input[type="text"]{
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: .95em;
+        border: 1px solid #b1b1b1;
+        color: #8f8f8f;
+        width: 100%;
+        margin-right: 10px;
+      }
+
+      input[type="submit"]{
+        text-align: center;
+        color: #FFFFFF;
+        background-color: #b66430;
+        font-size: 1.2em;
+        border: none;
+        padding: 0 30px;
+      }
+
+    }
+
+    p.form-note-footer{
+      padding-left: 50px;
+      //background: url('map_icon.png') left center no-repeat; // TODO: Add real icon
+      font-size: .9em;
+      font-style: italic;
+      color: #8f8f8f;
+    }
+
+  }
+
+
+}

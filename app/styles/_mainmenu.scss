@@ -1,0 +1,51 @@
+/* Main menu styles
+-------------------------------------------------- */
+
+/* Main menu general styles */
+.nav{
+  padding: 0;
+  margin: 0;
+}
+
+.navbar{
+  left: 0;
+  top: 0;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  width: $mainMenuWidth;
+  background-color: #484848;
+  min-height: 100%; /* Give it the ability to stretch longer if there are more items to be shown in the menu */
+  border-radius: 0;
+}
+
+/* Mainmenu items */
+.navbar li{
+
+  border-bottom: 1px solid #FFFFFF;
+
+  &:hover{
+    background-color: #b66430;
+  }
+}
+
+/* Top left menu item (Brand/Home) */
+.navbar-icon.navbar-brand{
+  display: block;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  background-color: #415762;
+  height: $topMenuHeight;
+}
+
+/* Menu item icon styles */
+.navbar-icon{
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+  min-width: $mainMenuWidth;
+  width: 60px;
+  height: 60px;
+}
+

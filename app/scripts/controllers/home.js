@@ -10,7 +10,7 @@ define(
         function ($scope)
         {
           // console.log('config ->', config);
-          $scope.naming = 'Cengiz';
+          $scope.naming = 'Jordi';
         }
       ]
     );

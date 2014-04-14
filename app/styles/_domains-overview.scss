@@ -1,0 +1,122 @@
+/* Content blocks for the domains overview */
+#domains-overview{
+
+  ul.domains-overview-list{
+
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    overflow: auto;
+
+    >li{
+      float: left;
+      width: 32%;
+      margin: .5%;
+      padding: .5%;
+      border: 1px solid #b2b2b2;
+      min-height: 170px;
+
+      @media (max-width: $screen-md-min) {
+        width: 99%;
+      }
+
+      &:hover{
+        background-color: #b66430;
+        color: #FFFFFF;
+        cursor: pointer;
+        border: 1px solid transparent;/* Prevent 2px hopping on hover */
+
+        ul.domains-overview-list-item{
+
+          >li{
+
+            h2{
+              color: white;
+            }
+
+            .details{
+
+              span.counter{
+                background-color: #FFFFFF;
+                color: #b66430;
+                border: 1px solid transparent; /* Prevent 2px hopping on hover */
+                border-radius: 0;
+              }
+
+              span.title{
+                color: #FFFFFF;
+              }
+
+            }
+
+          }
+        }
+      }
+
+      ul.domains-overview-list-item{
+
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+        overflow: hidden; /* Prevent scrollbars from being shown in the boxes */
+
+        // TODO: Add icons: marker (.name), eye (.monitors), phone (.channels)
+        //background: url('') left center no-repeat;
+
+        >li{
+
+          margin: 0;
+          padding: 0;
+          padding-left: 40px;
+          height: 45px;
+          margin-bottom: 5px;
+
+          h2{
+            font-size: 1.3em;
+            color: #3091ac;
+            padding: 15px 0 0 0;
+            margin: 0;
+          }
+
+          .details{
+
+            span{
+              display: block;
+            }
+
+            span.counter{
+              width: 30px;
+              height: 30px;
+              line-height: 30px;
+              text-align: center;
+              float: left;
+              border: 1px solid #b6b5b5;
+              color: #7c7d7d;
+              border-radius: 1px; /* Not sure; design looks like it has some radius */
+              margin: 5px 20px 5px 5px;
+            }
+
+            span.title{
+              font-size: 1em;
+              color: #b66430;
+            }
+
+            span.details{
+              font-size: .85em;
+              text-style: italic;
+            }
+
+          }
+
+        }
+
+      }
+
+    }
+
+  }
+
+  /* Responsiveness */
+  /* NOTE: Bootstrap is 'mobile first' while this design is desktop first, resulting in custom media queries */
+
+}

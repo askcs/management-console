@@ -1,0 +1,46 @@
+.top-navbar{
+
+  background-color: #EAE7E0;
+  border-bottom: 1px solid #b1b1b1;
+  height: $top-navbar-height;
+  width: 100%;
+
+  .back{
+    text-align: center;
+    width: 60px;
+    height: 100%;
+    line-height: $top-navbar-height;
+    border-right: 1px solid #b1b1b1;
+
+    &:hover{
+      cursor: pointer;
+    }
+
+  }
+
+  /* TODO: Add icon in front of heading */
+  h2{
+    display: inline-block;
+    line-height: $top-navbar-height;
+    margin: 0 0 0 20px;
+    padding: 0;
+    font-size: 1.4em;
+    color: #7c7d7d;
+  }
+
+}
+
+.top-navbar-extras{
+  background-color: #f3f3f3;
+  border-bottom: 1px solid #b1b1b1;
+  height: $top-navbar-extras-height;
+  width: 100%;
+  padding: 0 20px;
+
+  .extras-container{
+    height: $top-navbar-extras-height;
+    display: table-cell;
+    vertical-align: middle;
+  }
+
+}

@@ -14,7 +14,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>WebPaige Foundation</title>
+    <title>ASK Management Console</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="icons/apple-touch-icon-144-precomposed.png">
@@ -22,7 +22,7 @@
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="icons/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="icons/apple-touch-icon-57-precomposed.png">
     <link rel="shortcut icon" href="icons/favicon.png">
-    <link rel="stylesheet" href="styles/c3b67b29.main.css">
+    <link rel="stylesheet" href="styles/ab823fb1.main.css">
   </head>
   <body>
     <!--[if lt IE 7]>
@@ -32,27 +32,37 @@
     <script src="vendors/es5-shim/es5-shim.js"></script>
     <script src="vendors/json3/lib/json3.min.js"></script>
     <![endif]-->
-    <div id="wrap">
-      <div class="navbar navbar-inverse navbar-fixed-top bs-docs-nav">
-        <div class="container">
-          <button type="button" data-toggle="collapse" data-target=".bs-navbar-collapse" class="navbar-toggle"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="#/home" class="navbar-brand">Home</a>
-          <div class="nav-collapse collapse bs-navbar-collapse">
-            <ul class="nav navbar-nav">
-              <li><a href="#/partial1">Partial1</a></li>
-              <li><a href="#/partial2">Partial2</a></li>
-            </ul>
-          </div>
-        </div>
+    <div id="sidebar">
+      <div class="navbar bs-docs-nav"><a href="#/home" title="Home" class="navbar-brand navbar-icon navbar-icon-management-console"></a>
+        <ul class="nav navbar-nav">
+          <li><a href="#/domains" title="Domain overview" class="navbar-icon navbar-icon-domain-overview"></a></li>
+          <li><a href="#/domain-information" title="Domain information" class="navbar-icon navbar-icon-domain-information"></a></li>
+          <li><a href="#/logs" title="Logs" class="navbar-icon navbar-icon-logs"></a></li>
+          <li><a href="#/monitors" title="Monitors" class="navbar-icon navbar-icon-monitors"></a></li>
+          <li><a href="#/channels" title="Channels" class="navbar-icon navbar-icon-channels"></a></li>
+          <li><a href="#/settings" title="Settings" class="navbar-icon navbar-icon-settings"></a></li>
+        </ul>
       </div>
-      <div ng-view="" class="container"></div>
     </div>
-    <footer>
-      <div class="container">
-        <p class="text-muted credit pull-left">Some footer text<a href="#"> and a link</a></p>
-        <p style="margin-top:20px" class="text-muted pull-right">{{ 'Current version is v%VERSION%. Released: %RELEASED%' | interpolate }}</p>
+    <div id="content">
+      <div class="topbar bs-docs-nav">
+        <h1>Management Console</h1>
+        <ul class="nav navbar-nav">
+          <li class="domain-selector">
+            <select class="form-field-domain-selector">
+              <option value="standby">StandBy</option>
+              <option value="standby-test">StandBy Test</option>
+              <option value="standby-dev">StandBy Dev</option>
+            </select>
+          </li>
+          <li class="username"><a href="#/profile" title="User profile">Jordi Menheer</a></li>
+          <li class="logout"><a href="#/logout" title="Logout" class="navbar-icon navbar-icon-logout">Logout</a></li>
+        </ul>
       </div>
-    </footer>
+      <div ng-view="" class="content-wrapper"></div>
+    </div>
+    <!--block footer-->
     <!-- block analytics-->
-    <script data-main="scripts/55e6b8af.main" src="vendors/requirejs/require.js"></script>
+    <script data-main="scripts/d7b696b5.main" src="vendors/requirejs/require.js"></script>
   </body>
 </html>
