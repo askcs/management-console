@@ -1,1 +1,0 @@
-define(["controllers/controllers","services/user"],function(e){e.controller("login",["$scope","User",function(e,t){}])});
