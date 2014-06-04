@@ -1,0 +1,27 @@
+section#settings
+
+    .top-navbar
+        .back.glyphicon.glyphicon-chevron-left
+        h2.icon.icon-settings Settings
+
+    .container-settings-wrapper
+        .columns
+            .column-one-third.column-left
+                ul
+                    li.active
+                        span.channel-icon.channel-icon-user
+                        .details-container
+                            h3 User settings
+                    li
+                        span.channel-icon.channel-icon-directory
+                        .details-container
+                            h3 Application settings
+                    li
+                    li
+
+            .column-two-third.column-right.vertical-page-spacing-left.horizontal-page-spacing-top
+                h2 User settings
+
+                form
+                    input(type="text", placeholder="Random setting string").field-setting-randomsetting
+                    input(type="submit", value="Save").field-submit.field-settings-save

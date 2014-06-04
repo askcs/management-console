@@ -1,0 +1,72 @@
+#login{
+
+  .login-container{
+    margin-top: 120px;
+
+    .login-section{
+      background-color: #eae7e0;
+      padding: 0;
+    }
+
+    .login-section-heading{
+      overflow: auto;
+      background-color: #3091ac;
+      color: #FFF;
+      margin: 0;
+      height: 60px;
+
+      .managementconsole-icon{
+        // TODO
+        float: left;
+        width: 60px;
+        height: 60px;
+        background-color: #415762;
+      }
+
+      h3{
+        float: left;
+        margin: 0;
+        padding-left: 20px;
+        font-size: 1.7em;
+        font-weight: normal;
+        line-height: 60px;
+      }
+    }
+
+    .login-section-body{
+      padding: 20px 25px;
+
+      form{
+        input[type="text"], input[type="password"]{
+          width: 100%;
+          margin-bottom: 20px;
+        }
+
+        input[type="checkbox"]{
+          display: inline-block;
+          margin-right: 5px;
+        }
+
+        input[type="submit"]{
+          margin-top: 10px;
+        }
+
+        label{
+          color: #7c7d7d;
+          font-weight: normal;
+        }
+
+      }
+
+    }
+
+    .login-section-footer{
+      a{
+        font-size: .9em;
+        color: #b66430;
+      }
+    }
+
+  }
+
+}

@@ -5,8 +5,22 @@
 
   overflow: auto;
 
+  h2{
+    color: #3091ac;
+    font-size: 1.6em;
+    margin: 20px 0 30px;
+  }
+
   .column{
     width: 50%;
+  }
+
+  .column-one-third{
+    width: 33.3333%;
+  }
+
+  .column-two-third{
+    width: 66.6666%;
   }
 
   .column-left{

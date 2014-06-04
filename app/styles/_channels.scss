@@ -1,9 +1,9 @@
-.top-navbar .new-monitor-btn-container{
+.top-navbar .new-channel-btn-container{
   height: $top-navbar-height;
   display: table-cell;
   vertical-align: middle;
 
-  .button-create-monitor{
+  .button-create-channel{
     height: 50px;
     text-align: center;
     margin-right: 60px;
@@ -17,9 +17,20 @@
 
 }
 
-#monitors{
+#channels{
 
-  .container-monitors-wrapper{
+  /* The extras header is slightly higher on the Channels page */
+  .top-navbar-extras{
+    padding: 15px;
+    height: 100px;
+    overflow: auto;
+
+    .extras-container{
+      overflow: auto;
+    }
+  }
+
+  .container-channels-wrapper{
 
     .column-right{
       background-color: #FFF;
@@ -44,49 +55,36 @@
           border-right: 1px solid transparent; /* Prevent 1px hopping to the right on hover */
         }
 
-        .monitor-icon{
+        .channel-icon{
           display: block;
           float: left;
           width: 40px;
           height: 40px;
         }
 
-        .monitor-icon-phone{
-           //background: url('phone.png') center left no-repeat; // TODO: Put in the correct icon
-         }
+        .channel-icon-phone{
+          //background: url('phone.png') center left no-repeat; // TODO: Put in the correct icon
+        }
 
-        .monitor-icon-sms{
+        .channel-icon-sms{
           //background: url('sms.png') center left no-repeat; // TODO: Put in the correct icon
         }
 
-        .monitor-icon-app{
+        .channel-icon-app{
           //background: url('app.png') center left no-repeat; // TODO: Put in the correct icon
-        }
-
-        span.counter{
-          display: block;
-          width: 30px;
-          height: 30px;
-          line-height: 30px;
-          text-align: center;
-          float: left;
-          border: 1px solid #b6b5b5;
-          color: #7c7d7d;
-          border-radius: 1px; /* Not sure; design looks like it has some radius */
-          margin: 5px 20px 5px 5px;
         }
 
         .details-container{
           display: inline-block;
 
-          h3.name{
+          h3.type-and-address{
             color: #b66430;
             font-size: .95em;
             padding: 0;
             margin: 2px;
           }
 
-          .type{
+          .url{
             color: #7c7d7d;
             font-style: italic;
             font-size: .85em;
@@ -94,13 +92,14 @@
 
         }
 
-        .status-toggle-container{
+        .delete-btn{
           display: inline-block;
           float: right;
           width: 70px;
           height: 30px;
-          background-color: #FFFFFF; /* Mockup styles */
-          border: 1px solid #b66430;
+          color: #FFF;
+          background-color: #860912;
+          border: 1px solid #8b1b1c;
           text-align: center;
           line-height: 30px;
         }
@@ -119,7 +118,7 @@
           //background: url('sms_orangebrown.png') center left no-repeat; // TODO: Put in the correct icon
         }
 
-        .monitor-icon-app{
+        .monitor-icon-chat{
           //background: url('app_orangebrown.png') center left no-repeat; // TODO: Put in the correct icon
         }
 

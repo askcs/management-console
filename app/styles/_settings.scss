@@ -1,25 +1,6 @@
-.top-navbar .new-monitor-btn-container{
-  height: $top-navbar-height;
-  display: table-cell;
-  vertical-align: middle;
+#settings{
 
-  .button-create-monitor{
-    height: 50px;
-    text-align: center;
-    margin-right: 60px;
-    padding: 0 30px;
-    border: none;
-    background-color: #b66430;
-    font-size: 1.3em;
-    color: #FFF;
-    //background: url('eye.png') center left no-repeat; // TODO: Put in the correct icon
-  }
-
-}
-
-#monitors{
-
-  .container-monitors-wrapper{
+  .container-settings-wrapper{
 
     .column-right{
       background-color: #FFF;
@@ -34,7 +15,7 @@
       li{
         padding: 20px;
         border-bottom: 1px solid #b1b1b1;
-        min-height: 90px;
+        min-height: 40px;
         border-right: 1px solid #b1b1b1;
         overflow: auto;
 
@@ -44,65 +25,35 @@
           border-right: 1px solid transparent; /* Prevent 1px hopping to the right on hover */
         }
 
-        .monitor-icon{
+        .channel-icon{
           display: block;
           float: left;
           width: 40px;
           height: 40px;
         }
 
-        .monitor-icon-phone{
-           //background: url('phone.png') center left no-repeat; // TODO: Put in the correct icon
-         }
+        .channel-icon-phone{
+          //background: url('phone.png') center left no-repeat; // TODO: Put in the correct icon
+        }
 
-        .monitor-icon-sms{
+        .channel-icon-sms{
           //background: url('sms.png') center left no-repeat; // TODO: Put in the correct icon
         }
 
-        .monitor-icon-app{
+        .channel-icon-app{
           //background: url('app.png') center left no-repeat; // TODO: Put in the correct icon
-        }
-
-        span.counter{
-          display: block;
-          width: 30px;
-          height: 30px;
-          line-height: 30px;
-          text-align: center;
-          float: left;
-          border: 1px solid #b6b5b5;
-          color: #7c7d7d;
-          border-radius: 1px; /* Not sure; design looks like it has some radius */
-          margin: 5px 20px 5px 5px;
         }
 
         .details-container{
           display: inline-block;
 
-          h3.name{
+          h3{
             color: #b66430;
-            font-size: .95em;
+            font-size: 1.2em;
             padding: 0;
             margin: 2px;
           }
 
-          .type{
-            color: #7c7d7d;
-            font-style: italic;
-            font-size: .85em;
-          }
-
-        }
-
-        .status-toggle-container{
-          display: inline-block;
-          float: right;
-          width: 70px;
-          height: 30px;
-          background-color: #FFFFFF; /* Mockup styles */
-          border: 1px solid #b66430;
-          text-align: center;
-          line-height: 30px;
         }
 
       }
@@ -119,7 +70,7 @@
           //background: url('sms_orangebrown.png') center left no-repeat; // TODO: Put in the correct icon
         }
 
-        .monitor-icon-app{
+        .monitor-icon-chat{
           //background: url('app_orangebrown.png') center left no-repeat; // TODO: Put in the correct icon
         }
 

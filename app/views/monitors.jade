@@ -18,7 +18,7 @@ section#monitors
 
     .container-monitors-wrapper
         .columns
-            .column.column-left
+            .column-one-third.column-left
                 ul
                     li.active
                         span.monitor-icon.monitor-icon-phone
@@ -48,16 +48,18 @@ section#monitors
                     li
                     li
 
-            .column.column-right.vertical-page-spacing-left.horizontal-page-spacing-top
+            .column-two-third.column-right.vertical-page-spacing-left.horizontal-page-spacing-top
                 h2 Standby monitor bevelvoerder guard
 
                 form
                     input(type="text", placeholder="Monitor name").field-monitor-name
                     input(type="text", placeholder="GroupA, GroupB, GroupC").field-groups
                     textarea.wish
+                    p
+                        em ^^ Add wish-timeline here ^^
                     input(type="text", placeholder="Frequency").field-frequency
                     select.field-day
                     select.field-monitortype
                     input(type="text", placeholder="AskFastAgentUrl").field-askfastagenturl
                     input(type="text", placeholder="AskFast escalation agent url").field-askfastescalationagenturl
-                    input(type="submit").field-monitor-save
+                    input(type="submit", value="Save").field-submit.field-monitor-save

@@ -4,6 +4,7 @@
   border-bottom: 1px solid #b1b1b1;
   height: $top-navbar-height;
   width: 100%;
+  overflow: hidden; /* TODO: Needs a responsive approach */
 
   .back{
     text-align: center;
@@ -36,6 +37,16 @@
   height: $top-navbar-extras-height;
   width: 100%;
   padding: 0 20px;
+
+  h3{
+    display: inline-block;
+    padding-right: 25px;
+    color: #b66430;
+  }
+
+  form{
+    display: inline-block;
+  }
 
   .extras-container{
     height: $top-navbar-extras-height;

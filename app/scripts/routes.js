@@ -10,11 +10,6 @@ define(
                 function ($routeProvider)
                 {
                     $routeProvider
-                        .when('/home',
-                        {
-                            templateUrl:  'views/home.html'
-                            //controller:   'home'
-                        })
                         .when('/login',
                         {
                             templateUrl:  'views/login.html'

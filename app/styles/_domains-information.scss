@@ -19,23 +19,14 @@
   form.domain-details{
 
     input[type="text"]{
-
       padding: 10px;
-      font-size: .95em;
-      border: 1px solid #b1b1b1;
-      color: #8f8f8f;
       width: 100%;
       margin: 10px 0;
-
     }
 
     input[type="submit"]{
       margin: 10px 0 0 0;
       padding: 15px 30px;
-      color: #FFFFFF;
-      background-color: #b66430;
-      font-size: 1.2em;
-      border: none;
     }
 
   }
@@ -64,22 +55,7 @@
       }
 
       input[type="text"]{
-        display: inline-block;
-        padding: 10px 20px;
-        font-size: .95em;
-        border: 1px solid #b1b1b1;
-        color: #8f8f8f;
         width: 100%;
-        margin-right: 10px;
-      }
-
-      input[type="submit"]{
-        text-align: center;
-        color: #FFFFFF;
-        background-color: #b66430;
-        font-size: 1.2em;
-        border: none;
-        padding: 0 30px;
       }
 
     }

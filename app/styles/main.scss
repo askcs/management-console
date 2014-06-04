@@ -22,8 +22,18 @@
 /* Page top navbar */
 @import "page_top_navbar";
 
+/* Form styles */
+@import "form";
+
+/* Icons */
+@import "icons";
+
 /* Page specific styles */
+@import "login";
+@import "domains";
 @import "domains-overview";
 @import "domains-information";
 @import "logs";
 @import "monitors";
+@import "channels";
+@import "settings";

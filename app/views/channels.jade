@@ -1,0 +1,58 @@
+section#channels
+
+    .top-navbar
+        .back.glyphicon.glyphicon-chevron-left
+        h2.icon.icon-channels Channels
+
+        .pull-right
+            .new-channel-btn-container
+                input(type="button", value="New Channel").button-create-channel
+
+    .top-navbar-extras
+        .extras-container
+
+            h3 AskFast Credentials
+
+            form
+                input(type="text", placeholder="Public key")
+                input(type="text", placeholder="Private key")
+
+    .container-channels-wrapper
+        .columns
+            .column-one-third.column-left
+                ul
+                    li
+                        span.channel-icon.channel-icon-phone
+                        .details-container
+                            h3.type-and-address Phone: Address
+                            span.url http://askfast.ask-cs.com/agent/phone-agent
+                        .delete-btn
+                            span Delete
+                    li.active
+                        span.channel-icon.channel-icon-sms
+                        .details-container
+                            h3.type-and-address SMS: Address
+                            span.url http://askfast.ask-cs.com/agent/sms-agent
+                        .delete-btn
+                            span Delete
+                    li
+                        span.channel-icon.channel-icon-chat
+                        .details-container
+                            h3.type-and-address Chat: Address
+                            span.url http://askfast.ask-cs.com/agent/chat-agent
+                        .delete-btn
+                            span Delete
+                    li
+                    li
+
+            .column-two-third.column-right.vertical-page-spacing-left.horizontal-page-spacing-top
+                h2 SMS: STANDBY
+
+                form
+                    select.field-channel-type
+                        option(disabled="disabled", selected="selected", ) Adapter type
+                        option SMS
+                        option PHONE
+                    input(type="text", placeholder="Adapter ID").field-channel-adapterid
+                    input(type="text", placeholder="Address").field-channel-address
+                    input(type="submit", value="Create Adapter").field-submit.field-monitor-save
