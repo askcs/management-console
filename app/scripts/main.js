@@ -6,15 +6,26 @@ if (window.location.port == '8080')
 require.config (
   {
     paths: {
+      config: 'config',
       angular:  '../vendors/angular/angular',
       jquery:   '../vendors/jquery/jquery.min',
-      domReady: '../vendors/requirejs-domready/domReady'
+      domReady: '../vendors/requirejs-domready/domReady',
+      'angular-md5': '../vendors/angular-md5/angular-md5.min',
+      'angular-resource': '../vendors/angular-resource/angular-resource.min',
+      lawnchair: '../vendors/lawnchair/src/Lawnchair',
+      dom: '../vendors/lawnchair/src/adapters/dom',
+      underscore: '../vendors/underscore/underscore'
     },
     shim: {
       angular: {
-        deps:     ['jquery'],
+        deps:     ['jquery', 'config'],
         exports:  'angular'
-      }
+      },
+      'angular-resource': { deps: ['angular'] },
+      'angular-md5': { deps: ['angular'] },
+      lawnchair: { deps: [], exports: 'lawnchair' },
+      dom: { deps: ['lawnchair'], exports: 'dom' },
+      underscore: { exports: 'underscore'}
     }
   }
 );
@@ -25,14 +36,29 @@ require (
     'app',
     'domReady',
     'routes',
+    'angular-resource',
+    'angular-md5',
     'run',
+    'locals',
     'config',
     'controllers/home',
     'controllers/login',
+    'controllers/logout',
+    'controllers/domains',
+    'controllers/profile',
     'directives/appVersion',
     'filters/interpolate',
     'services/version',
-    'services/user'
+    'services/user',
+    'services/log',
+    'services/storage',
+    'services/session',
+    'services/store',
+    'modals/user',
+    'modals/profile',
+    'lawnchair',
+    'dom',
+    'underscore'
     // Any individual controller, service, directive or filter file
     // that you add will need to be pulled in here.
   ],

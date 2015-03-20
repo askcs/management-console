@@ -12,13 +12,23 @@ define(
                     $routeProvider
                         .when('/login',
                         {
-                            templateUrl:  'views/login.html'
-                            //controller:   'login'
+                            templateUrl:  'views/login.html',
+                            controller:   'login'
+                        })
+                        .when('/logout',
+                        {
+                            templateUrl:  'views/logout.html',
+                            controller:   'logout'
+                        })
+                        .when('/profile', 
+                        {
+                            templateUrl: 'views/profile.html',
+                            controller:  'profile'
                         })
                         .when('/domains',
                         {
-                            templateUrl:  'views/domains.html'
-                            //controller:   'domains'
+                            templateUrl:  'views/domains.html',
+                            controller:   'domains'
                         })
                         .when('/domains-overview',
                         {
