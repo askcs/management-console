@@ -74,8 +74,18 @@ define(['controllers/controllers'], function (controllers){
             });
           }
 
+          function preloader(){
+            UserCall.resources().then(function (resources){
+              if (resources.error){
+                console.warn('error : ' + resources);
+              }
+            });
+          }
+
           function configure(){
             var defaults = $rootScope.app.config.defaults.settingsMC;
+            
+            preloader();
 
             finalize();
           }

@@ -16,6 +16,16 @@ define(
               method: 'GET',
               params: { first: 'logout' },
               isArray: true
+            },
+            resources: {
+              method: 'GET',
+              params: { first: 'resources' }
+            },
+            //environment
+            domain: {
+              method: 'GET',
+              params: { first: 'domain' },
+              isArray: true
             }
           };
           

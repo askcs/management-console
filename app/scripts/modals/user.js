@@ -12,8 +12,8 @@ define(['services/services', 'config'], function (services, config) {
         User._('login', {uuid: username.toLowerCase(), pass:md5.createHash(password) }).then(function (result){
 
           if (!result.error){
-            Session.set(result['X-SESSION_ID']);
-            //alert(result['X-SESSION_ID']);
+            Session.set(result.data['X-SESSION_ID']);
+            //alert(result.data['X-SESSION_ID']);
           }
           deferred.resolve(result);
         });
@@ -35,6 +35,24 @@ define(['services/services', 'config'], function (services, config) {
         });
       } catch (e) {
         Log.error('Something went wrong with logout call: ', e);
+      }
+
+      return deferred.promise;
+    };
+
+    UserCall.prototype.resources = function () {
+      var deferred = $q.defer();
+
+      try {
+        User._('resources').then(function (result) {
+          Store('user').save('resources', result.data);
+
+          $rootScope.app.resources = result.data;
+          
+          deferred.resolve(result);
+        });
+      } catch (e) {
+        console.log('Something went wrong with resources call ' + e);
       }
 
       return deferred.promise;

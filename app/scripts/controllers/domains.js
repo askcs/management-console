@@ -6,11 +6,7 @@ define(['controllers/controllers'], function (controllers){
 			angular.element('.navbar').show();
 			angular.element('.topbar').show();
 
-			Profile.get($rootScope.app.resources.uuid, true).then(function(result){
-				if (result.error){
-					console.warn('error get profile ->', result);	
-				}
-			});
+			
 		}
 	]);
 });

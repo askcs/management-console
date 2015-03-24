@@ -6,8 +6,8 @@ define(
 
         app.config(
             [
-                '$routeProvider',
-                function ($routeProvider)
+                '$routeProvider', '$httpProvider',
+                function ($routeProvider, $httpProvider)
                 {
                     $routeProvider
                         .when('/login',
@@ -63,6 +63,29 @@ define(
                         .otherwise({
                             redirectTo: '/login'
                         });
+
+                    $httpProvider.interceptors.push(function ($q, Log, $location, Store) {
+                      return {
+                        request: function (config) {
+                          return config || $q.when(config);
+                        },
+                        requestError: function (rejection) {
+                          return $q.reject(rejection);
+                        },
+                        response: function (response) {
+                          return response || $q.when(response);
+                        },
+                        responseError: function (rejection) {
+                          if (rejection.status == 403) {
+                            Store('environment').remove('sessionTimeout');
+                            //localStorage.setItem('sessionTimeout', '');
+                            $location.path('/logout');
+                            //window.location.href = 'logout.html';
+                          }
+                          return $q.reject(rejection);
+                        }
+                      };
+                    });
                 }
             ]
         );

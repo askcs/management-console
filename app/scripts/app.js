@@ -9,7 +9,8 @@ define(
     'filters/filters',
     'directives/directives',
     'angular-resource',
-    'angular-md5'
+    'angular-md5',
+    'angular-route',
   ],
   function (angular)
   {
@@ -20,6 +21,7 @@ define(
         'filters',
         'directives',
         'ngResource',
+        'ngRoute',
         'ngMd5'
       ]);
   }

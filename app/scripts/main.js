@@ -12,6 +12,7 @@ require.config (
       domReady: '../vendors/requirejs-domready/domReady',
       'angular-md5': '../vendors/angular-md5/angular-md5.min',
       'angular-resource': '../vendors/angular-resource/angular-resource.min',
+      'angular-route': '../vendors/angular-route/angular-route.min',
       lawnchair: '../vendors/lawnchair/src/Lawnchair',
       dom: '../vendors/lawnchair/src/adapters/dom',
       underscore: '../vendors/underscore/underscore'
@@ -23,6 +24,7 @@ require.config (
       },
       'angular-resource': { deps: ['angular'] },
       'angular-md5': { deps: ['angular'] },
+      'angular-route': { deps: ['angular'] },
       lawnchair: { deps: [], exports: 'lawnchair' },
       dom: { deps: ['lawnchair'], exports: 'dom' },
       underscore: { exports: 'underscore'}
@@ -56,6 +58,7 @@ require (
     'services/store',
     'modals/user',
     'modals/profile',
+    'modals/environment',
     'lawnchair',
     'dom',
     'underscore'
