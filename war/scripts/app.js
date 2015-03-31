@@ -1,0 +1,1 @@
+define(["angular","controllers/controllers","services/services","filters/filters","directives/directives","angular-resource","angular-md5","angular-route"],function(e){return e.module("MyApp",["controllers","services","filters","directives","ngResource","ngRoute","ngMd5"])});

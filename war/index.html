@@ -22,7 +22,7 @@
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="icons/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="icons/apple-touch-icon-57-precomposed.png">
     <link rel="shortcut icon" href="icons/favicon.png">
-    <link rel="stylesheet" href="styles/ab823fb1.main.css">
+    <link rel="stylesheet" href="styles/aec2aac8.main.css">
   </head>
   <body>
     <!--[if lt IE 7]>
@@ -33,7 +33,8 @@
     <script src="vendors/json3/lib/json3.min.js"></script>
     <![endif]-->
     <div id="sidebar">
-      <div class="navbar bs-docs-nav"><a href="#/home" title="Home" class="navbar-brand navbar-icon navbar-icon-management-console"></a>
+      <div class="navbar bs-docs-nav">
+        <!--a.navbar-brand.navbar-icon.navbar-icon-management-console(href='#/home', title='Home')--><a href="#/domains" title="domains" class="navbar-brand navbar-icon navbar-icon-management-console"></a>
         <ul class="nav navbar-nav">
           <li><a href="#/domains" title="Domain overview" class="navbar-icon navbar-icon-domain-overview"></a></li>
           <li><a href="#/domain-information" title="Domain information" class="navbar-icon navbar-icon-domain-information"></a></li>
@@ -55,7 +56,7 @@
               <option value="standby-dev">StandBy Dev</option>
             </select>
           </li>
-          <li class="username"><a href="#/profile" title="User profile">Jordi Menheer</a></li>
+          <li class="username"><a href="#/profile" title="User profile">{{ app.resources.name }}</a></li>
           <li class="logout"><a href="#/logout" title="Logout" class="navbar-icon navbar-icon-logout">Logout</a></li>
         </ul>
       </div>
@@ -63,6 +64,6 @@
     </div>
     <!--block footer-->
     <!-- block analytics-->
-    <script data-main="scripts/d7b696b5.main" src="vendors/requirejs/require.js"></script>
+    <script data-main="scripts/f4865ac5.main" src="vendors/requirejs/require.js"></script>
   </body>
 </html>

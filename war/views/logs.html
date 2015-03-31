@@ -1,0 +1,60 @@
+<section id="logs">
+  <div class="top-navbar">
+    <div class="back glyphicon glyphicon-chevron-left"></div>
+    <h2 class="icon icon-logs">Logs</h2>
+    <div class="pull-right">
+      <div class="search-container">
+        <input placeholder="Search in logs" class="field-search-logs">
+      </div>
+    </div>
+  </div>
+  <div class="top-navbar-extras">
+    <div class="extras-container"><span>Filter Range</span>
+      <input><span> &ndash;</span>
+      <input><span>Type</span>
+      <select></select><span>Show only failed</span>
+      <select></select><span>Show only debug
+        <select></select></span>
+    </div>
+  </div>
+  <div class="container-logs-wrapper">
+    <div class="columns">
+      <div class="column column-left vertical-page-divider-right">
+        <div class="legend"><span>Legends</span><span class="item debug">Debug</span><span class="item error">Error</span></div>
+        <ul>
+          <li class="error">
+            <div class="log-item-field status">
+              <div class="log-item-field timestamp">08-04-2014 12:37</div>
+              <div class="log-item-field agent-sender">P2000Guard [1.0]</div>
+              <div class="log-item-field message-container">
+                <div class="method badge alert-info">getLastMessage</div>
+                <div class="agent-receiver">jordiP2000</div>
+                <div class="message">N/A</div>
+              </div>
+            </div>
+          </li>
+          <li class="debug">
+            <div class="log-item-field status">
+              <div class="log-item-field timestamp">08-04-2014 12:37</div>
+              <div class="log-item-field agent-sender">P2000Guard [1.0]</div>
+              <div class="log-item-field message-container">
+                <div class="method badge alert-danger">getLastMessage</div>
+                <div class="agent-receiver">jordiP2000</div>
+                <div class="message">N/A</div>
+              </div>
+            </div>
+          </li>
+          <li class="error"></li>
+          <li class="debug"></li>
+          <li class="error"></li>
+          <li class="debug"></li>
+        </ul>
+        <div class="pagination pagination-oneline pagination-logs">
+          <div class="pagination-buttons"><a href="#prev" class="prev"><i class="glyphicon glyphicon-chevron-left"></i></a><a href="#next" class="next"><i class="glyphicon glyphicon-chevron-right"></i></a></div>
+          <div class="pagination-numbers"><strong>1-10</strong> of <strong>560</strong></div>
+        </div>
+      </div>
+      <div class="column column-right vertical-page-spacing-left horizontal-page-spacing-top"></div>
+    </div>
+  </div>
+</section>

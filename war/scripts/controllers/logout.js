@@ -1,0 +1,1 @@
+define(["controllers/controllers","config"],function(e,t){e.controller("logout",["$rootScope","$scope","$window","Session","UserCall","Store","$location",function(e,t,n,r,i,s,o){var u=s("environment").get("logindata");i.logout().then(function(e){e.error?console.warn("error -> ",e):(s("environment").nuke(),s("environment").save("logindata",u),n.location.href="#/login")})}])});

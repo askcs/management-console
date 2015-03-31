@@ -1,0 +1,61 @@
+<section id="monitors">
+  <div class="top-navbar">
+    <div class="back glyphicon glyphicon-chevron-left"></div>
+    <h2 class="icon icon-logs">Monitors</h2>
+    <div class="pull-right">
+      <div class="new-monitor-btn-container">
+        <input type="button" value="New Monitor" class="button-create-monitor">
+      </div>
+    </div>
+  </div>
+  <div class="top-navbar-extras">
+    <div class="extras-container"><span>Show inactive</span>
+      <select></select><span>Type</span>
+      <select></select>
+    </div>
+  </div>
+  <div class="container-monitors-wrapper">
+    <div class="columns">
+      <div class="column-one-third column-left">
+        <ul>
+          <li class="active"><span class="monitor-icon monitor-icon-phone"></span><span class="counter">1</span>
+            <div class="details-container">
+              <h3 class="name">StandBy monitor bevelvoerder guard</h3><span class="type">Bevelvoerder</span>
+            </div>
+            <div class="status-toggle-container"><span>Toggle</span></div>
+          </li>
+          <li><span class="monitor-icon monitor-icon-sms"></span><span class="counter">0</span>
+            <div class="details-container">
+              <h3 class="name">StandBy monitor escalatie guard</h3><span class="type">Escalatie</span>
+            </div>
+            <div class="status-toggle-container"><span>Toggle</span></div>
+          </li>
+          <li><span class="monitor-icon monitor-icon-app"></span><span class="counter">4</span>
+            <div class="details-container">
+              <h3 class="name">StandBy monitor chauffeur guard</h3><span class="type">Chauffeur</span>
+            </div>
+            <div class="status-toggle-container"><span>Toggle</span></div>
+          </li>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
+      </div>
+      <div class="column-two-third column-right vertical-page-spacing-left horizontal-page-spacing-top">
+        <h2>Standby monitor bevelvoerder guard</h2>
+        <form>
+          <input type="text" placeholder="Monitor name" class="field-monitor-name">
+          <input type="text" placeholder="GroupA, GroupB, GroupC" class="field-groups">
+          <textarea class="wish"></textarea>
+          <p><em>^^ Add wish-timeline here ^^</em></p>
+          <input type="text" placeholder="Frequency" class="field-frequency">
+          <select class="field-day"></select>
+          <select class="field-monitortype"></select>
+          <input type="text" placeholder="AskFastAgentUrl" class="field-askfastagenturl">
+          <input type="text" placeholder="AskFast escalation agent url" class="field-askfastescalationagenturl">
+          <input type="submit" value="Save" class="field-submit field-monitor-save">
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

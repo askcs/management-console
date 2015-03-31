@@ -1,0 +1,1 @@
+define(["controllers/controllers"],function(e){e.controller("profile",["$rootScope","Profile",function(e,t){}])});

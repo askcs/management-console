@@ -1,0 +1,1 @@
+define(["controllers/controllers"],function(e){e.controller("domains",["$scope","$rootScope","$location","Session","Store",function(e,t,n,r,i){angular.element(".navbar").show(),angular.element(".topbar").show(),console.log(r.get())}])});

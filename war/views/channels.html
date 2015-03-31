@@ -1,0 +1,61 @@
+<section id="channels">
+  <div class="top-navbar">
+    <div class="back glyphicon glyphicon-chevron-left"></div>
+    <h2 class="icon icon-channels">Channels</h2>
+    <div class="pull-right">
+      <div class="new-channel-btn-container">
+        <input type="button" value="New Channel" class="button-create-channel">
+      </div>
+    </div>
+  </div>
+  <div class="top-navbar-extras">
+    <div class="extras-container">
+      <h3>AskFast Credentials</h3>
+      <form>
+        <input type="text" placeholder="Public key">
+        <input type="text" placeholder="Private key">
+      </form>
+    </div>
+  </div>
+  <div class="container-channels-wrapper">
+    <div class="columns">
+      <div class="column-one-third column-left">
+        <ul>
+          <li><span class="channel-icon channel-icon-phone"></span>
+            <div class="details-container">
+              <h3 class="type-and-address">Phone: Address</h3><span class="url">http://askfast.ask-cs.com/agent/phone-agent</span>
+            </div>
+            <div class="delete-btn"><span>Delete</span></div>
+          </li>
+          <li class="active"><span class="channel-icon channel-icon-sms"></span>
+            <div class="details-container">
+              <h3 class="type-and-address">SMS: Address</h3><span class="url">http://askfast.ask-cs.com/agent/sms-agent</span>
+            </div>
+            <div class="delete-btn"><span>Delete</span></div>
+          </li>
+          <li><span class="channel-icon channel-icon-chat"></span>
+            <div class="details-container">
+              <h3 class="type-and-address">Chat: Address</h3><span class="url">http://askfast.ask-cs.com/agent/chat-agent</span>
+            </div>
+            <div class="delete-btn"><span>Delete</span></div>
+          </li>
+          <li></li>
+          <li></li>
+        </ul>
+      </div>
+      <div class="column-two-third column-right vertical-page-spacing-left horizontal-page-spacing-top">
+        <h2>SMS: STANDBY</h2>
+        <form>
+          <select class="field-channel-type">
+            <option disabled="disabled" selected="selected">Adapter type</option>
+            <option>SMS</option>
+            <option>PHONE</option>
+          </select>
+          <input type="text" placeholder="Adapter ID" class="field-channel-adapterid">
+          <input type="text" placeholder="Address" class="field-channel-address">
+          <input type="submit" value="Create Adapter" class="field-submit field-monitor-save">
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
