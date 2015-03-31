@@ -48,6 +48,7 @@ require (
     'controllers/logout',
     'controllers/domains',
     'controllers/profile',
+    'controllers/domain-information',
     'directives/appVersion',
     'filters/interpolate',
     'services/version',

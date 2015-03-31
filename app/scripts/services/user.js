@@ -27,9 +27,16 @@ define(
               params: { first: 'domain' },
               isArray: true
             }
+            /*geofence: {
+              method: 'GET',
+              params: { first: 'geofence' }
+            },
+            saveGeofence: {
+              method: 'PUT',
+              params: { first: 'geofence' }
+            }*/
           };
           
-          //return resourceObject;
           angular.forEach(resourceObject, function (value){
             if (value.method === 'GET') {
               value.interceptor = {
@@ -64,7 +71,7 @@ define(
                   ((callback && callback.error)) && callback.error.call(this, result);
 
                   //Log.error('Error with call:', proxy, 'params: ', params, 'data load:', data, 'result: ', result);
-                  console.log('Error with call: '+ proxy + 'params: ' + params + 'data load:' + data + 'result: ' + result);
+                  console.log('Error with call: '+ proxy + ' params: ' + angular.toJson(params) + ' data load:' + angular.toJson(data) + ' result: ' + angular.toJson(result));
 
                   deferred.resolve({ error: result });
                 });

@@ -17,7 +17,7 @@ section#login
                     input(type='text',
                     ng-model='logindata.username',
                     placeholder= '{{ ui.login.placeholder_username }}')
-                    p(ng-show="login.validation.email")
+                    p(ng-show="login.validation.username")
                         small.text-danger This field is required
                     input(type='password',
                     ng-model='logindata.password',

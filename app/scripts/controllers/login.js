@@ -3,8 +3,8 @@ define(['controllers/controllers'], function (controllers){
 
     controllers.controller ('login',
       [
-        '$scope', '$rootScope', '$q', '$location', '$timeout', 'Session', 'Storage', 'Store', '$routeParams', 'UserCall', 'md5',
-        function($scope, $rootScope, $q, $location, $timeout, Session, Storage, Store, $routeParams, UserCall, md5){
+        '$scope', '$rootScope', '$q', '$location', '$timeout', 'Session', 'Storage', 'Store', '$routeParams', 'UserCall', 'md5', 'Environment',
+        function($scope, $rootScope, $q, $location, $timeout, Session, Storage, Store, $routeParams, UserCall, md5, Environment){
           $scope.login = {};
           
           $scope.alert = {
@@ -76,14 +76,20 @@ define(['controllers/controllers'], function (controllers){
 
           function preloader(){
             UserCall.resources().then(function (resources){
-              if (resources.error){
-                console.warn('error : ' + resources);
-              }
+              Environment.setup().then(function (setup){
+                if(!setup){
+                  console.warn('error ', setup);
+                }
+              });
+              
+              // if (resources.error){
+              //   console.warn('error : ' + resources);
+              // }
             });
           }
 
           function configure(){
-            var defaults = $rootScope.app.config.defaults.settingsMC;
+            //var defaults = $rootScope.app.config.defaults.settingsMC;
             
             preloader();
 

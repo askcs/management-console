@@ -6,18 +6,23 @@ section#domain-information
 
     .container-domain-information-wrapper
         .container-fluid
+
             .row
                 .col-lg-12
-                    h1 Domain: Brandweer Oudenbosch
+                    h1 Domain: {{ app.environment.domain }}
+            .row
+                .col-lg-12 
+                    p.text-center(ng-show="alert.domain.display")
+                    {{ alert.domain.message }}
             .row
                 .col-lg-3
                     form.domain-details
-                        input(type="text", id="domain-name", placeholder="Domain name").field-domain-name
-                        input(type="text", id="latitude", placeholder="Latitude").field-location-latitude
-                        input(type="text", id="longitude", placeholder="Longitude").field-location-longitude
-                        input(type="text", id="radius", placeholder="Radius (meters)").field-location-radius
+                        input(type="text", ng-model="domain", id="domain-name").field-domain-name
+                        input(type="text", ng-model="geofence.latitude", id="latitude").field-location-latitude
+                        input(type="text", ng-model="geofence.longitude", id="longitude").field-location-longitude
+                        input(type="text", ng-model="geofence.radius", id="radius").field-location-radius
 
-                        input(type="submit", id="submit", value="Save").field-submit
+                        input(type="submit", ng-click="update()", id="submit", value="Save").field-submit
                 .col-lg-9
 
                     .container-fluid

@@ -9,8 +9,8 @@ define(
 				login: {
 					button_login: 'Login',
 					placeholder_username: 'Username',
-          placeholder_password: 'Password',
-          label_rememberMe: 'Remember Me',
+			        placeholder_password: 'Password',
+			        label_rememberMe: 'Remember Me',
 					logout: 'Logout',
 					loading: 'Loading...',
 					alert_fillfiled: 'Please fill all fields!',
@@ -19,6 +19,9 @@ define(
 				loading: {
 					general: 'Loading',
 					loggingOut: 'logging out...'
+				},
+				domain: {
+					alert_fillfiled: 'Please fill all fields!'
 				},
 				errors: {
 

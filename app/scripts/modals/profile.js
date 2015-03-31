@@ -25,7 +25,7 @@ define(['services/services', 'config'], function (services, config) {
  					if (localize)
  						Store('user').save('resources', result);
 
- 						deferred.resolve({resources: result});
+ 					deferred.resolve({resources: result});
  				});	
 
  				return deferred.promise;

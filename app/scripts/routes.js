@@ -37,8 +37,8 @@ define(
                         })
                         .when('/domain-information',
                         {
-                            templateUrl:  'views/domain-information.html'
-                            //controller:   'domain-information'
+                            templateUrl:  'views/domain-information.html',
+                            controller:   'domainInformation'
                         })
                         .when('/logs',
                         {

@@ -32,8 +32,7 @@ define(
             resources: {},
             environment: {
               domain: '',
-              states: [],
-              divisions: []
+              geofence: {}
             },
             settings: {},
             logindata: {}
