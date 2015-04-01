@@ -27,7 +27,7 @@ define(['controllers/controllers'], function (controllers){
           };
 					return false;
 				}
-
+				//alert($scope.geofence.radius);
 				save($scope.geofence.latitude, $scope.geofence.longitude, $scope.geofence.radius);
 			}
 

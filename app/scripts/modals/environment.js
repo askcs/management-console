@@ -11,7 +11,8 @@ define(['services/services', 'config'], function (services, config) {
 			},
 			save: {
 				method: 'PUT',
-				params: { first: 'geofence' }
+				params: { first: 'geofence' },
+				isArray: true
 			}
 		});
 		
@@ -44,14 +45,10 @@ define(['services/services', 'config'], function (services, config) {
 			return deferred.promise;
 		}
 
-		Environment.prototype.saveGeofence = function ( latitude, longitude, radius ) {
+		Environment.prototype.saveGeofence = function ( geofence ) {
 			var deferred = $q.defer();
 
-			Geofence.save({
-				latitude: latitude,
-				longitude: longitude,
-				radius: radius
-			}, 
+			Geofence.save(geofence,
 			function (result) {
 
 				//save to local-storage after update
@@ -89,33 +86,6 @@ define(['services/services', 'config'], function (services, config) {
 
 			return deferred.promise;
 		}
-
-		/*
-		Environment.prototype.geofence = function () {
-			return User._('geofence').then(function (result){
-				var geofence = result.data;
-
-				Store('environment').save('geofence', geofence);
-
-				$rootScope.app.environment.geofence = geofence;
-
-				return geofence;
-			});
-		}
-		
-		Environment.prototype.saveGeofence = function ( resources ) {
-			var deferred = $q.defer();
-
-			User._('saveGeofence', resources, function (result) {
-				deferred.resolve(result);
-			},
-			function (error) {
-				deferred.resolve({ error: error });
-			});
-
-			return deferred.promise;
-		}
-		*/
 
 		return new Environment();
 
