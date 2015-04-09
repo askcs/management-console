@@ -10,7 +10,8 @@ define(
     'directives/directives',
     'angular-resource',
     'angular-md5',
-    'angular-route',
+    'angular-route'
+    
   ],
   function (angular)
   {
@@ -22,7 +23,8 @@ define(
         'directives',
         'ngResource',
         'ngRoute',
-        'ngMd5'
+        'ngMd5',
+        'uiGmapgoogle-maps'
       ]);
   }
 );

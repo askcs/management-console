@@ -6,8 +6,8 @@ define(
 
     app.run(
       [
-        '$rootScope', '$location', 'Session', 'Store',
-        function($rootScope, $location, Session, Store)
+        '$rootScope', '$location', 'Session', 'Store', '$templateCache',
+        function($rootScope, $location, Session, Store, $templateCache)
         {
           $rootScope.$on('$routeChangeStart', function (event, next, current)
           {
@@ -74,6 +74,10 @@ define(
             $rootScope.changeLanguage($rootScope.app.config.lang);
           }
 
+          //template for google map search box
+          $templateCache.put('searchbox.tpl.html', '<input id="pac-input" class="pac-controls" type="text" placeholder="Search">');
+          $templateCache.put('window.tpl.html', '<div ng-controller="WindowCtrl" ng-init="showPlaceDetails(parameter)">{{place.name}}</div>');
+          
         }
       ]
     );

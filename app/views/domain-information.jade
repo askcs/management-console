@@ -17,7 +17,7 @@ section#domain-information
             .row
                 .col-lg-3
                     form.domain-details
-                        input(type="text", ng-model="domain", id="domain-name").field-domain-name
+                        input(type="text", ng-model="domain", id="domain-name", ng-readonly="true").field-domain-name
                         input(type="text", ng-model="geofence.latitude", id="latitude").field-location-latitude
                         input(type="text", ng-model="geofence.longitude", id="longitude").field-location-longitude
                         input(type="text", ng-model="geofence.radius", id="radius").field-location-radius
@@ -29,18 +29,22 @@ section#domain-information
                         .row
                             .col-lg-12
                                 .google-map.domain-information-google-map
-                                    img(src="http://maps.google.com/maps/api/staticmap?center=51.9075838,4.4557808&zoom=16&size=600x400&maptype=roadmap&sensor=false&language=&markers=color:red|label:none|51.9075838,4.4557808")
+
+                                    ui-gmap-google-map(center='map.center', zoom='map.zoom', events='map.events')
+                                      ui-gmap-search-box(template='searchBox.template', events='searchBox.events', parentdiv='searchBox.parentdiv')
+                                      ui-gmap-marker(idKey='marker.id', coords='marker.coords', events='marker.events',  options='marker.options')
+                                        ui-gmap-circle(center='marker.coords', radius='circle.radius', fill='cirlce.fill', stroke='circle.stroke', clickable='circle.clickable', editable='circle.editable', geodesic: circle.geodesic, draggable: circle.draggable, clickable: circle.clickable, visible: 'circle.visible', events='circle.events')
                         .row
                             .col-lg-12
+
                                 .domain-information-google-map-footer
                                     form.form-google-map
                                         .container-fluid
                                             .row
                                                 .col-lg-10
-                                                    input(type="text", id="address", placeholder="Search for streetname, postcode or city").field-address
+                                                    #searchBoxParent
+                                                    //input(type="text", id="address", placeholder="Search for streetname, postcode or city").field-address
                                                 .col-lg-2
-                                                    input(type="submit", id="submit", value="Search").field-search
+                                                    //input(type="submit", id="submit", value="Search").field-search
 
                                     p.form-note-footer You can drag and drop the marker on the map to pinpoint the location precisely. The coordinates will change accordingly.
-
-

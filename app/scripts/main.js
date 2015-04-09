@@ -15,7 +15,9 @@ require.config (
       'angular-route': '../vendors/angular-route/angular-route.min',
       lawnchair: '../vendors/lawnchair/src/Lawnchair',
       dom: '../vendors/lawnchair/src/adapters/dom',
-      underscore: '../vendors/underscore/underscore'
+      underscore: '../vendors/underscore/underscore',
+      'angular-google-maps': '../vendors/angular-google-maps/dist/angular-google-maps.min',
+      'lodash': '../vendors/lodash/dist/lodash.min'
     },
     shim: {
       angular: {
@@ -27,7 +29,9 @@ require.config (
       'angular-route': { deps: ['angular'] },
       lawnchair: { deps: [], exports: 'lawnchair' },
       dom: { deps: ['lawnchair'], exports: 'dom' },
-      underscore: { exports: 'underscore'}
+      underscore: { exports: 'underscore'},
+      'angular-google-maps': { deps: ['angular'] },
+      lodash: { deps: [], exports: 'lodash' }
     }
   }
 );
@@ -62,7 +66,9 @@ require (
     'modals/environment',
     'lawnchair',
     'dom',
-    'underscore'
+    'underscore',
+    'angular-google-maps',
+    'lodash'
     // Any individual controller, service, directive or filter file
     // that you add will need to be pulled in here.
   ],

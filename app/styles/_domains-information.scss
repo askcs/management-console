@@ -33,15 +33,19 @@
 
   .domain-information-google-map{
 
-    max-height: 550px;
-    overflow: hidden;
+    /*max-height: 550px;
+    overflow: hidden;*/
 
     /* Mockup style */
-    img{
+    /*img{
       width:100%;
-    }
-
+    }*/
   }
+
+  .angular-google-map-container {
+    height: 400px;
+  }
+
 
   .domain-information-google-map-footer{
     background-color: #eae7e0;

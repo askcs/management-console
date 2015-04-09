@@ -6,8 +6,8 @@ define(
 
         app.config(
             [
-                '$routeProvider', '$httpProvider',
-                function ($routeProvider, $httpProvider)
+                '$routeProvider', '$httpProvider', 'uiGmapGoogleMapApiProvider',
+                function ($routeProvider, $httpProvider, GoogleMapApi)
                 {
                     $routeProvider
                         .when('/login',
@@ -85,6 +85,12 @@ define(
                           return $q.reject(rejection);
                         }
                       };
+                    });
+
+                    GoogleMapApi.configure({
+                      //key: API key,
+                      v: '3.18.22',
+                      libraries: 'places'
                     });
                 }
             ]
