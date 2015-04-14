@@ -17,7 +17,8 @@ define(['controllers/controllers'], function (controllers){
 					longitude: $scope.geofence.longitude
 				},
 				zoom: 16,
-				dragging: true
+				dragging: true,
+				events: {}
 			};
 			
 			//marker
@@ -56,9 +57,14 @@ define(['controllers/controllers'], function (controllers){
         clickable: true, 
         editable: true, 
         visible: true,
-        events: {
+        events: { 
         	radius_changed: function(circle, eventName, args) {                
             $scope.geofence.radius = circle.radius;
+          },
+          center_changed: function(circle, eventName, model, args){
+          	var newCenter = circle.getCenter();
+          	$scope.geofence.latitude = newCenter.k;
+          	$scope.geofence.longitude = newCenter.B;
           }
         }
 			};
