@@ -51,8 +51,7 @@ define(['controllers/controllers'], function (controllers){
 				fill: {
 					color: '#08B21F',
 					opacity: 0.5
-				},
-				geodesic: true, 
+				},				
         draggable: true, 
         clickable: true, 
         editable: true, 
