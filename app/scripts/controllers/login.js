@@ -3,8 +3,8 @@ define(['controllers/controllers'], function (controllers){
 
     controllers.controller ('login',
       [
-        '$scope', '$rootScope', '$q', '$location', '$timeout', 'Session', 'Storage', 'Store', '$routeParams', 'UserCall', 'md5', 'Environment',
-        function($scope, $rootScope, $q, $location, $timeout, Session, Storage, Store, $routeParams, UserCall, md5, Environment){
+        '$scope', '$rootScope', '$q', '$location', '$timeout', 'Session', 'Storage', 'Store', '$routeParams', 'UserCall', 'md5', 'Environment', 'Monitors',
+        function($scope, $rootScope, $q, $location, $timeout, Session, Storage, Store, $routeParams, UserCall, md5, Environment, Monitors){
           $scope.login = {};
           
           $scope.alert = {
@@ -23,6 +23,7 @@ define(['controllers/controllers'], function (controllers){
           $scope.auth = function(){
             Store('user').nuke();
             Store('environment').nuke();
+            Store('domain').nuke();
 
             Storage.clearAll();
             Storage.session.clearAll();
@@ -77,9 +78,15 @@ define(['controllers/controllers'], function (controllers){
           function preloader(){
             UserCall.resources().then(function (resources){
               Environment.setup().then(function (setup){
-                if(!setup){
+                /*if(!setup){
                   console.warn('error ', setup);
-                }
+                }*/
+                Monitors.get().then(function (result) {
+                  if (result.error) {
+                    console.warn('error -> ', result);
+                  }
+                });
+
               });
               
               // if (resources.error){

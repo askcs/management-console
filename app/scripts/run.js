@@ -35,7 +35,10 @@ define(
               geofence: {}
             },
             settings: {},
-            logindata: {}
+            logindata: {},
+            domain: {
+              monitors: {}
+            }
           };
 
           //session

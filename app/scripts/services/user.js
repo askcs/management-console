@@ -26,15 +26,17 @@ define(
               method: 'GET',
               params: { first: 'domain' },
               isArray: true
-            }
-            /*geofence: {
-              method: 'GET',
-              params: { first: 'geofence' }
             },
-            saveGeofence: {
-              method: 'PUT',
-              params: { first: 'geofence' }
-            }*/
+            //monitors
+            monitors: {
+              method: 'GET',
+              params: { first: 'monitors' },
+              //isArray: true
+            },
+            monitor: {
+              method: 'GET',
+              params: { first: 'monitor' }
+            }
           };
           
           angular.forEach(resourceObject, function (value){
