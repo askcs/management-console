@@ -1,7 +1,7 @@
 define(['services/services', 'config'], function (services, config) {
 	'use strict';
 
-	services.factory('Monitors', function ($resource, $q, User, Store) {
+	services.factory('Monitors', ["$resource", "$q", "User", "Store", function ($resource, $q, User, Store) {
 		var Monitors = $resource();
 
 		Monitors.prototype.get = function () {
@@ -21,5 +21,5 @@ define(['services/services', 'config'], function (services, config) {
 		};
 
 		return new Monitors();
-	});
+	}]);
 });

@@ -1,7 +1,7 @@
 define(['services/services', 'config'], function (services, config) {
   'use strict';
 
-  services.factory('Storage', function ($rootScope) {
+  services.factory('Storage', ["$rootScope", function ($rootScope) {
     if (config.title.substr(-1) !== '.') {
       config.title = !!config.title ?
         config.title + '.' :
@@ -274,5 +274,5 @@ define(['services/services', 'config'], function (services, config) {
         settings: getSettings
       }
     }
-  });
+  }]);
 });

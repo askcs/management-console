@@ -5,7 +5,7 @@ define(
     'use strict';
 
     services.factory('User',
-        function ($resource, $q, $location, $rootScope)
+        ["$resource", "$q", "$location", "$rootScope", function ($resource, $q, $location, $rootScope)
         {
           var resourceObject = {
             login: {
@@ -85,5 +85,5 @@ define(
           };
 
           return new MyApp();
-        });
+        }]);
   });

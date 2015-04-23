@@ -64,7 +64,7 @@ define(
                             redirectTo: '/login'
                         });
 
-                    $httpProvider.interceptors.push(function ($q, Log, $location, Store) {
+                    $httpProvider.interceptors.push(["$q", "Log", "$location", "Store", function ($q, Log, $location, Store) {
                       return {
                         request: function (config) {
                           return config || $q.when(config);
@@ -85,7 +85,7 @@ define(
                           return $q.reject(rejection);
                         }
                       };
-                    });
+                    }]);
 
                     GoogleMapApi.configure({
                       //key: API key,

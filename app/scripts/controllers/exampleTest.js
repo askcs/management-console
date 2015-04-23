@@ -3,8 +3,8 @@ define(
 	function (controllers) {
 		'use strict';
 
-		controllers.controller('exampleTestCtrl', function($rootScope, $scope){	
+		controllers.controller('exampleTestCtrl', ["$rootScope", "$scope", function($rootScope, $scope){	
 			$scope.exampleTestString = 'Controller testing works';	
-		});
+		}]);
 	}
 );

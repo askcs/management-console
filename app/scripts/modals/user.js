@@ -1,7 +1,7 @@
 define(['services/services', 'config'], function (services, config) {
   'use strict';
 
-  services.factory('UserCall', function ($rootScope, $location, $resource, $q, $http, Log, md5, Session, Store, User) {
+  services.factory('UserCall', ["$rootScope", "$location", "$resource", "$q", "$http", "Log", "md5", "Session", "Store", "User", function ($rootScope, $location, $resource, $q, $http, Log, md5, Session, Store, User) {
     var UserCall = $resource();
 
     UserCall.prototype.login = function(username, password){
@@ -59,6 +59,6 @@ define(['services/services', 'config'], function (services, config) {
     };
 
     return new UserCall();
-  });
+  }]);
 
 });

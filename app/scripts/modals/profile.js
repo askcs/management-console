@@ -1,7 +1,7 @@
 define(['services/services', 'config'], function (services, config) {
 	'use strict';
 
-	services.factory('Profile', function ($rootScope, $resource, $q, md5, Store){
+	services.factory('Profile', ["$rootScope", "$resource", "$q", "md5", "Store", function ($rootScope, $resource, $q, md5, Store){
 			var Profile = $resource(config.host + '/node/:id/:section', {}, {
 				get: {
 					method: 'GET',
@@ -32,5 +32,5 @@ define(['services/services', 'config'], function (services, config) {
  			};
 
  			return new Profile();
-		});
+		}]);
 });

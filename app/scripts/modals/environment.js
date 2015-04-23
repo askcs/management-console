@@ -1,7 +1,7 @@
 define(['services/services', 'config'], function (services, config) {
 	'use strict';
 
-	services.factory('Environment', function ($rootScope, $resource, $q, User, Store) {
+	services.factory('Environment', ["$rootScope", "$resource", "$q", "User", "Store", function ($rootScope, $resource, $q, User, Store) {
 		var Environment = $resource();
 
 		var Geofence = $resource(config.host + '/:first', {}, {
@@ -89,5 +89,5 @@ define(['services/services', 'config'], function (services, config) {
 
 		return new Environment();
 
-	});
+	}]);
 });
