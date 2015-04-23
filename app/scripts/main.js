@@ -55,7 +55,7 @@ require (
     'controllers/domains',
     'controllers/profile',
     'controllers/domain-information',
-    'controllers/tree',
+    'controllers/monitors',
     'directives/appVersion',
     'filters/interpolate',
     'services/version',
