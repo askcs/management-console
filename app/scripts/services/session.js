@@ -4,7 +4,8 @@ define(['services/services'], function (services) {
   services.factory('Session', ['$rootScope', '$http', function ($rootScope, $http) {
     return {
       check: function () {
-        return ((this.get()));
+        //return ((this.get()));
+        return true;
       },
 
       get: function () {
