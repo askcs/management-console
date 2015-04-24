@@ -23,7 +23,7 @@
     "grunt-contrib-watch": "~0.5.1",
     "grunt-conventional-changelog": "~1.0.0",
     "grunt-karma": "^0.10.1",
-    "grunt-ngmin": "~0.0.2",
+    "grunt-ng-annotate": "^0.10.0",
     "grunt-release": "~0.5.1",
     "grunt-replace": "~0.4.4",
     "grunt-rev": "~0.1.0",

@@ -265,7 +265,15 @@ module.exports = function (grunt)
             src: [
               'generated/*'
             ]
-          }]
+          }, {
+            expand: true,
+            cwd: '<%= paths.app %>',
+            dest: '.tmp',
+            src: [
+              'scripts/{,**/}*.js'
+            ]
+          }
+          ]
         }
       },
 
@@ -290,13 +298,13 @@ module.exports = function (grunt)
         }
       },
 
-      ngmin: {
+      ngAnnotate: {
         dist: {
           files: [{
             expand: true,
-            cwd: '<%= paths.dist %>/scripts',
+            cwd: '.tmp/scripts',
             src: '**/*.js',
-            dest: '<%= paths.dist %>/scripts'
+            dest: '.tmp/scripts'
           }]
         }
       },
@@ -304,11 +312,11 @@ module.exports = function (grunt)
       requirejs: {
         compile: {
           options: {
-            appDir: '<%= paths.app %>/scripts/',
+            appDir: '.tmp/scripts/',
             baseUrl: '.',
             dir: '<%= paths.dist %>/scripts/',
             optimize: 'uglify',
-            mainConfigFile:'./<%= paths.app %>/scripts/main.js',
+            mainConfigFile:'./.tmp/scripts/main.js',
             logLevel: 0,
             findNestedDependencies: true,
             fileExclusionRegExp: /^\./,
@@ -441,7 +449,7 @@ module.exports = function (grunt)
     'htmlmin',
     'concat',
     'copy',
-    'ngmin',
+    'ngAnnotate',
     'cssmin',
     'requirejs',
     'rev',
