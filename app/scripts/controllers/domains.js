@@ -2,10 +2,7 @@ define(['controllers/controllers'], function (controllers){
 	'use strict';
 
 	controllers.controller('domains', ['$scope', '$rootScope', '$location', 'Session', 'Store', 'Monitors',
-		function($scope, $rootScope, $location, Session, Store, Monitors){
-
-			angular.element('.navbar').show();
-			angular.element('.topbar').show();
+		function($scope, $rootScope, $location, Session, Store, Monitors){			
 
 			var monitors = Store('domain').get('monitors');
      	var lmonitor = [];
@@ -30,39 +27,24 @@ define(['controllers/controllers'], function (controllers){
           }
       }
 
-      function getMethod(mobileMedium){
-        switch (mobileMedium) {
-          case 'SMS' : return 'sms';
-          break;
-
-          case 'EMAIL' : return 'email';
-          break;
-
-          default:
-            return 'phone';
-        }
-      }
-
       angular.forEach(monitors.data, function(monitor) {
       if (monitor.length > 1) {        
         angular.forEach(monitor, function (ch) {
           var color = getColor(ch.isRunning);        
-          var method = getMethod(ch.mobileMedium);        
-
+       
           lmonitor.push({
             name: ch.wish+' : '+ch.name + '\n' + ch.groupName,
             value: color,
-            method: method            
+            method: angular.lowercase(ch.mobileMedium)            
           });
         })
       }else{       
         var color = getColor(monitor[0].isRunning);
-        var method = getMethod(monitor[0].mobileMedium);
-
+       
         lmonitor.push({
           name: monitor[0].wish+' : '+monitor[0].name + '\n' +  monitor[0].groupName,
           value: color,     
-          method: method     
+          method: angular.lowercase(monitor[0].mobileMedium)     
         });
       }
     });
@@ -171,8 +153,9 @@ define(['controllers/controllers'], function (controllers){
         .attr('width', 20)
         .attr('height', 20)
         .attr("xlink:href", function(d) {
-          if (d.children == null){           
-            return '../icons/'+ d.method +'.png';
+          if (d.children == null && d.method){           
+            return '../images/'+ d.method +'.png';
+            //return 'http://www.clipartbest.com/cliparts/aiq/b5E/aiqb5EBqT.png'
           }else{
             return '';
           }

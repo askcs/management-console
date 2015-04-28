@@ -6,14 +6,14 @@ define(['controllers/controllers'], function (controllers){
         '$scope', '$rootScope', '$q', '$location', '$timeout', 'Session', 'Storage', 'Store', '$routeParams', 'UserCall', 'md5', 'Environment', 'Monitors',
         function($scope, $rootScope, $q, $location, $timeout, Session, Storage, Store, $routeParams, UserCall, md5, Environment, Monitors){
           $scope.login = {};
-          
+      
           $scope.alert = {
               login: {
                 display: false,
                 message: ''
               }
-          };
-          
+          };          
+
           angular.element('.navbar').hide();
           angular.element('.topbar').hide();
           
@@ -24,7 +24,7 @@ define(['controllers/controllers'], function (controllers){
             Store('user').nuke();
             Store('environment').nuke();
             Store('domain').nuke();
-
+         
             Storage.clearAll();
             Storage.session.clearAll();
 
@@ -49,10 +49,6 @@ define(['controllers/controllers'], function (controllers){
             authenticate($scope.logindata.username, $scope.logindata.password);
           };
 
-          /*if ($location.search().email && $location.search().password){
-            authenticate($location.search().email, $location.search().password);
-          }*/
-
           function authenticate(uuid, pass){
 
             UserCall.login(uuid, pass).then(function (result){
@@ -67,46 +63,58 @@ define(['controllers/controllers'], function (controllers){
                   }
                 }
                 return false;
-                //alert (result.error.status);
+          
               }else{
-               //alert('successfully logged in ' + Session.get());
                configure();
               }
             });
           }
 
           function preloader(){
+            progress(20);
+
             UserCall.resources().then(function (resources){
               Environment.setup().then(function (setup){
-                /*if(!setup){
-                  console.warn('error ', setup);
-                }*/
+              
+                progress(50);
+              
                 Monitors.get().then(function (result) {
-                  if (result.error) {
-                    console.warn('error -> ', result);
+                  if (result) {                    
+                    Store('domain').save('monitors', result);
+
+                    progress(80);
                   }
+
+                  finalize();
                 });
 
               });
               
-              // if (resources.error){
-              //   console.warn('error : ' + resources);
-              // }
             });
           }
 
-          function configure(){
-            //var defaults = $rootScope.app.config.defaults.settingsMC;
-            
-            preloader();
+          function configure(){           
+            $('#login').hide();
+            $('#preloader').show();
 
-            finalize();
+            progress();
+
+            preloader();
           }
 
           function finalize(){
+            progress(100);
+
+            angular.element('.navbar').show();
+            angular.element('.topbar').show();
+
             $location.path('/domains');
           }
           
+          function progress(value){
+            $scope.width_progress = { "width": value + "%" };
+          }
+
         }
       ]
     );
