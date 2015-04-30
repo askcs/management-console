@@ -47,8 +47,8 @@ define(
                         })
                         .when('/monitors',
                         {
-                            templateUrl:  'views/monitors.html'
-                            //controller:   'monitors'
+                            templateUrl:  'views/monitors.html',
+                            controller:   'monitors'
                         })
                         .when('/channels',
                         {

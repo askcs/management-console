@@ -53,15 +53,23 @@
 
         .monitor-icon-phone{
            //background: url('phone.png') center left no-repeat; // TODO: Put in the correct icon
+           background: url('../images/phone.png') center left no-repeat;
          }
 
         .monitor-icon-sms{
           //background: url('sms.png') center left no-repeat; // TODO: Put in the correct icon
+          background: url('../images/sms.png') center left no-repeat;
         }
 
         .monitor-icon-app{
           //background: url('app.png') center left no-repeat; // TODO: Put in the correct icon
+          background: url('../images/app.png') center left no-repeat;
         }
+
+        .monitor-icon-email{
+          //background: url('app.png') center left no-repeat; // TODO: Put in the correct icon
+          background: url('../images/email.png') center left no-repeat;
+        }        
 
         span.counter{
           display: block;

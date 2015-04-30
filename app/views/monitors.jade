@@ -11,16 +11,19 @@ section#monitors
     .top-navbar-extras
         .extras-container
             span Show inactive
-            select
+            //span State
+            select(ng-model='state', ng-options='state for state in states', ng-change='getMonitors()')    
 
-            span Type
-            select
+            span  Type
+            select(ng-model='type', ng-options='type for type in types', ng-change='getMonitors()')
+                option(value='') All types
+
 
     .container-monitors-wrapper
         .columns
             .column-one-third.column-left
                 ul
-                    li.active
+                    //li.active
                         span.monitor-icon.monitor-icon-phone
                         span.counter 1
                         .details-container
@@ -28,7 +31,7 @@ section#monitors
                             span.type Bevelvoerder
                         .status-toggle-container
                             span Toggle
-                    li
+                    //li
                         span.monitor-icon.monitor-icon-sms
                         span.counter 0
                         .details-container
@@ -36,7 +39,7 @@ section#monitors
                             span.type Escalatie
                         .status-toggle-container
                             span Toggle
-                    li
+                    //li
                         span.monitor-icon.monitor-icon-app
                         span.counter 4
                         .details-container
@@ -44,9 +47,15 @@ section#monitors
                             span.type Chauffeur
                         .status-toggle-container
                             span Toggle
-                    li
-                    li
-                    li
+                    li(ng-repeat='monitor in monitors')
+                        span.monitor-icon(ng-class="monitor.imgClass")
+                        span.counter {{ monitor.wish }}
+                        .details-container
+                            h3.name {{ monitor.name }} 
+                            span.type {{ monitor.groupName }}
+                        .status-toggle-container
+                            span {{ monitor.state }}
+                    
 
             .column-two-third.column-right.vertical-page-spacing-left.horizontal-page-spacing-top
                 h2 Standby monitor bevelvoerder guard
@@ -62,4 +71,4 @@ section#monitors
                     select.field-monitortype
                     input(type="text", placeholder="AskFastAgentUrl").field-askfastagenturl
                     input(type="text", placeholder="AskFast escalation agent url").field-askfastescalationagenturl
-                    input(type="submit", value="Save").field-submit.field-monitor-save
+                    input(type="submit", value="Save").field-submit.field-monitor-save                    
