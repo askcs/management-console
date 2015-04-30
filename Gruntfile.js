@@ -191,9 +191,14 @@ module.exports = function (grunt)
 
       usemin: {
         html: ['<%= paths.dist %>/{,*/}*.html'],
-        css: ['<%= paths.dist %>/styles/{,*/}*.css'],
+        css: ['<%= paths.dist %>/styles/{,*/}*.css'],        
         options: {
-          dirs: ['<%= paths.dist %>']
+          dirs: ['<%= paths.dist %>'],
+          patterns: {
+            js: [
+                  [/(images\/.*?\.(?:gif|jpeg|jpg|png|webp))/gm, 'Update the JS to reference our revved images']
+            ]
+          }
         }
       },
 
@@ -245,6 +250,10 @@ module.exports = function (grunt)
       },
 
       copy: {
+        // options: {
+        //   processContentExclude: '**/*.{png,gif,jpg,jpeg,ico,psd}'
+        // },
+
         dist: {
           files: [{
             expand: true,
