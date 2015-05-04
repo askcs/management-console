@@ -45,8 +45,6 @@ define(['controllers/controllers'], function (controllers){
       angular.forEach(monitors.data, function(monitor) {
       if (monitor.length > 1) {        
         angular.forEach(monitor, function (ch) {
-           ch.isRunning = 'ESCALATE';
-           ch.mobileMedium = 'EMAIL';
           var color = getColor(ch.isRunning);        
           var icon = getIcon(ch.mobileMedium);
 
