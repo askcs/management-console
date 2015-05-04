@@ -27,24 +27,45 @@ define(['controllers/controllers'], function (controllers){
           }
       }
 
+      function getIcon(mobileMedium) {
+        switch (mobileMedium) {
+          case 'PHONE': return '\uf095';
+          break;
+
+          case 'APP': return '\uf075';
+          break;
+
+          case 'EMAIL': return '\uf01c';
+          break;
+
+          case 'SMS': return '\uf0e0'; 
+        }
+      }
+
       angular.forEach(monitors.data, function(monitor) {
       if (monitor.length > 1) {        
         angular.forEach(monitor, function (ch) {
+           ch.isRunning = 'ESCALATE';
+           ch.mobileMedium = 'EMAIL';
           var color = getColor(ch.isRunning);        
-       
+          var icon = getIcon(ch.mobileMedium);
+
           lmonitor.push({
-            name: ch.wish+' : '+ch.name + '\n' + ch.groupName,
+            name: ch.name + '\n' + ch.groupName,
+            wish: ch.wish,
             value: color,
-            method: angular.lowercase(ch.mobileMedium)            
+            icon: icon
           });
         })
       }else{       
         var color = getColor(monitor[0].isRunning);
-       
+        var icon = getIcon(monitor[0].mobileMedium);
+
         lmonitor.push({
-          name: monitor[0].wish+' : '+monitor[0].name + '\n' +  monitor[0].groupName,
+          name: monitor[0].name + '\n' +  monitor[0].groupName,
+          wish: monitor[0].wish,
           value: color,     
-          method: angular.lowercase(monitor[0].mobileMedium)     
+          icon: icon
         });
       }
     });
@@ -113,7 +134,6 @@ define(['controllers/controllers'], function (controllers){
           .style('stroke', '#8f8f8f');        
 
         nodeEnter.append('svg:text')
-          .attr('font-family', 'font-family: "Helvetica Neue",Helvetica,Arial,sans-serif')       
           .each(function(d) {
             var lines = d.name.split('\n');
             for (var i=0; i < lines.length; i++){             
@@ -123,44 +143,48 @@ define(['controllers/controllers'], function (controllers){
                   if (d.depth == 0){
                     return '0.35em';
                   }else{
-                    return (i==0) ? '-0.35em' : '1.1em'; 
+                    return (i==0) ? '0.26em' : '1.1em'; 
                   }
                 })
-                .attr('x', function(d) { 
-                  if (d.children == null){
-                    if (i == 1){
-                      return 62;
-                    }else{
-                      return 45;
-                    }
-                  }else{
-                    return d.children || d._children ? -13 : 13; 
-                  }
+                .attr('x', function(d) {                  
+                    return d.children || d._children ? -13 : 60;                   
                 })
-                .text(lines[i]);                
+                .text(lines[i]);                               
             }
           })
           .attr('text-anchor', function(d) { return d.children || d._children ? 'end' : 'start'; })          
-          .style('font', 'normal 12px sans-serif')
           .style('fill', function(d) {
             return d.value ? d.value : '#8f8f8f';
           })
-          .style('fill-opacity', 1e-6);
 
-        nodeEnter.append('svg:image')
-        .attr('x', function(d) { return d._children ? -14 : 14; })
-        .attr('y', -12)
-        .attr('width', 20)
-        .attr('height', 20)
-        .attr("xlink:href", function(d) {
-          if (d.children == null && d.method){           
-            return '../images/'+ d.method +'.png';
-            //return 'http://www.clipartbest.com/cliparts/aiq/b5E/aiqb5EBqT.png'
-          }else{
-            return '';
-          }
+        nodeEnter.append("svg:text")  
+        .attr('class', 'icon')
+        .attr('x', function(d) {
+          return d.children || d._children ? -13 : 20; 
+        })
+        .attr('text-anchor', 'middle')
+        .attr('dominant-baseline', 'central')
+        .style('fill', function(d) {
+            return d.value ? d.value : '#8f8f8f';
+          })        
+        .style('font-size', '1.3em')
+        .text(function(d) { 
+          return d.children || d._children ? '' : d.icon ; 
         })
 
+        nodeEnter.append("svg:text")  
+        .attr('class', 'wish')
+        .attr('x', function(d) {
+          return d.children || d._children ? -13 : 43; 
+        })
+        .attr('text-anchor', 'middle')
+        .attr('dominant-baseline', 'central')
+        .style('fill', function(d) {
+          return d.value ? d.value : '#8f8f8f';
+        })
+        .style('font', 'normal 15px sans-serif')
+        .text(function(d) { return d.children || d._children ? '' : d.wish}) 
+      
         // Transition nodes to their new position.
         var nodeUpdate = node.transition()
           .duration(duration)

@@ -4,6 +4,10 @@
 /* Official bootstrap SASS */
 @import "../../app/vendors/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap";
 
+/* Font Awesome */
+$fa-font-path: "../vendors/font-awesome/fonts";
+@import "font-awesome/scss/font-awesome";
+
 /* Management Console Variables */
 @import "menuvars";
 @import "navbarvars";
