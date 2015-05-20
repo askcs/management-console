@@ -10,65 +10,80 @@ section#monitors
 
     .top-navbar-extras
         .extras-container
-            span Show inactive
-            //span State
-            select(ng-model='state', ng-options='state for state in states', ng-change='getMonitors()')    
-
-            span  Type
-            select(ng-model='type', ng-options='type for type in types', ng-change='getMonitors()')
-                option(value='') All types
-
+            .form-inline
+                span Show inactive        
+                select(ng-model='state', ng-options='state for state in states', ng-change='getMonitors()').form-control                  
+                     
+                span  Type
+                select(ng-model='type', ng-options='type for type in types', ng-change='getMonitors()').form-control
+                    option(value='') All types                
 
     .container-monitors-wrapper
         .columns
             .column-one-third.column-left
                 ul
-                    //li.active
-                        span.monitor-icon.monitor-icon-phone
-                        span.counter 1
-                        .details-container
-                            h3.name StandBy monitor bevelvoerder guard
-                            span.type Bevelvoerder
-                        .status-toggle-container
-                            span Toggle
-                    //li
-                        span.monitor-icon.monitor-icon-sms
-                        span.counter 0
-                        .details-container
-                            h3.name StandBy monitor escalatie guard
-                            span.type Escalatie
-                        .status-toggle-container
-                            span Toggle
-                    //li
-                        span.monitor-icon.monitor-icon-app
-                        span.counter 4
-                        .details-container
-                            h3.name StandBy monitor chauffeur guard
-                            span.type Chauffeur
-                        .status-toggle-container
-                            span Toggle
-                    li(ng-repeat='monitor in monitors')
-                        span.monitor-icon(ng-class="monitor.imgClass")
+                    li(ng-repeat='monitor in monitors', ng-class="{'active': $index == selectedIndex}", ng-click="loadMonitor($index, monitor)")                        
+                        span.monitor-icon.fa(ng-class="monitor.imgClass")
                         span.counter {{ monitor.wish }}
                         .details-container
                             h3.name {{ monitor.name }} 
                             span.type {{ monitor.groupName }}
                         .status-toggle-container
                             span {{ monitor.state }}
-                    
 
             .column-two-third.column-right.vertical-page-spacing-left.horizontal-page-spacing-top
-                h2 Standby monitor bevelvoerder guard
-
-                form
-                    input(type="text", placeholder="Monitor name").field-monitor-name
-                    input(type="text", placeholder="GroupA, GroupB, GroupC").field-groups
-                    textarea.wish
-                    p
-                        em ^^ Add wish-timeline here ^^
-                    input(type="text", placeholder="Frequency").field-frequency
-                    select.field-day
-                    select.field-monitortype
-                    input(type="text", placeholder="AskFastAgentUrl").field-askfastagenturl
-                    input(type="text", placeholder="AskFast escalation agent url").field-askfastescalationagenturl
-                    input(type="submit", value="Save").field-submit.field-monitor-save                    
+                h2 {{ dmonitor.name }}
+                .preloader(ng-hide='dmonitor.dataLoaded') {{ ui.monitors.loading_text }}
+                div(ng-show='dmonitor.dataLoaded')
+                form(role='form')
+                    input(type="text", placeholder="Monitor name", ng-model="dmonitor.name").field-monitor-name
+                   
+                    ui-select(multiple ng-model='groups.selectedGroup', style='width:400px;', on-remove='removeGroup($item, dmonitor.name)')
+                        ui-select-match(placeholder='Group name..') {{ $item.name }} 
+                        ui-select-choices(repeat='group in groups') 
+                            div(ng-bind-html='group.name | highlight: $select.search')
+                    .monitor-timeline
+                        #timeline
+                            .header
+                                .title Wish value
+                                .menus
+                                    span
+                                        button.btn.btn-default.btn-xs.move(type="submit")#moveLeft
+                                            span.glyphicon.glyphicon-chevron-left
+                                        button.btn.btn-default.btn-xs.move(type="submit")#moveRight
+                                            span.glyphicon.glyphicon-chevron-right
+                                        button.btn.btn-xs(ng-click='showToolbar()') {{ toolbarBtn }}
+                                .clear
+                            #toolbar(ng-show='showToolbar')                                    
+                                .form-inline
+                                    label Start
+                                     .form-group.has-feedback    
+                                        input.form-control.inputdate(type='text', ng-model='range.start.date', data-date-format='dd-MM-yyyy', data-date-type='string', bs-datepicker='', data-autoclose='1') 
+                                        i.form-control-feedback.glyphicon.glyphicon-calendar                                    
+                                    .form-group.has-feedback.has-feedback-right
+                                        input.form-control.inputtime(type='text', size='8', ng-model='range.start.time', bs-timepicker='', data-time-format='HH:mm', data-length='1', data-minute-step='1', data-arrow-behaviour='picker')
+                                        i.form-control-feedback.glyphicon.glyphicon-time                                 
+                                    label Till                                                     
+                                    .form-group.has-feedback    
+                                        input.form-control.inputdate(type='text', ng-model='range.end.date', data-date-format='dd-MM-yyyy', data-date-type='string', bs-datepicker='', data-autoclose='1') 
+                                        i.form-control-feedback.glyphicon.glyphicon-calendar 
+                                    .form-group.has-feedback 
+                                        input.form-control.inputtime(type='text', size='8', ng-model='range.end.time', bs-timepicker='', data-time-format='HH:mm', data-length='1', data-minute-step='1', data-arrow-behaviour='picker') 
+                                        i.form-control-feedback.glyphicon.glyphicon-time
+                                    label Value                                                     
+                                    .form-group    
+                                        input.form-control.inputvalue(type='text', ng-model='dmonitor.wish') 
+                                    button.btn.btn-xs(type='submit', ng-click='setWish()') {{ ui.monitors.save_label }}
+                                    button.btn.btn-xs.btn-danger Delete
+                        
+                        #timelinemain
+                            time-line(data='timeline.data', options='timeline.options', groups='timeline.groups', event='rangechanged', callback='callbackFunc(params)')            
+                    .field-frequency-container    
+                        input(type="text", placeholder="Frequency").field-frequency
+                        select(ng-model='selFrequency', ng-options='freq for freq in frequencies').field-day.form-control                            
+                    .row
+                        .col-xs-3            
+                            select(ng-model='dmonitor.mobileMedium', ng-options='type for type in types').form-control                                
+                    input(type="text", placeholder="AskFastAgentUrl", ng-model="dmonitor.askfastAgentUrl").field-askfastagenturl
+                    input(type="text", placeholder="AskFast escalation agent url", ng-model="dmonitor.askfastEscalationAgentUrl").field-askfastescalationagenturl
+                    input(type="submit", value="{{ ui.monitors.save_label }}", ng-click="saveUpdate()").field-submit.field-monitor-save                    

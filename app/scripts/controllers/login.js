@@ -3,8 +3,8 @@ define(['controllers/controllers'], function (controllers){
 
     controllers.controller ('login',
       [
-        '$scope', '$rootScope', '$q', '$location', '$timeout', 'Session', 'Storage', 'Store', '$routeParams', 'UserCall', 'md5', 'Environment', 'Monitors',
-        function($scope, $rootScope, $q, $location, $timeout, Session, Storage, Store, $routeParams, UserCall, md5, Environment, Monitors){
+        '$scope', '$rootScope', '$q', '$location', '$timeout', 'Session', 'Storage', 'Store', '$routeParams', 'UserCall', 'md5', 'Environment', 'Monitors', 'Groups',
+        function($scope, $rootScope, $q, $location, $timeout, Session, Storage, Store, $routeParams, UserCall, md5, Environment, Monitors, Groups){
           $scope.login = {};
       
           $scope.alert = {
@@ -23,7 +23,8 @@ define(['controllers/controllers'], function (controllers){
           $scope.auth = function(){
             Store('user').nuke();
             Store('environment').nuke();
-            Store('domain').nuke();
+            Store('monitors').nuke();
+            Store('network').nuke();
          
             Storage.clearAll();
             Storage.session.clearAll();
@@ -78,12 +79,16 @@ define(['controllers/controllers'], function (controllers){
               
                 progress(50);
               
-                Monitors.get().then(function (result) {
+                Monitors.query().then(function (result) {                  
                   if (result) {                    
-                    Store('domain').save('monitors', result);
+                    Store('monitors').save('monitors', result);
 
-                    progress(80);
+                    progress(70);
                   }
+
+                  Groups.query().then(function () {
+                    progress(80);
+                  });
 
                   finalize();
                 });

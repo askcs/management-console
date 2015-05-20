@@ -1,0 +1,89 @@
+#timeline{
+	width: 100%;
+	margin-bottom: 10px;
+	
+	.header{
+
+		.title{
+			float: left;
+		}
+
+		.menus{
+			float:right;
+
+			.move{
+				color: #d3d3d3;
+			}
+		}
+	}
+
+	.clear:after{
+		content: '.';
+		visibility: hidden;
+		display: block;
+		height: 0;
+		clear: both;
+	}
+
+	#toolbar{
+		background-color: #f3f3f3;
+		padding: 10px;
+		margin-top: 10px;
+		margin-bottom: 20px;
+
+		.form-group{
+			width: 115px;
+			
+			i{
+				padding-top:5px;
+				padding-right:0px;
+			}
+		}		
+
+		.inputdate{
+			height: 25px;
+			width:95%;
+			padding-left:5px;
+			padding-right:5px;
+			font-weight: normal;
+		}
+
+		.inputtime{
+			height: 25px;
+			width: 95%;
+			padding-left:5px;
+			padding-right:5px;
+		}
+
+		.inputvalue{
+			height: 25px;
+			width: 30%;
+			padding-left:10px;
+			padding-right:5px;
+		}	
+	}
+}
+
+/*
+ * Vis Custom CSS
+ **/
+ 
+.vis.timeline{
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;	
+	font-size: 12px;	
+}
+
+.vis.timeline .item{
+  background-color: #d3d3d3;  
+  border-width: 0px;
+  border-radius: 0px;
+}
+
+.vis.timeline .item.selected{
+  background-color: #b66430;
+  color: black;  
+}
+
+.vis.timeline .timeaxis .text.major{
+  font-weight: bold;
+}

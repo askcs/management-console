@@ -6,9 +6,11 @@ define(
 
         app.config(
             [
-                '$routeProvider', '$httpProvider', 'uiGmapGoogleMapApiProvider',
-                function ($routeProvider, $httpProvider, GoogleMapApi)
+                '$routeProvider', '$httpProvider', 'uiGmapGoogleMapApiProvider', 'uiSelectConfig',
+                function ($routeProvider, $httpProvider, GoogleMapApi, uiSelectConfig)
                 {
+                    uiSelectConfig.theme = 'bootstrap';
+
                     $routeProvider
                         .when('/login',
                         {

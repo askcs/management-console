@@ -31,6 +31,14 @@ define(
 				},
 				success: {
 
+				},
+				monitors: {
+					change_label: 'Change',
+					close_label: 'Close',
+					loading_text: 'Loading data ...',
+					save_label: 'Save',
+					saving_label: 'Saving ...',
+					saved_label: 'Saved'
 				}
 			},
 			nl: {

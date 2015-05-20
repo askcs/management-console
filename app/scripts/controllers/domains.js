@@ -4,7 +4,7 @@ define(['controllers/controllers'], function (controllers){
 	controllers.controller('domains', ['$scope', '$rootScope', '$location', 'Session', 'Store', 'Monitors',
 		function($scope, $rootScope, $location, Session, Store, Monitors){			
 
-			var monitors = Store('domain').get('monitors');
+			var monitors = Store('monitors').get('monitors');
      	var lmonitor = [];
      	var domain = Store('environment').get('domain');
 

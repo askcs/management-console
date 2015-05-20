@@ -36,7 +36,7 @@ define(
             },
             settings: {},
             logindata: {},
-            domain: {
+            monitors: {
               monitors: {}
             }
           };
@@ -64,6 +64,8 @@ define(
 
           //login data (Username, md5, remember state)
           $rootScope.app.logindata = Store('environment').get('logindata');
+          
+          $rootScope.app.config = config;
           
           //change language
           $rootScope.changeLanguage = function (lang) {

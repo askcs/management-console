@@ -10,8 +10,11 @@ define(
     'directives/directives',
     'angular-resource',
     'angular-md5',
-    'angular-route'
-    
+    'angular-route',
+    'angular-ui-select',
+    'angular-sanitize',
+    'angular-daterangepicker',
+    'angular-strap'
   ],
   function (angular)
   {
@@ -24,7 +27,12 @@ define(
         'ngResource',
         'ngRoute',
         'ngMd5',
-        'uiGmapgoogle-maps'
+        'uiGmapgoogle-maps',
+        'ui.select',
+        'ngSanitize',
+        'daterangepicker',
+        'mgcrea.ngStrap'
+        //'ngVis'
       ]);
   }
 );

@@ -49,26 +49,8 @@
           float: left;
           width: 40px;
           height: 40px;
-        }
-
-        .monitor-icon-phone{
-           //background: url('phone.png') center left no-repeat; // TODO: Put in the correct icon
-           background: url('../images/phone.png') center left no-repeat;
-         }
-
-        .monitor-icon-sms{
-          //background: url('sms.png') center left no-repeat; // TODO: Put in the correct icon
-          background: url('../images/sms.png') center left no-repeat;
-        }
-
-        .monitor-icon-app{
-          //background: url('app.png') center left no-repeat; // TODO: Put in the correct icon
-          background: url('../images/app.png') center left no-repeat;
-        }
-
-        .monitor-icon-email{
-          //background: url('app.png') center left no-repeat; // TODO: Put in the correct icon
-          background: url('../images/email.png') center left no-repeat;
+          font-size: 2.1em;          
+          padding-top:5px;
         }        
 
         span.counter{
@@ -110,29 +92,21 @@
           background-color: #FFFFFF; /* Mockup styles */
           border: 1px solid #b66430;
           text-align: center;
-          line-height: 30px;
+          line-height: 30px;          
         }
 
       }
 
       li.active{
         background-color: #FFF;
-        border-right: none;
-
-        .monitor-icon-phone{
-          //background: url('phone_orangebrown.png') center left no-repeat; // TODO: Put in the correct icon
-        }
-
-        .monitor-icon-sms{
-          //background: url('sms_orangebrown.png') center left no-repeat; // TODO: Put in the correct icon
-        }
-
-        .monitor-icon-app{
-          //background: url('app_orangebrown.png') center left no-repeat; // TODO: Put in the correct icon
-        }
+        border-right: none;       
 
         span.counter{
           border: 1px solid #bc713f;
+          color: #b66430;
+        }
+
+        .monitor-icon {
           color: #b66430;
         }
       }
@@ -140,14 +114,60 @@
     }
 
     form{
-
       input,select{
         display: block;
         margin: 10px 0;
+      }  
+      
+      .field-monitor-name{
+        width: 60%;
+      }
+      
+      .field-groups{
+        width: 60%;
+      }
+
+      .field-askfastagenturl{
+        width: 60%;
+      }
+
+      .field-askfastescalationagenturl{
+        width: 60%;
+      }
+
+      .field-monitortype{
+        width: 30%;
+      }
+
+      .field-frequency-container{       
+        width: 100%;
+
+        .field-frequency{
+          display: inline-block;
+          margin-right: 15px;
+          width:20%;
+        }
+
+        .field-day{
+          display: inline-block;
+          width:15%;
+        }
+      }
+
+      .monitor-timeline{
+        width: 95%;
+        display: block;
+        padding: 10px 10px;
+        border: 1px solid #b6b5b5;
+        margin-top: 10px;
+        color: #b6b5b5;        
       }
 
     }
 
   }
+}
 
+.preloader{
+  color: #b6b5b5;
 }
