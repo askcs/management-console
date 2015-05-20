@@ -82,7 +82,6 @@ require (
     'controllers/profile',
     'controllers/domain-information',
     'controllers/monitors',
-    'controllers/timeline',
     'directives/appVersion',
     'directives/timeline',
     'filters/interpolate',
