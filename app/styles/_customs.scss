@@ -1,7 +1,7 @@
 /* General page styles */
 html, body {
   height: 100%;
-  padding: 0;
+  padding: 0px;
   margin: 0;
 }
 
@@ -92,6 +92,8 @@ body {
 #content{
   width: 100%;
   padding-left: $mainMenuWidth;
+  overflow-y:auto;
+  overflow-x:hidden;
 }
 
 /* General menu's hover background fix (override Bootstrap) */
@@ -137,4 +139,24 @@ body {
       height: 65px;
     }
   }
+}
+
+/*
+ * UI Select
+ */
+.ui-select-multiple.ui-select-bootstrap input.ui-select-search { 
+  padding-top:3px;
+  padding-bottom:3px;
+}
+
+.has-feedback .form-control-feedback {
+    position: absolute;
+    top: 0px;
+    right: 5px;
+    display: block;
+    width: 34px;
+    height: 34px;
+    line-height: 34px;
+    text-align: center;
+    margin-bottom: -20px;
 }

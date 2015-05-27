@@ -31,13 +31,13 @@
 
 }
 
-.top-navbar-extras{
-  background-color: #f3f3f3;
+.top-navbar-extras{    
+  background-color: #f3f3f3;  
   border-bottom: 1px solid #b1b1b1;
   height: $top-navbar-extras-height;
   width: 100%;
   padding: 0 20px;
-
+    
   h3{
     display: inline-block;
     padding-right: 25px;
@@ -51,7 +51,7 @@
   .extras-container{
     height: $top-navbar-extras-height;
     display: table-cell;
-    vertical-align: middle;
+    vertical-align: middle;    
   }
 
 }

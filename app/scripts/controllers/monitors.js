@@ -123,6 +123,19 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 				}
 			}
 
+			$scope.onSelect = function (items) {
+				/*if (items.items[0] === 1) {
+					$scope.toolbarBtn = $rootScope.ui.monitors.close_label;
+					angular.element('#toolbar').show();
+					$scope.$apply();
+				}*/
+				console.log(items);
+			}
+
+			function contentUpdate(item, callback) {
+				alert('update' + angular.toJson(item));
+			}
+
 			function selectMonitor (monitor) {	
 				angular.element('#toolbar').hide();						
 				$scope.toolbarBtn = $rootScope.ui.monitors.change_label;
@@ -159,7 +172,7 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 			  	end: current.end
 			  }
 
-			  var wish_once = {id: 0, 
+			  var wish_once = {id: monitor.name, 
 			  	group:0, 
 			  	content: '', 
 			  	start: current.start, 
@@ -178,23 +191,27 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 			      return a.value - b.value;
 			    },
 			    min: current.start,
-			    max: current.end
+			    max: current.end,
+			    onUpdate: contentUpdate
 				};
 
 				$scope.timeline = {
 					data: data,
 					options: options,
-					groups: groups					
+					groups: groups,
+					events: {
+						select: $scope.onSelect
+					}					
 				}
 				
 				$scope.range = {
 					start: {
 						date: moment(current.start).format('DD-MM-YYYY'),
-						time: ''
+						time: new Date(current.start).toString('HH:mm')
 					},
 					end: {
 						date: moment(current.end).format('DD-MM-YYYY'),
-						time: ''
+						time: new Date(current.end).toString('HH:mm')
 					}
 				}
 			}			
@@ -277,6 +294,10 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 						})
 					})
 				})	
+			}
+
+			$scope.callbackFunc = function(params) {
+				$window.alert( angular.toJson(params));
 			}
 			
 		}		

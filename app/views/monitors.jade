@@ -9,7 +9,7 @@ section#monitors
                 input(type="button", value="New Monitor").button-create-monitor
 
     .top-navbar-extras
-        .extras-container
+        .extras-container.table-cell
             .form-inline
                 span Show inactive        
                 select(ng-model='state', ng-options='state for state in states', ng-change='getMonitors()').form-control                  
@@ -48,9 +48,9 @@ section#monitors
                                 .title Wish value
                                 .menus
                                     span
-                                        button.btn.btn-default.btn-xs.move(type="submit")#moveLeft
+                                        //button.btn.btn-default.btn-xs.move(type="submit")#moveLeft
                                             span.glyphicon.glyphicon-chevron-left
-                                        button.btn.btn-default.btn-xs.move(type="submit")#moveRight
+                                        //button.btn.btn-default.btn-xs.move(type="submit")#moveRight
                                             span.glyphicon.glyphicon-chevron-right
                                         button.btn.btn-xs(ng-click='showToolbar()') {{ toolbarBtn }}
                                 .clear
@@ -74,16 +74,15 @@ section#monitors
                                     .form-group    
                                         input.form-control.inputvalue(type='text', ng-model='dmonitor.wish') 
                                     button.btn.btn-xs(type='submit', ng-click='setWish()') {{ ui.monitors.save_label }}
-                                    button.btn.btn-xs.btn-danger Delete
+                                    //button.btn.btn-xs.btn-danger Delete
                         
                         #timelinemain
-                            time-line(data='timeline.data', options='timeline.options', groups='timeline.groups', event='rangechanged', callback='callbackFunc(params)')            
-                    .field-frequency-container    
+                            time-line(data='timeline.data', options='timeline.options', groups='timeline.groups', events='timeline.events', callback='callbackFunc(params)')            
+                    //.field-frequency-container    
                         input(type="text", placeholder="Frequency").field-frequency
                         select(ng-model='selFrequency', ng-options='freq for freq in frequencies').field-day.form-control                            
-                    .row
-                        .col-xs-3            
-                            select(ng-model='dmonitor.mobileMedium', ng-options='type for type in types').form-control                                
+                             
+                    select(ng-model='dmonitor.mobileMedium', ng-options='type for type in types').form-control.field-mobilemedium                                
                     input(type="text", placeholder="AskFastAgentUrl", ng-model="dmonitor.askfastAgentUrl").field-askfastagenturl
                     input(type="text", placeholder="AskFast escalation agent url", ng-model="dmonitor.askfastEscalationAgentUrl").field-askfastescalationagenturl
                     input(type="submit", value="{{ ui.monitors.save_label }}", ng-click="saveUpdate()").field-submit.field-monitor-save                    

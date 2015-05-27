@@ -2,35 +2,38 @@ extends layout
 
 block navbar
   .navbar.bs-docs-nav
-    //a.navbar-brand.navbar-icon.navbar-icon-management-console(href='#/home', title='Home')
     a.navbar-brand.navbar-icon.navbar-icon-management-console(href='#/domains', title='domains')
     ul.nav.navbar-nav
+      //li
+        a.navbar-icon.navbar-icon-management-console(href='#/domains', title='Domains')
       li
         a.navbar-icon.navbar-icon-domain-overview(href='#/domains', title='Domain overview')
       li
         a.navbar-icon.navbar-icon-domain-information(href='#/domain-information', title='Domain information')
-      li
+      //li
         a.navbar-icon.navbar-icon-logs(href='#/logs', title='Logs')
       li
         a.navbar-icon.navbar-icon-monitors(href='#/monitors', title='Monitors')
-      li
+      //li
         a.navbar-icon.navbar-icon-channels(href='#/channels', title='Channels')
-      li
+      //li
         a.navbar-icon.navbar-icon-settings(href='#/settings', title='Settings')
 
 block topbar
-    .topbar.bs-docs-nav
-        h1 Management Console
-        ul.nav.navbar-nav
-            li.domain-selector
-                select.form-field-domain-selector
-                    option(value='standby') StandBy
-                    option(value='standby-test') StandBy Test
-                    option(value='standby-dev') StandBy Dev
-            li.username
-                a(href='#/profile', title='User profile') {{ app.resources.name }}
-            li.logout
-                a.navbar-icon.navbar-icon-logout(href='#/logout', title='Logout') Logout
+    .topbar.bs-docs-nav.navbar.navbar-default
+      .navbar-header
+        button.navbar-toggle(data-toggle='collapse', data-target='#mc-navbar-collapse')
+          span.sr-only Toggle navigation
+          span.icon-bar
+          span.icon-bar
+          span.icon-bar        
+        h1.pull-left Management Console
+      #mc-navbar-collapse.collapse.navbar-collapse
+        ul.nav.navbar-nav        
+          li.username
+            a(href='#/domains', title='') {{ app.resources.name }}
+          li.logout
+            a.navbar-icon.navbar-icon-logout(href='#/logout', title='Logout') Logout
 
 block footer
   footer
