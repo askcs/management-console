@@ -71,9 +71,10 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 				return monitorsList;
 			}
 
-			$scope.getMonitors = function() {				
+			$scope.getMonitors = function() {												
 				if ($scope.state) {					
 					$scope.monitors = getMonitorsFilter($scope.state, $scope.type);
+					$scope.selectedIndex = -1;
 				}
 			}
 
