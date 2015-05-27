@@ -9,9 +9,9 @@ section#login
                 div.managementconsole-icon
                 h3 Management Console
             .login-section-error
-                div.panel-error-icon
-                p.text-center(ng-show="alert.login.display")
-                    {{ alert.login.message }}
+                .alert(class='{{alert.login.type}}', ng-show='alert.login.display')
+                    button.close(type='button', ng-click='alert.login=false') × 
+                    | {{ alert.login.message }}               
             .login-section-body
                 form(role='form')
                     input(type='text',

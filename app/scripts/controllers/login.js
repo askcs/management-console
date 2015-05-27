@@ -10,6 +10,7 @@ define(['controllers/controllers'], function (controllers){
           $scope.alert = {
               login: {
                 display: false,
+                type:'',
                 message: ''
               }
           };          
@@ -33,6 +34,7 @@ define(['controllers/controllers'], function (controllers){
               $scope.alert = {
                 login: {
                   display: true,
+                  type: 'alert-danger',
                   message: $rootScope.ui.login.alert_fillfiled
                 }
               }
@@ -50,19 +52,20 @@ define(['controllers/controllers'], function (controllers){
             authenticate($scope.logindata.username, $scope.logindata.password);
           };
 
-          function authenticate(uuid, pass){
-
+          function authenticate(uuid, pass){           
             UserCall.login(uuid, pass).then(function (result){
               if (result.error && result.error.status){
+                
                 $scope.alert = {
                   login:{
                     display:true,
+                    type: 'alert-danger',
                     message:(result.error.status == 400 ||
                       result.error.status == 403 ||
                       result.error.status == 404) ?
                       'Wrong username or password!' : 'There has been an error with your login!'
                   }
-                }
+                }                
                 return false;
           
               }else{

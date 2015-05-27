@@ -92,8 +92,7 @@ body {
 #content{
   width: 100%;
   padding-left: $mainMenuWidth;
-  overflow-y:auto;
-  overflow-x:hidden;
+  overflow-y:auto;  
 }
 
 /* General menu's hover background fix (override Bootstrap) */
