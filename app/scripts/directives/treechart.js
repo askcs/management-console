@@ -5,8 +5,7 @@ define(['directives/directives', 'd3'], function(directives, d3) {
 		return{
 			restrict: 'E',
 			scope: {
-				data: '=data',
-				vbWidth: '='
+				data: '=data'
 			},
 			link: function (scope, element, attr) {
 				var m = [20, 20, 50, 120],
