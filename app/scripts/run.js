@@ -11,6 +11,9 @@ define(
         {
           $rootScope.$on('$routeChangeStart', function (event, next, current)
           {
+             if (!Session.check()){
+              $location.path('/login');
+            }
             // Remove this lines on production, eye-candy purple background for the home/splash page
             //($location.path() == '/home') ? $('body').addClass('bs-docs-home') : $('body').removeClass('bs-docs-home');
           });
