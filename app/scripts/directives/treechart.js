@@ -11,13 +11,14 @@ define(['directives/directives', 'd3'], function(directives, d3) {
 				var m = [20, 20, 50, 120],
 	        w = 1100 - m[1] - m[3],
 	        h = 980 - m[0] - m[2],
-	        i =0,
-	        root,
+	        i =0,	
 	        vbWidth = attr.vbWidth || 820,
 	        vbHeight = attr.vbHeight || 960;
 
+        var root;
+
 	      var tree = d3.layout.tree()
-          .separation(function(a, b) { return a.parent == b.parent ? 1 : 2 })
+          .separation(function(a, b) { return a.parent === b.parent ? 1 : 2 })
           .size([h,w]);
 
         var diagonal = d3.svg.diagonal()
@@ -43,13 +44,6 @@ define(['directives/directives', 'd3'], function(directives, d3) {
 
 				zoomListener(vis);*/
 
-		    function toggleAll(d) {
-	        if (d.children) {
-	          d.children.forEach(toggleAll);
-	          toggle(d);
-	        }
-	      }
-
 	      // Toggle children.
 	      function toggle(d) {
 	        if (d.children) {
@@ -71,7 +65,7 @@ define(['directives/directives', 'd3'], function(directives, d3) {
         	nodes.forEach(function(d) { d.y = d.depth * 225; });
 
         	//declare the nodes
-        	var node = vis.selectAll("g.node")
+        	var node = vis.selectAll('g.node')
           .data(nodes, function(d) { return d.id || (d.id = ++i); });
 
           //enter any new nodes at the parent previous position
@@ -79,7 +73,7 @@ define(['directives/directives', 'd3'], function(directives, d3) {
           .attr('class', 'node')
           .attr('transform', function(d) {
             return 'translate(' + source.y0 + ',' + source.x0 + ')'; })
-          .on('click', function(d) { toggle(d); update(d); });
+          .on('click', function(d) { toggle(d); scope.update(d); });
 
           nodeEnter.append('svg:circle')
           .attr('r', 1e-6)
@@ -110,7 +104,7 @@ define(['directives/directives', 'd3'], function(directives, d3) {
             return d.value ? d.value : '#8f8f8f';
           })
 
-          nodeEnter.append("svg:text")  
+          nodeEnter.append('svg:text')  
 	        .attr('class', 'icon')
 	        .attr('x', function(d) {
 	          return d.children || d._children ? -13 : 20; 
@@ -125,7 +119,7 @@ define(['directives/directives', 'd3'], function(directives, d3) {
 	          return d.children || d._children ? '' : d.icon ; 
 	        })
 
-	        nodeEnter.append("svg:text")  
+	        nodeEnter.append('svg:text')  
 	        .attr('class', 'wish')
 	        .attr('x', function(d) {
 	          return d.children || d._children ? -13 : 43; 
@@ -136,56 +130,56 @@ define(['directives/directives', 'd3'], function(directives, d3) {
 	          return d.value ? d.value : '#8f8f8f';
 	        })
 	        .style('font', 'normal 15px sans-serif')
-	        .text(function(d) { return d.children || d._children ? '' : d.wish})
+	        .text(function(d) { return d.children || d._children ? '' : d.wish});
 
 					// Transition nodes to their new position.
         	var nodeUpdate = node.transition()
           .duration(duration)
-          .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
+          .attr('transform', function(d) { return 'translate(' + d.y + ',' + d.x + ')'; });
 
-        	nodeUpdate.select("circle")
-          .attr("r", 4.5)
-          .style("fill", function(d) { return d._children ? "#8f8f8f" : "#fff"; })       
+        	nodeUpdate.select('circle')
+          .attr('r', 4.5)
+          .style('fill', function(d) { return d._children ? '#8f8f8f' : '#fff'; });       
 
-        	nodeUpdate.select("text")
-          .style("fill-opacity", 1);
+        	nodeUpdate.select('text')
+          .style('fill-opacity', 1);
 
           // Transition exiting nodes to the parent's new position.
         	var nodeExit = node.exit().transition()
           .duration(duration)
-          .attr("transform", function(d) { return "translate(" + source.y + "," + source.x + ")"; })
+          .attr('transform', function(d) { return 'translate(' + source.y + ',' + source.x + ')'; })
           .remove();
 
-        	nodeExit.select("circle")
-          .attr("r", 1e-6);
+        	nodeExit.select('circle')
+          .attr('r', 1e-6);
 
-        	nodeExit.select("text")
-          .style("fill-opacity", 1e-6);
+        	nodeExit.select('text')
+          .style('fill-opacity', 1e-6);
 
           // Update the links…
-        	var link = vis.selectAll("path.link")
+        	var link = vis.selectAll('path.link')
           .data(tree.links(nodes), function(d) { return d.target.id; });
 
         	// Enter any new links at the parent's previous position.
-        	link.enter().insert("svg:path", "g")
-          .attr("class", "link")                   
-          .attr("d", function(d) {
+        	link.enter().insert('svg:path', 'g')
+          .attr('class', 'link')                   
+          .attr('d', function(d) {
             var o = {x: source.x0, y: source.y0};
               return diagonal({source: o, target: o});
             })
           .transition()
           .duration(duration)
-          .attr("d", diagonal);
+          .attr('d', diagonal);
 
         	// Transition links to their new position.
         	link.transition()
           .duration(duration)
-          .attr("d", diagonal);
+          .attr('d', diagonal);
 
         	// Transition exiting nodes to the parent's new position.
         	link.exit().transition()
           .duration(duration)
-          .attr("d", function(d) {
+          .attr('d', function(d) {
             var o = {x: source.x, y: source.y};
               return diagonal({source: o, target: o});
             })
