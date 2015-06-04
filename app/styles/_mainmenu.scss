@@ -21,12 +21,15 @@
 
 /* Mainmenu items */
 .navbar li{
-
   border-bottom: 1px solid #FFFFFF;
 
   &:hover{
     background-color: #b66430;
   }
+}
+
+.navbar li.active{
+  background-color: #b66430;
 }
 
 /* Top left menu item (Brand/Home) */
@@ -50,5 +53,5 @@
 }
 
 .navbar-icon-management-console{
-    background: url('../images/mancon-logo.png') center center no-repeat;  
+  background: url('../images/mancon-logo.png') center center no-repeat;    
 }

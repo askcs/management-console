@@ -1,19 +1,20 @@
 extends layout
 
 block navbar
-  .navbar.bs-docs-nav
+  .navbar.bs-docs-nav(bs-navbar='')
     a.navbar-brand.navbar-icon.navbar-icon-management-console(href='#/domains', title='domains')
-    ul.nav.navbar-nav
-      //li
-        a.navbar-icon.navbar-icon-management-console(href='#/domains', title='Domains')
-      li
-        a.navbar-icon.navbar-icon-domain-overview(href='#/domains', title='Domain overview')
-      li
-        a.navbar-icon.navbar-icon-domain-information(href='#/domain-information', title='Domain information')
+    ul.nav.navbar-nav    
+      li(data-match-route='/domains')
+        a.navbar-icon(href='#/domains', title='Domain overview')
+          img(ng-src='../images/shades-icon.png')
+      li(data-match-route='/domain-information')
+        a.navbar-icon(href='#/domain-information', title='Domain information')
+          img(ng-src='../images/domain-icon.png')
       //li
         a.navbar-icon.navbar-icon-logs(href='#/logs', title='Logs')
-      li
-        a.navbar-icon.navbar-icon-monitors(href='#/monitors', title='Monitors')
+      li(data-match-route='/monitors')
+        a.navbar-icon(href='#/monitors', title='Monitors')
+          img(ng-src='../images/monitors-icon.png')
       //li
         a.navbar-icon.navbar-icon-channels(href='#/channels', title='Channels')
       //li
@@ -33,7 +34,7 @@ block topbar
           li.username
             a(href='#/domains', title='') {{ app.resources.name }}
           li.logout
-            a.navbar-icon.navbar-icon-logout(href='#/logout', title='Logout') Logout
+            a.navbar-icon.navbar-icon-logout(href='#/logout', title='Logout')
 
 block footer
   footer
