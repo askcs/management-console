@@ -8,36 +8,40 @@ define(['directives/directives', 'vis', 'moment'], function (directives, vis, mo
 				data: '=data',
 				options: '=options',
 				groups: '=groups',
-				event: '@event',
-				callback: '&'
+				events: '=events'
 			},
 			link: function (scope, element, attr) {
 				var timeline = null;
+				var timelineEvents = [
+					'select'
+				]				
 
-				var createTimeline = function(scope) {					
+				scope.$watch('data', function() {					
+					if (timeline) {
+						timeline.destroy();
+					}
+
 					var dataSet = new vis.DataSet(scope.data);
 					var groupsSet = new vis.DataSet(scope.groups);
 
 					console.log(dataSet);
 
 					timeline = new vis.Timeline(element[0], dataSet, scope.options);		
-					timeline.setGroups(groupsSet);				
+					timeline.setGroups(groupsSet);
 
-					return timeline.on(scope.event, function (properties) {
-						if (properties.length !== 0) {
-							scope.callback({params: properties});
+					_.each(scope.events, function(callback, event) {
+						if (timelineEvents.indexOf(String(event)) >= 0) {
+							timeline.on(event, callback);
 						}
 					});
-				};
 
-				scope.$watch('data', function(newVal, oldVal) {					
-					if (timeline) {
-						timeline.destroy();
+					if (scope.events != null && scope.events.onload != null && angular.isFunction(scope.events.onload)) {
+						scope.events.onload(timeline);
+						
 					}
-					createTimeline(scope);
-				}, true);
-				
-			}			
+				}, true);				
+			}
+
 		}
 	})
 })

@@ -28,6 +28,11 @@ define(['services/services', 'config'], function (services, config) {
 			wish: {
 				method: 'PUT',
 				params: { first: 'wish' }
+			},
+			wishes: {
+				method: 'GET',
+				params: { first: 'wish', start:'', end:'' },
+				isArray: true
 			}
 		});
 
@@ -146,6 +151,27 @@ define(['services/services', 'config'], function (services, config) {
 
 			return deferred.promise;
 		}		
+
+		Monitors.prototype.getWishes = function (options) {
+			var deferred = $q.defer(),
+				params = {
+					uuid:options.uuid,
+					start: options.start,
+					end: options.end
+				};
+			
+			Monitor.wishes(
+				params, 
+				function (result) {
+					deferred.resolve(result);
+				},
+				function(error) {
+					deferred.resolve({error: error});
+				}
+			);
+			
+			return deferred.promise;
+		}
 
 		return new Monitors();
 	}]);

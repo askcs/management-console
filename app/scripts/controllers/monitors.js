@@ -4,9 +4,15 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 	controllers.controller('monitors', 
 		['$rootScope', '$scope', 'Monitors', 'Store', 'Groups', '$filter', 'moment', '$window', '$timeout', 
 		function($rootScope, $scope, Monitors, Store, Groups, $filter, moment, $window, $timeout) {
-
+			
 			var monitors = Store('monitors').get('monitors');			
 			$scope.groups = Store('network').get('groups');
+
+			var current = {
+			  start: moment({ hour:0, minute:0 }).weekday(1).unix()*1000,
+			 	end: moment({ hour:0, minute:0 }).weekday(8).unix()*1000
+			},
+			itemGroup;
 
 			$scope.types = ['PHONE', 'SMS', 'APP', 'EMAIL'];
 			$scope.type = {name: 'type', value:'All types'};
@@ -101,47 +107,107 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 
 			$scope.loadMonitor = function (index, monitor) {
 				$scope.selectedIndex = index;	
-				$scope.dmonitor.dataLoaded = false;
-				
+				$scope.dmonitor.dataLoaded = false;			
+
+				var options = {
+					uuid: monitor.name,
+					start: current.start/1000,
+					end: current.end/1000
+				}
+
 				Monitors.get(monitor.name).then(function (result) {
 					if (result)	{
 						Store('monitors').save('monitor.'+monitor.name, result.data);
-						$scope.dmonitor = Store('monitors').get('monitor.'+monitor.name);
-						$scope.dmonitor.dataLoaded = true;
+						
+						Monitors.getWishes(options).then(function (wishes) {
+							$scope.wishes = wishes;
+							
+							$scope.dmonitor = Store('monitors').get('monitor.'+monitor.name);
+							$scope.dmonitor.dataLoaded = true;
 												
-						selectMonitor($scope.dmonitor);	
+							selectMonitor($scope.dmonitor);	
+						});						
 					}
 				});				
 			}
 
 			$scope.showToolbar = function () {				
-				if ($scope.toolbarBtn == 'Change') {
-					angular.element('#toolbar').show();
-					$scope.toolbarBtn = $rootScope.ui.monitors.close_label;
-				}else {
-					angular.element('#toolbar').hide();
-					$scope.toolbarBtn = $rootScope.ui.monitors.change_label;
+				angular.element('#toolbar').show();
+				$scope.toolbarBtn = $rootScope.ui.monitors.close_label;
+			}						
+
+			$scope.hideToolbar = function () {
+				angular.element('.menus').hide();				
+				angular.element('#toolbar').hide();				
+			}			
+
+			function timeline(wishes) {				
+				var groups = [
+			    {id: 'event', content: 'Event', title: 'wish'},
+			    {id: 'weekly', content: 'Weekly', title: 'wish'},			    
+			  ];			 
+
+			  var wish_weekly = {
+				  	group:'weekly',			  	
+				  	start: current.start,
+				  	end: current.end,
+				  	type: 'background'
+				  },
+				  data = [],
+				  item;			 
+
+			  //check weekly and event timeline
+			  _.each(wishes, function (wish) {
+			  	var occurence = wish.value.split('"');			  	
+			  	if (occurence[1] === 'weekly') {
+			  		wish_weekly.type = 'range';
+			  		angular.extend(wish_weekly, { id: wish.idx, content: occurence[3] });
+			  	}else{
+			  		if (occurence[1] === 'event') {
+			  			item = {
+			  				id: wish.idx, 
+						  	group:'event', 			  	
+						  	start: wish.start,
+						  	end: wish.end,
+						  	type: 'range',
+						  	content: occurence[3]
+			  			}
+			  			data.push(item);			  			
+			  		}
+			  	}
+			  })			 
+
+				data.push(wish_weekly);
+			  
+			  //timeline options
+			  var options = {					
+					orientation: 'top',
+					editable: {
+				    add: true,         
+				    updateTime: true,  
+				    updateGroup: false, 
+				    remove: false       
+				  },
+					stack: true,
+					locale: 'en',
+					groupOrder: function (a, b) {
+			      return a.value - b.value;
+			    },
+			    min: current.start,
+			    max: current.end			    
+				};
+
+				return $scope.timeline = {
+					data: data,
+					options: options,
+					groups: groups,
+					events: {
+						select: $scope.onSelect
+					}					
 				}
 			}
 
-			$scope.onSelect = function (items) {
-				/*if (items.items[0] === 1) {
-					$scope.toolbarBtn = $rootScope.ui.monitors.close_label;
-					angular.element('#toolbar').show();
-					$scope.$apply();
-				}*/
-				console.log(items);
-			}
-
-			function contentUpdate(item, callback) {
-				alert('update' + angular.toJson(item));
-			}
-
-			function selectMonitor (monitor) {	
-				angular.element('#toolbar').hide();						
-				$scope.toolbarBtn = $rootScope.ui.monitors.change_label;
-				angular.element('.menus').show();
-
+			function selectMonitor (monitor) {								
 				if (!angular.element('#timelinemain').is(':visible')) {
 					angular.element('#timelinemain').show();
 				}
@@ -155,67 +221,50 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 				})
 				$scope.groups.selectedGroup = selectedGroup;				
 
-				var groups = [
-			    {id: 0, content: ' ', title: 'wish'},
-			    {id: 1, content: ' ', title: 'wish'},			    
-			  ];
+				//timeline
+				timeline($scope.wishes);
+			}					
 
-			  var current = {
-			  	start: moment({ hour:0, minute:0 }).weekday(1).unix()*1000,
-			  	end: moment({ hour:0, minute:0 }).weekday(8).unix()*1000
-			  }
+			$scope.onSelect = function (id) {				
+				var item = $filter('filter')($scope.timeline.data, { id: id.items[0] }, true);								
+				angular.element('#delete').hide();
 
-			  var wish_weekly = {
-			  	id: 1,
-			  	group:1,
-			  	content: monitor.wish,
-			  	start: current.start,
-			  	end: current.end
-			  }
+				//get timeline item id
+				$scope.idx = id.items[0];
 
-			  var wish_once = {id: monitor.name, 
-			  	group:0, 
-			  	content: '', 
-			  	start: current.start, 
-			  	end: current.end, 
-			  	type: 'background'
-			  }
+				$scope.$apply(
+					function () {
+						$scope.toolbarBtn = $rootScope.ui.monitors.close_label;
 
-				var data = [ wish_once, wish_weekly ];
-			  
-			  var options = {					
-					orientation: 'top',
-					editable: true,
-					stack: false,
-					locale: 'en',
-					groupOrder: function (a, b) {
-			      return a.value - b.value;
-			    },
-			    min: current.start,
-			    max: current.end,
-			    onUpdate: contentUpdate
-				};
+						$scope.wish = item[0].content;
 
-				$scope.timeline = {
-					data: data,
-					options: options,
-					groups: groups,
-					events: {
-						select: $scope.onSelect
-					}					
-				}
-				
-				$scope.range = {
-					start: {
-						date: moment(current.start).format('DD-MM-YYYY'),
-						time: new Date(current.start).toString('HH:mm')
-					},
-					end: {
-						date: moment(current.end).format('DD-MM-YYYY'),
-						time: new Date(current.end).toString('HH:mm')
+						$scope.range = {
+							start: {
+								date: item[0].start,
+								time: new Date(item[0].start).toString('HH:mm')
+							},
+							end: {
+								date: item[0].end,
+								time: new Date(item[0].end).toString('HH:mm')
+							}
+						}
 					}
+				);
+
+				angular.element('.menus').show();
+				angular.element('#toolbar').show();				
+
+				if (item[0].group === 'weekly') {
+					angular.element('#delete').show();
+					itemGroup = 'weekly';
+					angular.element('.inputdate').attr('disabled', 'disabled');
+					angular.element('.inputtime').attr('disabled', 'disabled');				
+				}else{
+					itemGroup = 'event';
+					angular.element('.inputdate').removeAttr('disabled');
+					angular.element('.inputtime').removeAttr('disabled');
 				}
-			}			
+			}
 
 			$scope.removeGroup = function (item, monitor){				
 				Monitors.deleteGroup(monitor, item.uuid)
@@ -228,16 +277,29 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 			$scope.setWish = function () {	
 				angular.element('#monitors button[type=submit]').text($rootScope.ui.monitors.saving_label).attr('disabled', 'disabled');
 
-				var range = {
-					start: moment({ hour:0, minute:0 }).weekday(1).unix()*1000,
-					end: moment({ hour:0, minute:0 }).weekday(8).unix()*1000
-				}
-				
-				var wish = {
-					start: range.start,
-					end: range.end,
-					wish: $scope.dmonitor.wish,
-					occurence: 'ONCE'
+				var wish;
+			
+				if (itemGroup === 'event'){
+					wish = {
+						wish: $scope.wish,
+						start: Date.parse($scope.range.start.time),
+						end: Date.parse($scope.range.end.time),
+						occurence: 'ONCE'
+					}										
+				}else{
+					wish = {
+						wish: $scope.wish,
+						start: current.start,
+						end: current.end,
+						occurence: 'WEEKLY'				
+					}
+				}			
+
+				//set options to get the new wishes
+				var options = {
+					uuid: $scope.dmonitor.name,
+					start: current.start/1000,
+					end: current.end/1000
 				}
 				
 				Monitors.setWish($scope.dmonitor.name, wish)
@@ -245,8 +307,14 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 					Monitors.query().then(function (monitors) {
 						if (monitors) {
 							Store('monitors').save('monitors', monitors);
+							
+							Monitors.getWishes(options).then(function (wishes) {
+								$scope.wishes = wishes;
+								console.log($scope.wishes);
+								timeline($scope.wishes);
 
-							angular.element('#monitors button[type=submit]').text($rootScope.ui.monitors.save_label).removeAttr('disabled');
+								angular.element('#monitors button[type=submit]').text($rootScope.ui.monitors.save_label).removeAttr('disabled');								
+							})
 						}
 					})
 				})
@@ -297,10 +365,6 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 				})	
 			}
 
-			$scope.callbackFunc = function(params) {
-				$window.alert( angular.toJson(params));
-			}
-			
 		}		
 	]);
 });
