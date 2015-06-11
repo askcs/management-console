@@ -39,7 +39,44 @@ define(['directives/directives', 'vis', 'moment'], function (directives, vis, mo
 						scope.events.onload(timeline);
 						
 					}
-				}, true);				
+				}, true);
+
+				scope.$watchCollection('options', function (options) {
+					if (timeline == null) {
+						return;
+					}
+					timeline.setOptions(options);
+				});				
+
+				//navigation menus
+				document.getElementById('moveRight').onclick = function () { move(-1); }
+				document.getElementById('moveLeft').onclick = function () { move(1); }				
+							
+				function move (percentage) {
+		      var range = timeline.getWindow();
+		      var interval = range.end - range.start;
+		      
+					if (interval <= 60*60*24*7*1000)  {
+						interval = 60*60*24*7*1000;
+					}
+					
+					var newStart = moment(range.start.valueOf() - interval * percentage).startOf('isoWeek').unix()*1000;
+					var newEnd = moment(range.start.valueOf() - interval * percentage).endOf('isoWeek').unix()*1000;
+
+					scope.options.min = newStart;
+					scope.options.max = newEnd;
+
+		      timeline.setWindow({
+            start: newStart, 
+            end: newEnd 
+        	});		      
+
+		      timeline.setOptions({
+		       	min: newStart,
+		       	max: newEnd
+		      });
+		    }
+
 			}
 
 		}

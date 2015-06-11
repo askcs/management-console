@@ -26,8 +26,8 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 
 			$scope.selectedIndex = -1;
 			
-			$scope.frequencies = ['Day'];
-			$scope.selFrequency = $scope.frequencies[0];
+			$scope.frequencies = ['Day', 'Week', 'Month'];
+			$scope.selFrequency = $scope.frequencies[1];
 			$scope.loaded = false;
 
 			angular.element('#timelinemain').hide();
@@ -132,36 +132,38 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 			}
 
 			$scope.showToolbar = function () {				
-				angular.element('#toolbar').show();
-				$scope.toolbarBtn = $rootScope.ui.monitors.close_label;
-			}						
+				angular.element('#saveWish').attr('disabled', 'disabled');
+				angular.element('#delete').attr('disabled', 'disabled');
 
-			$scope.hideToolbar = function () {
-				angular.element('.menus').hide();				
-				angular.element('#toolbar').hide();				
-			}			
+				if ($scope.toolbarBtn == 'Change') {
+					angular.element('#toolbar').show();
+					$scope.toolbarBtn = $rootScope.ui.monitors.close_label;
+				}else {
+					angular.element('#toolbar').hide();
+					$scope.toolbarBtn = $rootScope.ui.monitors.change_label;
+				}
+			}								
 
 			function timeline(wishes) {				
 				var groups = [
 			    {id: 'event', content: 'Event', title: 'wish'},
 			    {id: 'weekly', content: 'Weekly', title: 'wish'},			    
-			  ];			 
-
-			  var wish_weekly = {
-				  	group:'weekly',			  	
-				  	start: current.start,
-				  	end: current.end,
-				  	type: 'background'
-				  },
-				  data = [],
-				  item;			 
+			  ],
+			  data=[],
+			  item;			 
 
 			  //check weekly and event timeline
 			  _.each(wishes, function (wish) {
 			  	var occurence = wish.value.split('"');			  	
 			  	if (occurence[1] === 'weekly') {
-			  		wish_weekly.type = 'range';
-			  		angular.extend(wish_weekly, { id: wish.idx, content: occurence[3] });
+			  		item = {
+			  			id: wish.idx,
+			  			group: 'weekly',
+				  		type: 'range',
+				  		start: wish.start*1000,
+				  		end: wish.end*1000,
+				  		content: occurence[3]
+				  	}
 			  	}else{
 			  		if (occurence[1] === 'event') {
 			  			item = {
@@ -171,13 +173,11 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 						  	end: wish.end,
 						  	type: 'range',
 						  	content: occurence[3]
-			  			}
-			  			data.push(item);			  			
+			  			}			  			
 			  		}
 			  	}
-			  })			 
-
-				data.push(wish_weekly);
+			  	data.push(item);			  			
+			  });			 
 			  
 			  //timeline options
 			  var options = {					
@@ -196,13 +196,13 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 			    min: current.start,
 			    max: current.end			    
 				};
-
+				
 				return $scope.timeline = {
 					data: data,
 					options: options,
 					groups: groups,
 					events: {
-						select: $scope.onSelect
+						select: timelineOnSelect
 					}					
 				}
 			}
@@ -212,6 +212,9 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 					angular.element('#timelinemain').show();
 				}
 
+				$scope.toolbarBtn = $rootScope.ui.monitors.change_label;
+				angular.element('.menus').show();
+		
 				var selectedGroup = [];
 				_.each(monitor.monitoringGroups, function(group) {
 					var search = $filter('filter')($scope.groups, {uuid: group}, true);
@@ -224,45 +227,65 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 				//timeline
 				timeline($scope.wishes);
 			}					
-
-			$scope.onSelect = function (id) {				
+	
+			var timelineOnSelect = function (id) {
 				var item = $filter('filter')($scope.timeline.data, { id: id.items[0] }, true);								
 				angular.element('#delete').hide();
+				angular.element('#saveWish').removeAttr('disabled');
 
 				//get timeline item id
-				$scope.idx = id.items[0];
+				$scope.idx = id.items[0];			
 
-				$scope.$apply(
-					function () {
-						$scope.toolbarBtn = $rootScope.ui.monitors.close_label;
+				if ($scope.idx){
+					$scope.$apply(
+						function () {
+							$scope.toolbarBtn = $rootScope.ui.monitors.close_label;
 
-						$scope.wish = item[0].content;
+							$scope.wish = item[0].content;
 
-						$scope.range = {
-							start: {
-								date: item[0].start,
-								time: new Date(item[0].start).toString('HH:mm')
-							},
-							end: {
-								date: item[0].end,
-								time: new Date(item[0].end).toString('HH:mm')
+							if (item[0].group == 'weekly'){
+								$scope.range = {
+									start: {
+										date: $scope.timeline.options.min,
+										time: new Date($scope.timeline.options.min).toString('HH:mm')
+									},
+									end: {
+										date: $scope.timeline.options.max,
+										time: new Date($scope.timeline.options.max).toString('HH:mm')
+									}
+								}
+							}else{	
+								$scope.range = {
+									start: {
+										date: item[0].start,
+										time: new Date(item[0].start).toString('HH:mm')
+									},
+									end: {
+										date: item[0].end,
+										time: new Date(item[0].end).toString('HH:mm')
+									}
+								}
 							}
 						}
+					);
+				
+					angular.element('#toolbar').show();				
+
+					if (item[0].group === 'weekly') {
+						angular.element('#delete').show();
+						angular.element('#delete').removeAttr('disabled');
+
+						itemGroup = 'weekly';
+						angular.element('.inputdate').attr('disabled', 'disabled');
+						angular.element('.inputtime').attr('disabled', 'disabled');				
+					}else{
+						itemGroup = 'event';
+						angular.element('.inputdate').removeAttr('disabled');
+						angular.element('.inputtime').removeAttr('disabled');
 					}
-				);
-
-				angular.element('.menus').show();
-				angular.element('#toolbar').show();				
-
-				if (item[0].group === 'weekly') {
-					angular.element('#delete').show();
-					itemGroup = 'weekly';
-					angular.element('.inputdate').attr('disabled', 'disabled');
-					angular.element('.inputtime').attr('disabled', 'disabled');				
-				}else{
-					itemGroup = 'event';
-					angular.element('.inputdate').removeAttr('disabled');
-					angular.element('.inputtime').removeAttr('disabled');
+				}else{	//no items selected					
+					angular.element('#saveWish').attr('disabled', 'disabled');
+					angular.element('#delete').attr('disabled', 'disabled');
 				}
 			}
 
@@ -275,7 +298,7 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 			}			
 
 			$scope.setWish = function () {	
-				angular.element('#monitors button[type=submit]').text($rootScope.ui.monitors.saving_label).attr('disabled', 'disabled');
+				angular.element('#monitors #saveWish').text($rootScope.ui.monitors.saving_label).attr('disabled', 'disabled');
 
 				var wish;
 			
@@ -313,7 +336,7 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 								console.log($scope.wishes);
 								timeline($scope.wishes);
 
-								angular.element('#monitors button[type=submit]').text($rootScope.ui.monitors.save_label).removeAttr('disabled');								
+								angular.element('#monitors #saveWish').text($rootScope.ui.monitors.save_label).removeAttr('disabled');								
 							})
 						}
 					})

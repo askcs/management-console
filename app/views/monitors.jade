@@ -48,13 +48,13 @@ section#monitors
                                 .title Wish value
                                 .menus
                                     span
-                                        //button.btn.btn-default.btn-xs.move(type="submit")#moveLeft
+                                        button.btn.btn-default.btn-xs.move(type="submit")#moveLeft
                                             span.glyphicon.glyphicon-chevron-left
-                                        //button.btn.btn-default.btn-xs.move(type="submit")#moveRight
+                                        button.btn.btn-default.btn-xs.move(type="submit")#moveRight
                                             span.glyphicon.glyphicon-chevron-right
-                                        button.btn.btn-xs(ng-click='hideToolbar()') {{ toolbarBtn }}
+                                        button.btn.btn-xs(ng-click='showToolbar()') {{ toolbarBtn }}
                                 .clear
-                            #toolbar(ng-show='showToolbar')                                    
+                            #toolbar                                   
                                 .form-inline
                                     label Start
                                      .form-group.has-feedback    
@@ -73,7 +73,7 @@ section#monitors
                                     label Value                                                     
                                     .form-group    
                                         input.form-control.inputvalue(type='text', ng-model='wish') 
-                                    button.btn.btn-xs(type='submit', ng-click='setWish()') {{ ui.monitors.save_label }}
+                                    button.btn.btn-xs#saveWish(type='submit', ng-click='setWish()') {{ ui.monitors.save_label }}
                                     button.btn.btn-xs.btn-danger#delete Delete
                         
                         #timelinemain
