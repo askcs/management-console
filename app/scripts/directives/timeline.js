@@ -60,9 +60,9 @@ define(['directives/directives', 'vis', 'moment'], function (directives, vis, mo
 						interval = 60*60*24*7*1000;
 					}
 					
-					var newStart = moment(range.start.valueOf() - interval * percentage).startOf('isoWeek').unix()*1000;
-					var newEnd = moment(range.start.valueOf() - interval * percentage).endOf('isoWeek').unix()*1000;
-
+					var newStart = (moment(range.start.valueOf() - interval * percentage).startOf('isoWeek').unix() + 1)*1000;
+					var newEnd = (moment(range.start.valueOf() - interval * percentage).endOf('isoWeek').unix()+1)*1000;
+					
 					scope.options.min = newStart;
 					scope.options.max = newEnd;
 
@@ -71,10 +71,14 @@ define(['directives/directives', 'vis', 'moment'], function (directives, vis, mo
             end: newEnd 
         	});		      
 
+		      //set new min-max
 		      timeline.setOptions({
 		       	min: newStart,
 		       	max: newEnd
 		      });
+
+		      //remove focus for current selected item
+		      timeline.setSelection('x', {focus: focus.checked});
 		    }
 
 			}
