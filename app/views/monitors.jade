@@ -74,7 +74,7 @@ section#monitors
                                     .form-group    
                                         input.form-control.inputvalue(type='text', ng-model='wish') 
                                     button.btn.btn-xs#saveWish(type='submit', ng-click='setWish()') {{ ui.monitors.save_label }}
-                                    button.btn.btn-xs.btn-danger#delete Delete
+                                    button.btn.btn-xs.btn-danger#delete(ng-click='deleteItem()') {{ ui.monitors.delete_label }}
                         
                         #timelinemain
                             time-line(data='timeline.data', options='timeline.options', groups='timeline.groups', events='timeline.events')            
