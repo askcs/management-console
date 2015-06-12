@@ -31,8 +31,7 @@ define(
         'ui.select',
         'ngSanitize',
         'daterangepicker',
-        'mgcrea.ngStrap'
-        //'ngVis'
+        'mgcrea.ngStrap'       
       ]);
   }
 );

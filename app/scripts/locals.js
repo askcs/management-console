@@ -41,6 +41,9 @@ define(
 					saved_label: 'Saved',
 					delete_label: 'Delete',
 					deleting_label: 'Deleting...'
+				},
+				groups: {
+					delete_info : 'Group is removed as monitored groups'
 				}
 			},
 			nl: {

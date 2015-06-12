@@ -27,8 +27,8 @@ require.config (
       vis: '../vendors/vis/dist/vis.min',
       moment: '../vendors/moment/moment',
       daterangepicker: '../vendors/bootstrap-daterangepicker/daterangepicker',
-      'angular-daterangepicker': '../vendors/angular-daterangepicker/js/angular-daterangepicker.min'
-      //'angular-visjs' : '../vendors/angular-visjs/angular-vis'
+      'angular-daterangepicker': '../vendors/angular-daterangepicker/js/angular-daterangepicker.min',
+      sweetAlert : '../vendors/sweetalert/dist/sweetalert.min'
     },
     shim: {
       angular: {
@@ -51,8 +51,8 @@ require.config (
       'angular-sanitize': { deps: ['angular'] },
       vis: { exports: 'vis' },
       daterangepicker: { deps: ['jquery', 'moment'], exports: 'daterangepicker' },
-      'angular-daterangepicker': { deps: ['angular', 'daterangepicker', 'moment', 'bootstrap'] }
-      //'angular-visjs': { deps: ['vis', 'angular'], exports: 'angular-visjs' }
+      'angular-daterangepicker': { deps: ['angular', 'daterangepicker', 'moment', 'bootstrap'] },
+      sweetAlert: { exports: 'sweetalert' }
     },
     config: {
       moment: {
@@ -103,8 +103,8 @@ require (
     'underscore',
     'angular-google-maps',
     'lodash',
-    'd3'
-    //'angular-visjs'
+    'd3',
+    'sweetAlert'
     // Any individual controller, service, directive or filter file
     // that you add will need to be pulled in here.
   ],

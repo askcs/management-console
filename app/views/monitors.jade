@@ -38,7 +38,7 @@ section#monitors
                 form(role='form')
                     input(type="text", placeholder="Monitor name", ng-model="dmonitor.name").field-monitor-name
                    
-                    ui-select(multiple ng-model='groups.selectedGroup', style='width:60%;', on-remove='removeGroup($item, dmonitor.name)')
+                    ui-select(multiple ng-model='groups.selectedGroup', style='width:60%;', on-remove='removeGroup($item)')
                         ui-select-match(placeholder='Group name..') {{ $item.name }} 
                         ui-select-choices(repeat='group in groups') 
                             div(ng-bind-html='group.name | highlight: $select.search')

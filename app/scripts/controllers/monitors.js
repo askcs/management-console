@@ -183,7 +183,7 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 			  var options = {					
 					orientation: 'top',
 					editable: {
-				    add: false,         
+				    add: true,         
 				    updateTime: true,  
 				    updateGroup: false, 
 				    remove: false       
@@ -310,9 +310,7 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 				Monitors.setWish($scope.dmonitor.name, wish)
 				.then(function () {
 					Monitors.query()
-					.then(function (monitors) {
-						$scope.monitors = getMonitorsList();
-
+					.then(function (monitors) {						
 						Monitors.getWishes(options)
 						.then(function (wishes) {
 							$scope.wishes = wishes;
@@ -328,12 +326,17 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 				})
 			}
 
-			$scope.removeGroup = function (item, monitor){				
-				Monitors.deleteGroup(monitor, item.uuid)
-				.then(function (result) {
-					console.log(result);
-				})
-				//add message after deleting a group				
+			$scope.removeGroup = function (item){						
+				var index = _.map($scope.dmonitor.monitoringGroups, function (e) {
+							return e;
+					}).indexOf(item.uuid);
+				
+				if (index !== -1) {
+					Monitors.deleteGroup($scope.dmonitor.name, item.uuid)
+					.then(function (result) {
+						swal({title: '', text: $rootScope.ui.groups.delete_info });
+					})
+				}				
 			}			
 
 			$scope.setWish = function () {	
@@ -368,38 +371,36 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 				
 				Monitors.setWish($scope.dmonitor.name, wish)
 				.then(function (result) {
-					Monitors.query().then(function (monitors) {
-						if (monitors) {
-							Store('monitors').save('monitors', monitors);
-							
-							Monitors.getWishes(options).then(function (wishes) {
-								$scope.wishes = wishes;								
-								timeline($scope.wishes);
-								$scope.monitors = getMonitorsList();
+					Monitors.query().then(function () {						
+						Monitors.getWishes(options).then(function (wishes) {
+							$scope.wishes = wishes;								
+							timeline($scope.wishes);
+							$scope.monitors = getMonitorsList();
 
-								angular.element('#monitors #saveWish')
-								.text($rootScope.ui.monitors.save_label)
-								.removeAttr('disabled');								
-							})
-						}
+							angular.element('#monitors #saveWish')
+							.text($rootScope.ui.monitors.save_label)
+							.removeAttr('disabled');								
+						})						
 					})
 				})
 			}
 
 			$scope.saveUpdate = function() {			
-				var groups = [], index;	
+				var groups = [], index, newGroups=[];	
 				
 				angular.element('#monitors input[type=submit]')
 				.val($rootScope.ui.monitors.saving_label)
 				.attr('disabled', 'disabled');	
 
 				_.each($scope.groups.selectedGroup, function (group) {
+					newGroups.push(group.uuid);
+
 					index = $scope.dmonitor.monitoringGroups.indexOf(group.uuid);
 					if (index === -1) {
 						groups.push(group);						
 					}
 				})
-									
+								
 				Monitors.mobileMedium($scope.dmonitor.name,
 					{ mobilizeMedium: $scope.dmonitor.mobileMedium })
 				.then (function (result) {
@@ -421,9 +422,9 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 								})
 							}
 							Monitors.query().then(function (monitors) {
-								if (monitors) {
-									Store('monitors').save('monitors', monitors);
+								if (monitors) {									
 									$scope.monitors = getMonitorsList();
+									$scope.dmonitor.monitoringGroups = newGroups;									
 								}
 
 								angular.element('#monitors input[type=submit]')
