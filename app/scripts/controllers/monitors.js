@@ -162,7 +162,7 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 				  		type: 'range',
 				  		start: wish.start*1000,
 				  		end: wish.end*1000,
-				  		content: occurence[3]
+				  		content: '<span class="badge badge-inverse">'+ occurence[3] +'</span>'
 				  	}
 			  	}else{
 			  		if (occurence[1] === 'event') {
@@ -172,7 +172,7 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 						  	start: wish.start,
 						  	end: wish.end,
 						  	type: 'range',
-						  	content: occurence[3]
+						  	content: '<span class="badge badge-inverse">'+ occurence[3] +'</span>'
 			  			}			  			
 			  		}
 			  	}
@@ -183,7 +183,7 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 			  var options = {					
 					orientation: 'top',
 					editable: {
-				    add: true,         
+				    add: false,         
 				    updateTime: true,  
 				    updateGroup: false, 
 				    remove: false       
@@ -194,7 +194,7 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 			      return a.value - b.value;
 			    },
 			    min: current.start,
-			    max: current.end			    
+			    max: current.end,			    
 				};
 				
 				return $scope.timeline = {
@@ -213,6 +213,7 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 				}
 
 				$scope.toolbarBtn = $rootScope.ui.monitors.change_label;
+				angular.element('#toolbar').hide();
 				angular.element('.menus').show();
 		
 				var selectedGroup = [];
@@ -223,6 +224,8 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 					}
 				})
 				$scope.groups.selectedGroup = selectedGroup;				
+				$scope.range = {};
+				$scope.wish = 0;
 
 				//timeline
 				timeline($scope.wishes);
@@ -241,7 +244,7 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 						function () {
 							$scope.toolbarBtn = $rootScope.ui.monitors.close_label;
 
-							$scope.wish = item[0].content;
+							$scope.wish = item[0].content.match(/<span class="badge badge-inverse">(.*)<\/span>/)[1];
 
 							if (item[0].group == 'weekly'){
 								$scope.range = {
