@@ -14,7 +14,13 @@ define(
     			language: 'en'
     		}
     	}
-    }
+    },
     
+    formats: {
+      date: 'DD-MM-YYYY',
+      time: 'HH:mm',
+      datetime: 'DD-MM-YYYY HH:mm',
+      datetimefull: 'DD-MM-YYYY HH:mm:ss'
+    }
   }
 );
