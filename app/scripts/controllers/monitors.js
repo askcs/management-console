@@ -28,8 +28,9 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 			$scope.frequencies = ['Day', 'Week', 'Month'];
 			$scope.selFrequency = $scope.frequencies[1];		
 
-			angular.element('#timelinemain').hide();
-			//angular.element('#toolbar').hide();
+			$scope.wish = {};
+
+			angular.element('#timelinemain').hide();		
 			angular.element('.menus').hide();			
 
 			function getIcon(mobileMedium) {
@@ -108,6 +109,7 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 			$scope.loadMonitor = function (index, monitor) {
 				$scope.selectedIndex = index;	
 				$scope.dmonitor.dataLoaded = false;			
+				$scope.wish.id = 0;
 
 				var options = {
 					uuid: monitor.name,
@@ -458,7 +460,7 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 					var item = $filter('filter')($scope.timeline.data, { id: id.items[0] }, true),						
 						start, end;			
 
-					if ($scope.wish.id !== id.items[0]) {
+					if ($scope.wish.id !== id.items[0]) {				
 						$scope.$apply(
 							function () {									
 								if (item[0].group == 'weekly') {
