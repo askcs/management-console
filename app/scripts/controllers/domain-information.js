@@ -35,7 +35,7 @@ define(['controllers/controllers'], function (controllers){
           	var lon = marker.getPosition().lng();
           	
           	$scope.geofence.latitude = lat;
-          	$scope.geofence.longitude = lon;
+          	$scope.geofence.longitude = lon;          	
           }
 				}
 			};
@@ -61,9 +61,9 @@ define(['controllers/controllers'], function (controllers){
             $scope.geofence.radius = circle.radius;
           },
           center_changed: function(circle, eventName, model, args){
-          	var newCenter = circle.getCenter();
+          	var newCenter = circle.getCenter();          	
           	$scope.geofence.latitude = newCenter.k;
-          	$scope.geofence.longitude = newCenter.B;
+          	$scope.geofence.longitude = newCenter.D;          	
           }
         }
 			};
