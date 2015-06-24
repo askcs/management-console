@@ -51,7 +51,8 @@ define(
 				wish: {
 					pastAdding: 'It is not allowed to add wish in the past',
 					alert_fillfiled : 'Please fill all fields!',
-					pastChanging: 'Changing past wish is not allowed'
+					pastChanging: 'Changing past wish is not allowed!',
+					pastDeleting: 'Removing a past wish is not allowed!'
 				}
 			},
 			nl: {

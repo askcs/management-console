@@ -21,6 +21,10 @@ define(
       time: 'HH:mm',
       datetime: 'DD-MM-YYYY HH:mm',
       datetimefull: 'DD-MM-YYYY HH:mm:ss'
+    },
+
+    timers: {     
+      NOTIFICATION_DELAY: 5000
     }
   }
 );

@@ -122,7 +122,7 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 						Store('monitors').save('monitor.'+monitor.name, result.data);
 						
 						Monitors.getWishes(options).then(function (wishes) {
-							$scope.wishes = wishes;							
+							$scope.wishes = wishes;														
 							$scope.dmonitor = Store('monitors').get('monitor.'+monitor.name);
 							$scope.dmonitor.dataLoaded = true;						
 
@@ -212,7 +212,7 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 			    max: current.end,		
 			    onAdd : $scope.timelineOnAdd,
 			    onRemove: $scope.timelineOnRemove,
-			    onMoving: $scope.timelineOnMoving,
+			    //onMoving: $scope.timelineOnMoving,
 			    onMove: $scope.timelineOnMove	    
 				};
 				
@@ -276,25 +276,34 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 
 				var start = wish.start ? wish.start : $scope.wish.start;
 				var end = wish.end ? wish.end : $scope.wish.end;
-				var recursive = wish.recursive ? wish.recursive : $scope.wish.recursive
-		
-				if (moment(start.date,$rootScope.app.config.formats.date).unix() < now && 
-					moment(end.date,$rootScope.app.config.formats.date).unix() < now && 
-					recursive === false) {					
+				var recursive = wish.recursive ? wish.recursive : $scope.wish.recursive;
+
+				var startDatetime = moment(start.date +' '+start.time, $rootScope.app.config.formats.datetime).unix(),
+						endDatetime = moment(end.date +' '+end.time, $rootScope.app.config.formats.datetime).unix();				
+
+				if (startDatetime < now && endDatetime < now && recursive === false) {	
 					$scope.alert = {
-            add: {
-              display: true,
-              type: 'alert-danger',
-              message: $rootScope.ui.wish.pastAdding
-            }
-          }
+	          add: {
+	            display: true,
+	            type: 'alert-danger',
+	            message: $rootScope.ui.wish.pastAdding
+	          }
+	        }										
+					$timeout(function () {
+						$scope.alert.add.display = false;	
+					},$rootScope.app.config.timers.NOTIFICATION_DELAY);
+					
 					return;
+				}else{
+					if (startDatetime < now && recursive === false) {
+						startDatetime = now;
+					}
 				} 
 
 				var wish = {
 					wish: wish.value,
-					start: moment(start.date +' '+start.time, $rootScope.app.config.formats.datetime).unix()*1000,  					
-					end: moment(end.date +' '+end.time, $rootScope.app.config.formats.datetime).unix()*1000,
+					start: startDatetime*1000,  					
+					end: endDatetime*1000,
 					occurence: $scope.wish.recursive ? 'WEEKLY' : 'EVENT'
 				}				
 				
@@ -331,16 +340,20 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
               message: $rootScope.ui.wish.alert_fillfiled
             }
           }
+          $timeout(function () {
+						$scope.alert.add.display = false;	
+					},$rootScope.app.config.timers.NOTIFICATION_DELAY);
+
           return;
 				}			
 			}
 
-			$scope.timelineOnMoving = function (item, callback) {				
+			/*$scope.timelineOnMoving = function (item, callback) {				
 				if (moment(item.start).unix()*1000 < $scope.timeline.options.min) item.start = $scope.timeline.options.min;
 	      if (moment(item.start).unix()*1000 > $scope.timeline.options.max) item.start = $scope.timeline.options.max;
 	      if (moment(item.end).unix()*1000   > $scope.timeline.options.max) item.end   = $scope.timeline.options.max;
 	      callback(item);
-			}
+			}*/
 
 			$scope.timelineOnMove = function (item) {				
 				$scope.$apply(function () {
@@ -369,7 +382,7 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 				
 				var now = moment().unix(),
 					start = moment($scope.wish.start.date +' '+$scope.wish.start.time, $rootScope.app.config.formats.datetime).unix(),
-					end =  moment($scope.wish.end.date +' '+$scope.wish.end.time, $rootScope.app.config.formats.datetime).unix();
+					end =  moment($scope.wish.end.date +' '+$scope.wish.end.time, $rootScope.app.config.formats.datetime).unix();									
 
 				if (start < now && end < now && wish.recursive === false){
 					$scope.alert = {
@@ -379,9 +392,17 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
               message: $rootScope.ui.wish.pastChanging
             }
           }
+          $timeout(function () {
+						$scope.alert.add.display = false;	
+					},$rootScope.app.config.timers.NOTIFICATION_DELAY);
+
           return;
+				}else{
+					if (start < now && wish.recursive === false) {
+						start = now;
+					}
 				}	
-			
+				
 				var wish = {
 					wish: wish.value,
 					start: start*1000,  					
@@ -415,14 +436,34 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 					uuid: $scope.dmonitor.name,
 					start: current.start/1000,
 					end: current.end/1000
-				}
-								
+				},
+				now = moment().unix(),
+				start = moment($scope.wish.start.date +' '+$scope.wish.start.time, $rootScope.app.config.formats.datetime).unix(),
+				end = moment($scope.wish.end.date +' '+$scope.wish.end.time, $rootScope.app.config.formats.datetime).unix();
+
+				if (end <= now && $scope.wish.recursive === false) {
+					$scope.alert = {
+            add: {
+              display: true,
+              type: 'alert-danger',
+              message: $rootScope.ui.wish.pastDeleting
+            }
+          }
+          $timeout(function () {
+						$scope.alert.add.display = false;	
+					},$rootScope.app.config.timers.NOTIFICATION_DELAY);
+
+					return;
+				}else if (start <= now && end >= now && $scope.wish.recursive === false){					
+					start = now;
+				} 								
+				
 				var wish = {
 					wish: '',
-					start: moment($scope.wish.start.date +' '+$scope.wish.start.time, $rootScope.app.config.formats.datetime).unix()*1000,  					
-					end: moment($scope.wish.end.date +' '+$scope.wish.end.time, $rootScope.app.config.formats.datetime).unix()*1000,
+					start: start*1000,  					
+					end: end*1000,
 					occurence: $scope.wish.recursive ? 'WEEKLY' : 'EVENT'  
-				}		
+				};
 
 				angular.element('#monitors #delete')
 				.text($rootScope.ui.monitors.deleting_label)
