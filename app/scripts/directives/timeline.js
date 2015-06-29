@@ -44,12 +44,22 @@ define(['directives/directives', 'vis', 'moment'], function (directives, vis, mo
 				scope.$watchCollection('options', function (options) {
 					if (timeline == null) {
 						return;
-					}
+					}					
+					
 					timeline.setOptions(options);
+					try {
+						timeline.setWindow({
+	            start: options.min, 
+	            end: options.max
+	        	});
+					} catch (e) {
+						console.warn('error : ', e)	
+					}
+					
 				});				
 
 				//navigation menus
-				document.getElementById('moveRight').onclick = function () { move(-1); }
+				/*document.getElementById('moveRight').onclick = function () { move(-1); }
 				document.getElementById('moveLeft').onclick = function () { move(1); }				
 							
 				function move (percentage) {
@@ -69,18 +79,12 @@ define(['directives/directives', 'vis', 'moment'], function (directives, vis, mo
 		      timeline.setWindow({
             start: newStart, 
             end: newEnd 
-        	});		      
-
-		      //set new min-max
-		      timeline.setOptions({
-		       	min: newStart,
-		       	max: newEnd
-		      });
+        	});		      		     
 
 		      //remove focus for current selected item
 		      timeline.setSelection('x', {focus: focus.checked});
 		    }
-
+				*/
 			}
 
 		}

@@ -109,12 +109,12 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 			$scope.loadMonitor = function (index, monitor) {
 				$scope.selectedIndex = index;	
 				$scope.dmonitor.dataLoaded = false;			
-				$scope.wish.id = 0;
+				$scope.wish.id = '';
 
 				var options = {
 					uuid: monitor.name,
-					start: current.start/1000,
-					end: current.end/1000
+					start: current.start,
+					end: current.end
 				}
 
 				Monitors.get(monitor.name).then(function (result) {
@@ -122,7 +122,7 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 						Store('monitors').save('monitor.'+monitor.name, result.data);
 						
 						Monitors.getWishes(options).then(function (wishes) {
-							$scope.wishes = wishes;														
+							$scope.wishes = wishes;									
 							$scope.dmonitor = Store('monitors').get('monitor.'+monitor.name);
 							$scope.dmonitor.dataLoaded = true;						
 
@@ -169,31 +169,34 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 
 			$scope.resetForm();
 
-			function timeline(wishes) {				
+			function timeline(wishes, min, max) {				
 				var groups = [
 			    {id: 'event', content: 'Event', title: 'wish'},
 			    {id: 'weekly', content: 'Weekly', title: 'wish'},			    
 			  ],
 			  data=[],
-			  item;			 
+			  item;			 			  
 
 			  //check weekly and event timeline
 			  _.each(wishes, function (wish) {
-			  	var occurence = wish.value.split('"');			  	
-			  	var item = {
-			  			id: wish.idx,
-			  			group: occurence[1],
-				  		type: occurence[3] > 0 ? 'range':'box',				  		
-				  		content: occurence[3] > 0 ? '<span class="badge badge-inverse">'+ occurence[3] +'</span>' : ''
-			  	}
-			  	if (occurence[1] == 'weekly' || occurence[3] <= 0){
-			  		angular.extend(item, {start: wish.start*1000, end:wish.end*1000})
-			  	}else{
-			  		angular.extend(item, {start: wish.start, end:wish.end})
-			  	}			  	
-			  	data.push(item);			  			
+			  	var occurences = angular.fromJson(wish.value);
+
+			  	angular.forEach(occurences, function (value,occurence) {			  		
+			  		if (value > 0) {
+				  		var item = {
+				  			id: wish.idx+'_'+occurence,
+				  			group: occurence,
+					  		type: 'range',				  		
+					  		content: '<span class="badge badge-inverse badge-xs">'+ value +'</span>',
+					  		start: wish.start, 
+					  		end: wish.end
+					  	}					  				  
+					  	data.push(item);
+					  }
+			  	});
+			  				  			
 			  });			 
-			  
+			 
 			  //timeline options
 			  var options = {					
 					orientation: 'top',
@@ -203,13 +206,13 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 				    updateGroup: false, 
 				    remove: true       
 				  },
-					stack: true,
+					stack: false,
 					locale: 'en',
 					groupOrder: function (a, b) {
 			      return a.value - b.value;
 			    },
-			    min: current.start,
-			    max: current.end,		
+			    min: min? min:current.start,
+			    max: max? max:current.end,		
 			    onAdd : $scope.timelineOnAdd,
 			    onRemove: $scope.timelineOnRemove,
 			    //onMoving: $scope.timelineOnMoving,
@@ -224,6 +227,29 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 						select: timelineOnSelect
 					}					
 				}
+			}		
+
+			$scope.moveTo = function (pos) {	
+				var interval = 60*60*24*7*1000;
+				var min = $scope.timeline.options.min,
+					max = $scope.timeline.options.max,
+					percentage = pos == 'right'? -1 : 1;
+
+				$scope.timeline.options = {
+					min: (moment(min - interval * percentage).startOf('isoWeek').unix())*1000,
+					max: (moment(max - interval * percentage).startOf('isoWeek').unix())*1000
+				}
+				
+				var options = {
+					uuid: $scope.dmonitor.name,
+					start: $scope.timeline.options.min,
+					end: $scope.timeline.options.max
+				}
+
+				Monitors.getWishes(options).then(function (wishes) {
+					$scope.wishes = wishes;	
+					timeline($scope.wishes, $scope.timeline.options.min, $scope.timeline.options.max);
+				});				
 			}
 
 			function selectMonitor (monitor) {								
@@ -314,8 +340,8 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 					
 					var options = {
 						uuid: $scope.dmonitor.name,
-						start: current.start/1000,
-						end: current.end/1000
+						start: current.start,
+						end: current.end
 					}
 					
 					Monitors.setWish($scope.dmonitor.name, wish)
@@ -366,7 +392,7 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 							date: moment(item.end).format($rootScope.app.config.formats.date),
 							time: moment(item.end).format($rootScope.app.config.formats.time)
 						},
-						value: item.content.match(/<span class="badge badge-inverse">(.*)<\/span>/)[1],
+						value: item.content.match(/<span class="badge badge-inverse badge-xs">(.*)<\/span>/)[1],
 						recursive : item.group === 'weekly' ? true : false,
 						id: item.id
 					}
@@ -376,13 +402,13 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 			$scope.timelineOnUpdate = function (item, wish) {		
 				var options = {
 					uuid: $scope.dmonitor.name,
-					start: current.start/1000,
-					end: current.end/1000
+					start: current.start,
+					end: current.end
 				}
 				
-				var now = moment().unix(),
-					start = moment($scope.wish.start.date +' '+$scope.wish.start.time, $rootScope.app.config.formats.datetime).unix(),
-					end =  moment($scope.wish.end.date +' '+$scope.wish.end.time, $rootScope.app.config.formats.datetime).unix();									
+				var now = moment().unix(),											
+					start = moment(wish.start.date +' '+ wish.start.time, $rootScope.app.config.formats.datetime).unix(),
+					end =  moment(wish.end.date +' '+ wish.end.time, $rootScope.app.config.formats.datetime).unix();		
 
 				if (start < now && end < now && wish.recursive === false){
 					$scope.alert = {
@@ -434,8 +460,8 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 			$scope.timelineOnRemove = function () {				
 				var options = {
 					uuid: $scope.dmonitor.name,
-					start: current.start/1000,
-					end: current.end/1000
+					start: current.start,
+					end: current.end
 				},
 				now = moment().unix(),
 				start = moment($scope.wish.start.date +' '+$scope.wish.start.time, $rootScope.app.config.formats.datetime).unix(),
@@ -503,15 +529,10 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 
 					if ($scope.wish.id !== id.items[0]) {				
 						$scope.$apply(
-							function () {									
-								if (item[0].group == 'weekly') {
-									start = $scope.timeline.options.min;			
-									end = $scope.timeline.options.max;
-								}else {
-									start = item[0].start;
-									end = item[0].end;
-								}
-
+							function () {																
+								start = item[0].start;
+								end = item[0].end;
+							
 								$scope.wish = {
 									start: {
 										date: moment(start).format($rootScope.app.config.formats.date),
@@ -522,7 +543,7 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 										time: moment(end).format($rootScope.app.config.formats.time)
 									},
 									recursive: (item[0].group == 'weekly') ? true : false,
-									value: item[0].content? item[0].content.match(/<span class="badge badge-inverse">(.*)<\/span>/)[1] : '',
+									value: item[0].content? item[0].content.match(/<span class="badge badge-inverse badge-xs">(.*)<\/span>/)[1] : '',
 									id: id.items[0]
 								}					
 							}

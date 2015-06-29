@@ -48,9 +48,9 @@ section#monitors
                                 .title Wish value
                                 .menus
                                     span
-                                        button.btn.btn-default.btn-xs.move(type="submit")#moveLeft
+                                        button.btn.btn-default.btn-xs.move(type="submit", ng-click="moveTo('left')")#moveLeft
                                             span.glyphicon.glyphicon-chevron-left
-                                        button.btn.btn-default.btn-xs.move(type="submit")#moveRight
+                                        button.btn.btn-default.btn-xs.move(type="submit", ng-click="moveTo('right')")#moveRight
                                             span.glyphicon.glyphicon-chevron-right
                                         button.btn.btn-xs.btn-success(ng-click='toggleWishForm()') {{ toolbarBtn }}
                                 .clear
