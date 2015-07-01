@@ -18,7 +18,8 @@ define(['controllers/controllers'], function (controllers){
 				},
 				zoom: 16,
 				dragging: true,
-				events: {}
+				events: {},
+				control: {}
 			};
 			
 			//marker
@@ -99,6 +100,12 @@ define(['controllers/controllers'], function (controllers){
 					};
 
 					$scope.marker = newMarker;
+
+					//recenter the map after looking for a geofence
+					$scope.map.control.refresh({
+						latitude: $scope.geofence.latitude, 
+						longitude: $scope.geofence.longitude 
+					});
 				}
 			};
 

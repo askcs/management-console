@@ -30,7 +30,7 @@ section#domain-information
                             .col-lg-12
                                 .google-map.domain-information-google-map
 
-                                    ui-gmap-google-map(center='map.center', zoom='map.zoom', events='map.events')
+                                    ui-gmap-google-map(center='map.center', zoom='map.zoom', events='map.events', control='map.control')
                                       ui-gmap-search-box(template='searchBox.template', events='searchBox.events', parentdiv='searchBox.parentdiv')
                                       ui-gmap-marker(idKey='marker.id', coords='marker.coords', events='marker.events',  options='marker.options')
                                         ui-gmap-circle(center='marker.coords', radius='circle.radius', fill='cirlce.fill', stroke='circle.stroke', clickable='circle.clickable', draggable='circle.draggable', editable='circle.editable', visible='circle.visible', events='circle.events')                                       
