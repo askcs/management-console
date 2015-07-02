@@ -1,15 +1,22 @@
 define(['controllers/controllers'], function (controllers){
 	'use strict';
 
-	controllers.controller('domainInformation', ['$rootScope', '$scope', '$location', 'Session', 'Store', 'Environment', 
-		function ($rootScope, $scope, $location, Session, Store, Environment) {
+	controllers.controller('domainInformation', 
+		['$rootScope', '$scope', '$location', 'Session', 'Store', 'Environment', '$timeout', 
+		function ($rootScope, $scope, $location, Session, Store, Environment, $timeout) {
 
 			var domain = Store('environment').get('domain');
 			var geofence = Store('environment').get('geofence');
-
+			var original = {};
 			if (domain) $scope.domain = domain;
-			if (geofence) $scope.geofence = geofence;
-
+			
+			$scope.geofence = {
+				longitude: geofence.longitude,
+				latitude: geofence.latitude,
+				radius: geofence.radius
+			}
+			angular.copy($scope.geofence, original);
+			
 			//map
 			$scope.map = {
 				center: {
@@ -133,21 +140,32 @@ define(['controllers/controllers'], function (controllers){
 					return false;
 				}
 				
-				save($scope.geofence.latitude, $scope.geofence.longitude, $scope.geofence.radius);
+				save($scope.geofence);
 			}
 
-			function save(latitude, longitude, radius){
-				Environment.saveGeofence({
-					latitude: latitude,
-					longitude: longitude,
-					radius: radius
-				}).then(function (result){
-					if (result.error){
-						console.warn('error -> ', result);
-					} else {
-						alert('new geofence already updated');
-					}
-				});	
+			function save(geofence){					
+				if (!angular.equals(geofence, original)) {					
+					angular.element('#domain-information #submit')
+					.val($rootScope.ui.domain.saving_label)
+					.attr('disabled', 'disabled');
+					
+					Environment.saveGeofence({
+						latitude: geofence.latitude,
+						longitude: geofence.longitude,
+						radius: geofence.radius
+					})
+					.then(function (result){
+						if (result.error){
+							console.warn('error -> ', result);
+						} else {
+							angular.copy(geofence,original);
+
+							angular.element('#domain-information #submit')
+							.val($rootScope.ui.domain.save_label)
+							.removeAttr('disabled');
+						}
+					});				
+				}
 			}
 			
 		}
