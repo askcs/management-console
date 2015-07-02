@@ -152,6 +152,22 @@ define(['services/services', 'config'], function (services, config) {
 			return deferred.promise;
 		}		
 
+		Monitors.prototype.setWishes = function (uuid, wishes) {
+			var deferred = $q.defer();
+
+			var setWishCalls = [];
+			_.each(wishes, function (wish) {
+				setWishCalls.push( Monitors.prototype.setWish( uuid, wish ));
+			});
+
+			$q.all(setWishCalls)
+			.then(function (result) {
+				deferred.resolve(result);
+			});
+
+			return deferred.promise;
+		}
+
 		Monitors.prototype.getWishes = function (options) {
 			var deferred = $q.defer(),
 				params = {
