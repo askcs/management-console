@@ -21,7 +21,9 @@ define(
 					loggingOut: 'logging out...'
 				},
 				domain: {
-					alert_fillfiled: 'Please fill all fields!'
+					alert_fillfiled: 'Please fill all fields!',
+					save_label: 'Save',
+					saving_label: 'Saving...'
 				},
 				errors: {
 
