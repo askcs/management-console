@@ -41,7 +41,7 @@ section#monitors
                     ui-select(multiple ng-model='groups.selectedGroup', style='width:60%;', on-remove='removeGroup($item)')
                         ui-select-match(placeholder='Group name..') {{ $item.name }} 
                         ui-select-choices(repeat='group in groups') 
-                            div(ng-bind-html='group.name | highlight: $select.search')
+                            div(ng-bind-html='group.name | highlight: $select.search')                    
                     .monitor-timeline
                         #timeline
                             .header
@@ -100,9 +100,9 @@ section#monitors
                                     label Re-occuring                                                     
                                     .form-group    
                                         input(type='checkbox', ng-model='wish.recursive')
-                                    button.btn.btn-xs.btn-success#add(type='submit', ng-click='timelineOnAdd(null, wish)', ng-show='views.wish.add') {{ ui.monitors.add_label }}
+                                    button.btn.btn-xs.btn-success#add(type='submit', ng-click='timelineOnAdd(null, null, wish)', ng-show='views.wish.add') {{ ui.monitors.add_label }}
                                     button.btn.btn-xs.btn-danger#delete(ng-click='timelineOnRemove()', ng-show='views.wish.update') {{ ui.monitors.delete_label }}
-                                    button.btn.btn-xs.btn-success#change(type='submit', ng-click='timelineOnUpdate(null, wish)', ng-show='views.wish.update') {{ ui.monitors.change_label }}      
+                                    button.btn.btn-xs.btn-success#change(type='submit', ng-click='timelineOnUpdate(wish)', ng-show='views.wish.update') {{ ui.monitors.change_label }}      
                         .alert(class='{{alert.add.type}}', ng-show='alert.add.display')
                             button.close(type='button', ng-click='alert.add=false') × 
                             | {{ alert.add.message }}                               

@@ -21,14 +21,17 @@ define(['directives/directives', 'vis', 'moment'], function (directives, vis, mo
 						timeline.destroy();
 					}
 
-					var dataSet = new vis.DataSet(scope.data);
+					var dataSet = new vis.DataSet();
 					var groupsSet = new vis.DataSet(scope.groups);
-
-					console.log(dataSet);
-
+				
 					timeline = new vis.Timeline(element[0], dataSet, scope.options);		
 					timeline.setGroups(groupsSet);
 
+					dataSet.clear();
+					if (scope.data){
+						dataSet.update(scope.data);
+					}
+						
 					_.each(scope.events, function(callback, event) {
 						if (timelineEvents.indexOf(String(event)) >= 0) {
 							timeline.on(event, callback);
@@ -50,41 +53,15 @@ define(['directives/directives', 'vis', 'moment'], function (directives, vis, mo
 					try {
 						timeline.setWindow({
 	            start: options.min, 
-	            end: options.max
-	        	});
+	            end: options.max,
+	            animation: false
+	        	});						
 					} catch (e) {
 						console.warn('error : ', e)	
 					}
 					
 				});				
-
-				//navigation menus
-				/*document.getElementById('moveRight').onclick = function () { move(-1); }
-				document.getElementById('moveLeft').onclick = function () { move(1); }				
-							
-				function move (percentage) {
-		      var range = timeline.getWindow();
-		      var interval = range.end - range.start;
-		      
-					if (interval <= 60*60*24*7*1000)  {
-						interval = 60*60*24*7*1000;
-					}
-					
-					var newStart = (moment(range.start.valueOf() - interval * percentage).startOf('isoWeek').unix() + 1)*1000;
-					var newEnd = (moment(range.start.valueOf() - interval * percentage).endOf('isoWeek').unix()+1)*1000;
-					
-					scope.options.min = newStart;
-					scope.options.max = newEnd;
-
-		      timeline.setWindow({
-            start: newStart, 
-            end: newEnd 
-        	});		      		     
-
-		      //remove focus for current selected item
-		      timeline.setSelection('x', {focus: focus.checked});
-		    }
-				*/
+				
 			}
 
 		}

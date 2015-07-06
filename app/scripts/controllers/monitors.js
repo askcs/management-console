@@ -31,12 +31,12 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 			$scope.wish = {};
 
 			$scope.alert = {
-        login: {
+        add: {
           display: false,
           type:'',
           message: ''
         }
-      }; 
+      };      
 
 			angular.element('#timelinemain').hide();		
 			angular.element('.menus').hide();			
@@ -130,7 +130,7 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 						Store('monitors').save('monitor.'+monitor.name, result.data);
 						
 						Monitors.getWishes(options).then(function (wishes) {
-							$scope.wishes = wishes;									
+							$scope.wishes = wishes;											
 							$scope.dmonitor = Store('monitors').get('monitor.'+monitor.name);
 							$scope.dmonitor.dataLoaded = true;						
 
@@ -225,7 +225,7 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 			    onAdd : $scope.timelineOnAdd,
 			    onRemove: $scope.timelineOnRemove,
 			    //onMoving: $scope.timelineOnMoving,
-			    onMove: $scope.timelineOnMove	    
+			    onMove: $scope.timelineOnMove
 				};
 				
 				return $scope.timeline = {
@@ -237,6 +237,116 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 					}					
 				}
 			}		
+
+			$scope.timelineOnAdd = function (item, callback, wish) {
+				var value = '<span class="badge badge-inverse badge-xs"></span>';
+				var now = moment().unix();
+
+				if (item) {					
+					if (moment(item.start/1000) < now) { 
+						callback(null); 
+						return; 
+					}
+
+					$scope.$apply(function () {
+						$scope.views.wish.add = true;							
+						$scope.views.wish.update = false;	
+
+						$scope.wish = {
+							start: {
+								date: moment(item.start).format($rootScope.app.config.formats.date),
+								time: moment(item.start).format($rootScope.app.config.formats.time)								
+							},
+							end: {
+								date: moment(item.start).add(1, 'days').format($rootScope.app.config.formats.date),
+								time: moment(item.start).add(1, 'days').format($rootScope.app.config.formats.time)								
+							},
+							recursive: item.group == 'weekly' ? true : false,
+							value: value.match(/<span class="badge badge-inverse badge-xs">(.*)<\/span>/)[1],
+							id: 'new'
+						}
+					});										
+
+					$scope.original = {
+						start: moment(item.start).unix()*1000,
+						end: moment(item.start).add(1, 'days').unix()*1000,
+						recursive: $scope.wish.recursive,
+						value: $scope.wish.value,
+						id: $scope.wish.id
+					}
+
+			    item.content = value;
+			    item.end = moment(item.start).add(1, 'days').unix()*1000;
+			    item.start = moment(item.start).unix()*1000;
+			    item.type = 'range';		 
+			    item.id = 'new';   			    
+			    callback(item);
+			  }
+			  else {			  				  	
+			  	var notification = function (message, type) {
+						$scope.alert = {
+	            add: {
+	              display: true,
+	              type: type,
+	              message: message 
+	            }
+	          }
+	          $timeout(function () {
+							$scope.alert.add.display = false;	
+						},$rootScope.app.config.timers.NOTIFICATION_DELAY);          
+					}
+
+			  	var startDatetime = moment(wish.start.date +' '+wish.start.time, $rootScope.app.config.formats.datetime).unix(),
+						endDatetime = moment(wish.end.date +' '+wish.end.time, $rootScope.app.config.formats.datetime).unix(),
+						occurence = wish.recursive ? 'WEEKLY' : 'EVENT';
+
+					if (startDatetime < now && endDatetime < now && wish.recursive === false) {					
+						notification($rootScope.ui.wish.pastAdding, 'alert-danger');
+						return;
+					}else{
+						if (startDatetime < now && wish.recursive === false) {
+							startDatetime = now;
+						}
+					}
+
+			  	var addWish = {
+						wish: wish.value,
+						start: startDatetime*1000,  					
+						end: endDatetime*1000,
+						occurence: occurence
+					}
+
+					if (wish.value) {						
+						angular.element('#monitors #add')
+						.text($rootScope.ui.monitors.adding_label)
+						.attr('disabled', 'disabled');				
+						
+						var options = {
+							uuid: $scope.dmonitor.name,
+							start: current.start,
+							end: current.end
+						}
+						
+						Monitors.setWish($scope.dmonitor.name, addWish)
+						.then(function (result) {
+							Monitors.query().then(function () {						
+								Monitors.getWishes(options).then(function (wishes) {
+									$scope.wishes = wishes;										
+									timeline($scope.wishes);									
+									$scope.monitors = getMonitorsList();
+									
+									angular.element('#monitors #add')
+									.text($rootScope.ui.monitors.add_label)
+									.removeAttr('disabled');
+								})						
+							})
+						});						
+					}else{
+						notification($rootScope.ui.wish.alert_fillfiled, 'alert-danger');
+          	return;
+					}
+			  }
+			}			
 
 			$scope.moveTo = function (pos) {	
 				var interval = 60*60*24*7*1000;
@@ -283,100 +393,7 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 				
 				//timeline
 				timeline($scope.wishes);
-			}					
-			
-			$scope.timelineOnAdd = function (item, wish) {
-				var now = moment().unix();
-							
-				if(item){					
-					$scope.$apply(						
-						function () {
-							$scope.views.wish.add = true;							
-							$scope.views.wish.update = false;
-
-							$scope.wish = {
-								start: {
-									date: moment(item.start).format($rootScope.app.config.formats.date),
-									time: moment(item.start).format($rootScope.app.config.formats.time)
-								},
-								end: {
-									date: moment(item.start).add(1, 'days').format($rootScope.app.config.formats.date),
-									time: moment(item.start).add(1, 'days').format($rootScope.app.config.formats.time)
-								},
-								recursive: item.group == 'weekly' ? true : false
-							}
-						}
-					);
-					
-					if (!$scope.wish.value) { return; }
-				}
-
-				var start = wish.start ? wish.start : $scope.wish.start;
-				var end = wish.end ? wish.end : $scope.wish.end;
-				var recursive = wish.recursive ? wish.recursive : $scope.wish.recursive;
-
-				var startDatetime = moment(start.date +' '+start.time, $rootScope.app.config.formats.datetime).unix(),
-						endDatetime = moment(end.date +' '+end.time, $rootScope.app.config.formats.datetime).unix();				
-
-				var errorNotification = function (message) {
-					$scope.alert = {
-            add: {
-              display: true,
-              type: 'alert-danger',
-              message: message 
-            }
-          }
-          $timeout(function () {
-						$scope.alert.add.display = false;	
-					},$rootScope.app.config.timers.NOTIFICATION_DELAY);          
-				}		
-
-				if (startDatetime < now && endDatetime < now && recursive === false) {					
-					errorNotification($rootScope.ui.wish.pastAdding);
-					return;
-				}else{
-					if (startDatetime < now && recursive === false) {
-						startDatetime = now;
-					}
-				} 
-
-				var wish = {
-					wish: wish.value,
-					start: startDatetime*1000,  					
-					end: endDatetime*1000,
-					occurence: $scope.wish.recursive ? 'WEEKLY' : 'EVENT'
-				}				
-				
-				if ($scope.wish.value) {
-					angular.element('#monitors #add')
-					.text($rootScope.ui.monitors.adding_label)
-					.attr('disabled', 'disabled');				
-					
-					var options = {
-						uuid: $scope.dmonitor.name,
-						start: current.start,
-						end: current.end
-					}
-					
-					Monitors.setWish($scope.dmonitor.name, wish)
-					.then(function (result) {
-						Monitors.query().then(function () {						
-							Monitors.getWishes(options).then(function (wishes) {
-								$scope.wishes = wishes;								
-								timeline($scope.wishes);
-								$scope.monitors = getMonitorsList();
-
-								angular.element('#monitors #add')
-								.text($rootScope.ui.monitors.add_label)
-								.removeAttr('disabled');								
-							})						
-						})
-					})				
-				}else {					
-					errorNotification($rootScope.ui.wish.alert_fillfiled);
-          return;
-				}			
-			}
+			}								
 
 			/*$scope.timelineOnMoving = function (item, callback) {				
 				if (moment(item.start).unix()*1000 < $scope.timeline.options.min) item.start = $scope.timeline.options.min;
@@ -385,7 +402,14 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 	      callback(item);
 			}*/
 
-			$scope.timelineOnMove = function (item) {				
+			$scope.timelineOnMove = function (item) {								
+				var value;
+
+				if (item.id !== 'new') {
+					value = item.content.match(/<span class="badge badge-inverse badge-xs">(.*)<\/span>/)[1]
+				}else{
+					value = $scope.wish.value;
+				}
 				$scope.$apply(function () {
 					$scope.wish = {
 						start: {
@@ -396,20 +420,14 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 							date: moment(item.end).format($rootScope.app.config.formats.date),
 							time: moment(item.end).format($rootScope.app.config.formats.time)
 						},
-						value: item.content.match(/<span class="badge badge-inverse badge-xs">(.*)<\/span>/)[1],
+						value: value,
 						recursive : item.group === 'weekly' ? true : false,
 						id: item.id
 					}
 				});					
 			}
 
-			$scope.timelineOnUpdate = function (wish) {		
-				var options = {
-					uuid: $scope.dmonitor.name,
-					start: current.start,
-					end: current.end
-				}
-								
+			$scope.timelineOnUpdate = function (wish) {														
 				var now = moment().unix(),
 					changed = {											
 						start: moment(wish.start.date +' '+ wish.start.time, $rootScope.app.config.formats.datetime).unix(),
@@ -524,58 +542,71 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 					}
 				}								
 
+				var options = {
+					uuid: $scope.dmonitor.name,
+					start: current.start,
+					end: current.end
+				}
+
 				var remove = {
 					start: $scope.original.start,
 					end: $scope.original.end,
 					wish: '',
-					occurence: $scope.original.recursive
+					occurence: occurence
 				}		
-
-				wishes.push(remove);
+				
 				wishes.push(wish1);
 				if (!_.isEmpty(wish2)) {					
 					wishes.push(wish2);
 				}
-				
+
 				angular.element('#monitors #change')
 				.text($rootScope.ui.monitors.changing_label)
 				.attr('disabled', 'disabled');
 			
-				Monitors.setWishes($scope.dmonitor.name, wishes)
+				Monitors.setWish($scope.dmonitor.name, remove)
 				.then(function () {				
-					Monitors.query().then(function () {						
-						Monitors.getWishes(options).then(function (wishes) {
-							$scope.wishes = wishes;								
-							timeline($scope.wishes);
-							$scope.monitors = getMonitorsList();
-							$scope.wish.id = '';
+					Monitors.setWishes($scope.dmonitor.name, wishes)
+					.then(function () {
+						Monitors.query().then(function () {						
+							Monitors.getWishes(options).then(function (wishes) {
+								$scope.wishes = wishes;								
+								timeline($scope.wishes);
+								$scope.monitors = getMonitorsList();
+								$scope.wish.id = '';
 
-							angular.element('#monitors #change')
-							.text($rootScope.ui.monitors.change_label)
-							.removeAttr('disabled');								
-						})						
-					})
+								angular.element('#monitors #change')
+								.text($rootScope.ui.monitors.change_label)
+								.removeAttr('disabled');								
+							})						
+						})		
+					})					
 				})
 			}
 
-			$scope.timelineOnRemove = function () {				
+			$scope.timelineOnRemove = function (item, callback) {							
 				var options = {
 					uuid: $scope.dmonitor.name,
 					start: current.start,
 					end: current.end
 				},
 				wish, start,
-				now = moment().unix();				
+				now = moment().unix();	
 
+				if (item && item.id === 'new') {					
+					callback(item);
+					return;
+				}
+				
 				if ($scope.original.end/1000 < now && $scope.original.recursive === false) {
 					$scope.alert = {
-            add: {
-              display: true,
-              type: 'alert-danger',
-              message: $rootScope.ui.wish.pastDeleting
-            }
-          }
-          $timeout(function () {
+	          add: {
+	            display: true,
+	            type: 'alert-danger',
+	            message: $rootScope.ui.wish.pastDeleting
+	          }
+	        }
+	        $timeout(function () {
 						$scope.alert.add.display = false;	
 					},$rootScope.app.config.timers.NOTIFICATION_DELAY);
 
@@ -594,7 +625,7 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 					start: start,
 					end: $scope.original.end,
 					wish: '',
-					occurence: $scope.original.recursive 
+					occurence: $scope.original.recursive? 'WEEKLY' : 'EVENT'
 				}					
 
 				angular.element('#monitors #delete')
@@ -618,53 +649,78 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 							$scope.resetForm();
 						})
 					})					
-				})
+				})				
 			}
 
-			var timelineOnSelect = function (id) {		
+			var timelineOnSelect = function (id) {						
 				$scope.views = {
 					wish: {
 						add: false,
 						update: true
 					}
-				}							
-				
-				if (id.items.length === 1){							
+				}	
+
+				if (id.items.length === 1){											
 					var item = $filter('filter')($scope.timeline.data, { id: id.items[0] }, true),						
 						start, end;			
 
-					$scope.original = {
-						start: item[0].start,
-						end: item[0].end,
-						recursive: (item[0].group == 'weekly') ? true : false,
-						value: item[0].content? item[0].content.match(/<span class="badge badge-inverse badge-xs">(.*)<\/span>/)[1] : '',
-						id: id.items[0] 
+					if (item.length) {	
+						$scope.original = {
+							start: item[0].start,
+							end: item[0].end,
+							recursive: (item[0].group == 'weekly') ? true : false,
+							value: item[0].content? item[0].content.match(/<span class="badge badge-inverse badge-xs">(.*)<\/span>/)[1] : '',
+							id: id.items[0] 
+						}
+						
+						if ($scope.wish.id !== id.items[0]) {				
+							$scope.$apply(
+								function () {											
+									start = item[0].start;
+									end = item[0].end;
+									
+									$scope.wish = {
+										start: {
+											date: moment(start).format($rootScope.app.config.formats.date),
+											time: moment(start).format($rootScope.app.config.formats.time)
+										},
+										end: {
+											date: moment(end).format($rootScope.app.config.formats.date),
+											time: moment(end).format($rootScope.app.config.formats.time)
+										},
+										recursive: (item[0].group == 'weekly') ? true : false,
+										value: item[0].content? item[0].content.match(/<span class="badge badge-inverse badge-xs">(.*)<\/span>/)[1] : '',
+										id: id.items[0]
+									}					
+								}
+							)
+						}
 					}
-					
-					if ($scope.wish.id !== id.items[0]) {				
-						$scope.$apply(
-							function () {																
-								start = item[0].start;
-								end = item[0].end;
-								
-								$scope.wish = {
-									start: {
-										date: moment(start).format($rootScope.app.config.formats.date),
-										time: moment(start).format($rootScope.app.config.formats.time)
-									},
-									end: {
-										date: moment(end).format($rootScope.app.config.formats.date),
-										time: moment(end).format($rootScope.app.config.formats.time)
-									},
-									recursive: (item[0].group == 'weekly') ? true : false,
-									value: item[0].content? item[0].content.match(/<span class="badge badge-inverse badge-xs">(.*)<\/span>/)[1] : '',
-									id: id.items[0]
-								}					
+					else {												
+						$scope.views = {
+							wish: {
+								add: true,
+								update: false
 							}
-						)
+						}			
 					}
-				}				
+				}					
 			}		
+
+			$scope.removeGroup = function (item){						
+				var index = _.map($scope.dmonitor.monitoringGroups, function (e) {
+							return e;
+					}).indexOf(item.uuid);
+				
+				if (index !== -1) {
+					Monitors.deleteGroup($scope.dmonitor.name, item.uuid)
+					.then(function (result) {
+						if (!result) {
+							console.warn('error ', result);
+						}
+					})
+				}				
+			}
 
 			$scope.saveUpdate = function() {			
 				var groups = [], index, newGroups=[];	
