@@ -167,3 +167,15 @@ body {
   font-size: 10px;  
   border-radius:4px;
 }
+
+/*
+ * Notification - Alert
+ */
+
+#notification {
+  position: absolute; 
+  width: 30%;  
+  left:50%;
+  z-index: 9999;
+  top: 150px;
+}

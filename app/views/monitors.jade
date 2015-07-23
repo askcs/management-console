@@ -1,5 +1,5 @@
 section#monitors
-
+    
     .top-navbar
         .back.glyphicon.glyphicon-chevron-left
         h2.icon.icon-logs Monitors
@@ -17,7 +17,7 @@ section#monitors
                 span  Type
                 select(ng-model='type', ng-options='type for type in types', ng-change='getMonitors()').form-control
                     option(value='') All types                
-
+                
     .container-monitors-wrapper
         .columns
             .column-one-third.column-left
@@ -31,18 +31,20 @@ section#monitors
                         .status-toggle-container
                             span {{ monitor.state }}
 
-            .column-two-third.column-right.vertical-page-spacing-left.horizontal-page-spacing-top
+            .column-two-third.column-right.vertical-page-spacing-left.horizontal-page-spacing-top                
                 h2 {{ dmonitor.name }}
                 .preloader(ng-hide='dmonitor.dataLoaded') {{ ui.monitors.loading_text }}
                 div(ng-show='dmonitor.dataLoaded')
                 form(role='form')
+                    .alert#notification(class='{{alert.monitor.type}}', ng-show='alert.monitor.display')
+                        button.close(type='button', ng-click='alert.monitor=false') × 
+                        | {{ alert.monitor.message }}
                     input(type="text", placeholder="Monitor name", ng-model="dmonitor.name").field-monitor-name
-                   
                     ui-select(multiple ng-model='groups.selectedGroup', style='width:60%;', on-remove='removeGroup($item)')
                         ui-select-match(placeholder='Group name..') {{ $item.name }} 
                         ui-select-choices(repeat='group in groups') 
                             div(ng-bind-html='group.name | highlight: $select.search')                    
-                    .monitor-timeline
+                    .monitor-timeline                        
                         #timeline
                             .header
                                 .title Wish value
@@ -53,7 +55,7 @@ section#monitors
                                         button.btn.btn-default.btn-xs.move(type="submit", ng-click="moveTo('right')")#moveRight
                                             span.glyphicon.glyphicon-chevron-right
                                         button.btn.btn-xs.btn-success(ng-click='toggleWishForm()') {{ toolbarBtn }}
-                                .clear
+                                .clear                            
                             #toolbar(ng-show='views.wish.add || views.wish.update')                                   
                                 .form-inline
                                     button.close(ng-click='resetForm()') ×
@@ -103,9 +105,6 @@ section#monitors
                                     button.btn.btn-xs.btn-success#add(type='submit', ng-click='timelineOnAdd(null, null, wish)', ng-show='views.wish.add') {{ ui.monitors.add_label }}
                                     button.btn.btn-xs.btn-danger#delete(ng-click='timelineOnRemove()', ng-show='views.wish.update') {{ ui.monitors.delete_label }}
                                     button.btn.btn-xs.btn-success#change(type='submit', ng-click='timelineOnUpdate(wish)', ng-show='views.wish.update') {{ ui.monitors.change_label }}      
-                        .alert(class='{{alert.add.type}}', ng-show='alert.add.display')
-                            button.close(type='button', ng-click='alert.add=false') × 
-                            | {{ alert.add.message }}                               
                         #timelinemain
                             time-line(data='timeline.data', options='timeline.options', groups='timeline.groups', events='timeline.events')            
                     //.field-frequency-container    

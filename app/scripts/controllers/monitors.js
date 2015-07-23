@@ -31,7 +31,7 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 			$scope.wish = {};
 
 			$scope.alert = {
-        add: {
+        monitor: {
           display: false,
           type:'',
           message: ''
@@ -131,6 +131,7 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 						
 						Monitors.getWishes(options).then(function (wishes) {
 							$scope.wishes = wishes;											
+							
 							$scope.dmonitor = Store('monitors').get('monitor.'+monitor.name);
 							$scope.dmonitor.dataLoaded = true;						
 
@@ -285,14 +286,14 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 			  else {			  				  	
 			  	var notification = function (message, type) {
 						$scope.alert = {
-	            add: {
+	            monitor: {
 	              display: true,
 	              type: type,
 	              message: message 
 	            }
 	          }
 	          $timeout(function () {
-							$scope.alert.add.display = false;	
+							$scope.alert.monitor.display = false;	
 						},$rootScope.app.config.timers.NOTIFICATION_DELAY);          
 					}
 
@@ -439,14 +440,14 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 					
 				var notAllowedForPast = function () {
 					$scope.alert = {
-            add: {
+            monitor: {
               display: true,
               type: 'alert-danger',
               message: $rootScope.ui.wish.pastChanging
             }
           }
           $timeout(function () {
-						$scope.alert.add.display = false;	
+						$scope.alert.monitor.display = false;	
 					},$rootScope.app.config.timers.NOTIFICATION_DELAY);          
 				}					
 
@@ -600,14 +601,14 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 				
 				if ($scope.original.end/1000 < now && $scope.original.recursive === false) {
 					$scope.alert = {
-	          add: {
+	          monitor: {
 	            display: true,
 	            type: 'alert-danger',
 	            message: $rootScope.ui.wish.pastDeleting
 	          }
 	        }
 	        $timeout(function () {
-						$scope.alert.add.display = false;	
+						$scope.alert.monitor.display = false;	
 					},$rootScope.app.config.timers.NOTIFICATION_DELAY);
 
 					return;
@@ -717,6 +718,17 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 					.then(function (result) {
 						if (!result) {
 							console.warn('error ', result);
+						}else{
+							$scope.alert = {
+								monitor : {
+									display: true,
+				          type: 'alert-success',
+				          message: $rootScope.ui.groups.delete_info
+								}
+							}
+							$timeout(function () {
+								$scope.alert.monitor.display = false;	
+							},$rootScope.app.config.timers.NOTIFICATION_DELAY);
 						}
 					})
 				}				
@@ -727,14 +739,14 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 				
 				angular.element('#monitors input[type=submit]')
 				.val($rootScope.ui.monitors.saving_label)
-				.attr('disabled', 'disabled');	
-
+				.attr('disabled', 'disabled');				
+				
 				_.each($scope.groups.selectedGroup, function (group) {
 					newGroups.push(group.uuid);
 
 					index = $scope.dmonitor.monitoringGroups.indexOf(group.uuid);
 					if (index === -1) {
-						groups.push(group);						
+						groups.push({groupId:group.uuid});						
 					}
 				})
 								
@@ -746,18 +758,17 @@ define(['controllers/controllers', 'config'], function (controllers, config) {
 					.then(function (agentUrl) {
 						Monitors.askfastEscAgentUrl($scope.dmonitor.name,
 							{ askfastEscalationAgentUrl: $scope.dmonitor.askfastEscalationAgentUrl })
-						.then (function (agentEscUrl) {
-							if (groups) {
-								_.each($scope.groups.selectedGroup, function (group) {
-									Monitors.addGroup($scope.dmonitor.name, 
-										{groupId: group.uuid})
-									.then(function(resGroup) {
-										if (resGroup.error) {																				
-											console.warn('error ->', resGroup);											
-										}
-									})
+						.then (function (agentEscUrl) {	
+							if (groups){			
+								Monitors.addGroups($scope.dmonitor.name, 
+									groups)
+								.then(function(resGroup) {
+									if (resGroup.error) {																				
+										console.warn('error ->', resGroup);											
+									}
 								})
 							}
+							
 							Monitors.query().then(function (monitors) {
 								if (monitors) {									
 									$scope.monitors = getMonitorsList();

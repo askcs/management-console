@@ -48,7 +48,7 @@ define(
 					adding_label: 'Adding...'
 				},
 				groups: {
-					delete_info : 'Group is removed as monitored groups'
+					delete_info : 'Group is successfully removed as monitored groups'
 				},
 				wish: {
 					pastAdding: 'It is not allowed to add wish in the past',

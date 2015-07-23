@@ -82,6 +82,25 @@ define(['services/services', 'config'], function (services, config) {
 			return deferred.promise;
 		}
 
+		Monitors.prototype.addGroups = function(uuid, groups) {
+			var deferred = $q.defer();
+
+			var addGroupsCall = [];			
+			_.each(groups, function (group) {
+				addGroupsCall.push(Monitors.prototype.addGroup(uuid, group));
+			});
+
+			$q.all(addGroupsCall)
+				.then(function (result){
+					deferred.resolve(result);
+				},
+				function (error) {
+					deferred.resolve({error: error});
+				})
+			
+			return deferred.promise;
+		}
+
 		Monitors.prototype.deleteGroup = function (uuid, groupId) {
 			var deferred = $q.defer();
 
