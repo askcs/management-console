@@ -159,6 +159,21 @@ define(['controllers/controllers'], function (controllers){
 							console.warn('error -> ', result);
 						} else {
 							angular.copy(geofence,original);
+							
+							$scope.map.control.refresh({
+								latitude: geofence.latitude, 
+								longitude: geofence.longitude 
+							});
+
+							$scope.marker = {
+								id: 0,
+								coords: {
+									latitude: geofence.latitude,
+									longitude: geofence.longitude
+								}
+							}
+							
+							$scope.circle.radius = parseInt(geofence.radius, 10);
 
 							angular.element('#domain-information #submit')
 							.val($rootScope.ui.domain.save_label)
